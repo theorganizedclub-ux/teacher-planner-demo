@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
-<title>Teacher Planner</title>
-<meta name="description" content="An all-in-one planner for teachers: classes, students, grades, attendance and lesson plans.">
-<link rel="icon" href="./icons/icon-192.png?v=202611122129">
-<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png?v=202611122129">
+<title>Teacher Planner · Planner enseignant</title>
+<meta name="description" content="An all-in-one planner for teachers: classes, students, grades, attendance and lesson plans. En français et en anglais.">
+<link rel="icon" href="./icons/icon-192.png?v=202611130135">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png?v=202611130135">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Teacher Planner">
@@ -847,7 +847,7 @@ a.tapchip{text-decoration:none;}
 @media (prefers-reduced-motion:reduce){.meter__fill{transition:none;}}
 .colhead{display:inline-flex;align-items:center;gap:var(--sp-1);justify-self:start;align-self:flex-start;margin:0;padding:var(--sp-2) var(--sp-5);border-radius:999px;background:var(--hue);color:var(--mon-ink);font-size:var(--t-quiet);font-weight:var(--w-semibold);letter-spacing:0.02em;}
 .todaygrid,.todayside{display:grid;gap:var(--sp-7);align-items:start;}
-.todaycol{min-width:0;}
+.todaycol,.tdcol{min-width:0;}
 .water__count{margin:0;}
 .water__num{font-size:var(--t-title);font-weight:var(--w-semibold);font-variant-numeric:tabular-nums;}
 .journalpeek{margin:0;font-style:italic;}
@@ -2025,6 +2025,14 @@ body.is-printing .printout{display:block;font-family:var(--font-sans);color:blac
 .demobar--full{border-color:var(--caution);}
 .installsteps{margin:0;padding-left:1.4em;display:grid;gap:var(--sp-1);}
 .installsteps__title{font-size:var(--t-body);font-weight:var(--w-semibold);margin:0;}
+.dashgrid:has(>:nth-child(3)){display:block;columns:21rem 3;column-gap:var(--sp-7);}
+.dashgrid.dashgrid--2:has(>:nth-child(3)){columns:28rem 2;}
+.dashgrid:has(>:nth-child(3))>*{break-inside:avoid;margin:0 0 var(--sp-7);}
+.notegrid{grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));grid-auto-rows:4px;row-gap:0;align-items:start;}
+.wkgrid{align-items:stretch;}
+@media (max-width:1000px){.todaygrid>.tdcol{display:contents;}
+#today-schedule{order:1;} #today-priorities{order:2;} #today-tasks{order:3;} #today-due{order:4;}
+#today-events{order:5;} #today-notes{order:6;} #today-reflect{order:7;}}
 .petgrid,.dopagrid,.rgrid,.ggrid,.wheelgrid,.winsgrid,.jboard,.aisles,.lookgrid,.dumplist--page,.fngrid,.fitcols--auto,.fitboxes,.vhgrid,.kplaces{display:block;column-gap:var(--colgap,var(--sp-4));}
 .petgrid{columns:22rem;} .dopagrid{columns:260px;--colgap:var(--sp-7);} .rgrid,.ggrid{columns:260px;--colgap:var(--sp-7);}
 .ggrid.tripgrid{display:grid;columns:auto;}
@@ -2178,6 +2186,7 @@ input[type="checkbox"]:checked{background:var(--tick,var(--good));border-color:v
 <div id="app"></div>
 <noscript>
   <p style="padding:20px">This planner needs JavaScript. Everything runs on your own device; nothing is sent anywhere.</p>
+  <p style="padding:0 20px 20px" lang="fr">Ce planner a besoin de JavaScript. Tout fonctionne sur votre appareil ; rien n'est envoyé nulle part.</p>
 </noscript>
 <script>(function(){
 "use strict";
@@ -2299,7 +2308,7 @@ const PLANNER_STRINGS = {
 'quick.task': 'Task',
 'quick.lesson': 'Lesson plan',
 'quick.event': 'Event or key date',
-'dow.0': 'Sun', 'dow.1': 'Mon', 'dow.2': 'Tue', 'dow.3': 'Wed', 'dow.4': 'Thu', 'dow.5': 'Fri', 'dow.6': 'Sat',
+'dow.0': 'Sun', 'dow.1': 'Mon', 'dow.2': 'Tue', 'dow.3': 'Wed', 'dow.4': 'Thu', 'dow.5': 'Fri', 'dow.6': 'Sat', 'dow.weekdays': 'Mon–Fri',
 'task.add': 'Add a task',
 'task.addShort': 'Add',
 'task.edit': 'Edit task',
@@ -2512,6 +2521,7 @@ const PLANNER_STRINGS = {
 'rubric.levelPoints': 'Points for level {n}',
 'rubric.pts': 'points',
 'rubric.addLevel': 'Add a level',
+'rubric.lvl.4': 'Excellent', 'rubric.lvl.3': 'Good', 'rubric.lvl.2': 'Developing', 'rubric.lvl.1': 'Beginning',
 'rubric.criteria': 'Criteria',
 'rubric.criterion': 'Criterion',
 'rubric.criterionN': 'Criterion {n}',
@@ -3561,7 +3571,7 @@ const MYWORK_STRINGS = {
 'tool.soundHelp': 'Tap a sound to hear it. Reminders play a soft two-note sound once.',
 'back.to': 'Back to {page}',
 'grade.phoneShow': 'Show',
-'att.allPresent': 'Present every day',
+'att.presentEveryDay': 'Present every day',
 'grade.phoneAverages': 'Averages (all students)',
 'unit.lessonsN': '{n} lessons',
 'unit.lessonsN.one': '1 lesson',
@@ -3576,6 +3586,1854 @@ const MYWORK_STRINGS = {
 'fam.guardianName': 'Who you spoke with',
 'shop.anyStore': 'Any store',
 'shop.newStore': 'New store…',
+};
+const FR_STRINGS = {
+"app.name": "Planner enseignant",
+"app.skip": "Aller au contenu",
+"app.menu": "Menu",
+"app.closeMenu": "Fermer le menu",
+"app.sections": "Pages",
+"app.quickAdd": "Ajout rapide",
+"app.exampleBadge": "Données d'exemple",
+"app.demo": "Démo gratuite",
+"app.preview": "Aperçu {id}",
+"app.updateReady": "Une nouvelle version est prête.",
+"app.updateNow": "Recharger maintenant",
+"about.target.standalone": "Fichier hors ligne. Les mises à jour arrivent sous forme de nouveau fichier.",
+"about.target.hosted": "Planner en ligne. Il se met à jour tout seul et fonctionne hors ligne après la première visite.",
+"about.target.demo": "Démo gratuite avec des données d'exemple.",
+"demo.lede": "Démo gratuite avec une classe d'exemple, enregistrée dans ce navigateur uniquement. Nouveaux éléments que vous pouvez encore ajouter : {n}.",
+"demo.full": "La démo a atteint ses {n} nouveaux éléments. Tout s'ouvre, se coche et se modifie encore, et une sauvegarde faite ici s'ouvre dans le planner complet.",
+"demo.limitToast": "La démo n'ajoute plus de nouveaux éléments après {n}. Tout le reste fonctionne.",
+"demo.buy": "Obtenir le planner complet",
+"install.title": "L'ajouter à votre écran d'accueil",
+"install.short": "Sur téléphone, le planner garde mieux vos données quand il s'ouvre depuis sa propre icône.",
+"install.why": "Le planner fonctionne mieux comme une application : il s'ouvre depuis sa propre icône, dans sa propre fenêtre, et fonctionne sans internet. Ajoutez-le une fois, puis ouvrez-le toujours depuis l'icône.",
+"install.now": "L'ajouter maintenant",
+"install.how": "Me montrer comment",
+"install.later": "Pas maintenant",
+"install.already": "Le planner est installé comme une application. Ouvrez-le toujours depuis son icône.",
+"install.ios.title": "Sur iPhone ou iPad (Safari)",
+"install.ios.1": "Touchez le bouton Partager : le carré avec une flèche vers le haut.",
+"install.ios.2": "Faites défiler et touchez Sur l'écran d'accueil.",
+"install.ios.3": "Touchez Ajouter.",
+"install.ios.4": "Fermez Safari et ouvrez le Planner enseignant depuis sa nouvelle icône.",
+"install.android.title": "Sur téléphone ou tablette Android (Chrome)",
+"install.android.1": "Touchez le menu : les trois points en haut à droite.",
+"install.android.2": "Touchez Ajouter à l'écran d'accueil ou Installer l'application (le nom dépend du téléphone).",
+"install.android.3": "Ouvrez le Planner enseignant depuis sa nouvelle icône.",
+"install.pc.title": "Sur ordinateur (Chrome ou Edge)",
+"install.pc.1": "Cliquez sur l'icône d'installation à droite de la barre d'adresse, puis sur Installer. Pas d'icône ? Ouvrez le menu du navigateur (trois points) et cherchez Installer.",
+"install.pc.2": "Désormais, ouvrez le Planner enseignant depuis sa propre fenêtre ou son icône.",
+"app.storageFull": "Cet appareil est plein, la dernière modification n'a donc pas été gardée. Faites une sauvegarde et libérez de la place.",
+"page.dashboard": "Tableau de bord",
+"page.today": "Aujourd'hui",
+"page.week": "Cette semaine",
+"page.calendar": "Calendrier",
+"page.year": "Vue de l'année",
+"page.notifications": "Notifications",
+"page.lessons": "Plans de cours",
+"page.units": "Unités et programme",
+"page.assessments": "Évaluations et devoirs",
+"page.rubrics": "Grilles d'évaluation",
+"page.classes": "Classes",
+"page.gradebook": "Carnet de notes",
+"page.attendance": "Présences",
+"page.seating": "Plan de classe",
+"page.students": "Élèves",
+"page.behavior": "Comportement et soutien",
+"page.family": "Communication avec les familles",
+"page.conferences": "Rencontres parents",
+"page.reading": "Journal de lecture",
+"page.events": "Événements et réunions",
+"page.subplan": "Plan pour le remplaçant",
+"page.contacts": "Contacts de l'école",
+"page.tasks": "Tâches",
+"page.goals": "Objectifs et habitudes",
+"page.notes": "Notes et listes",
+"page.reflections": "Réflexions",
+"page.time": "Suivi du temps",
+"page.growth": "Développement professionnel",
+"page.resources": "Ressources",
+"page.links": "Liens utiles",
+"page.supplies": "Fournitures",
+"page.shopping": "Liste de courses",
+"page.budget": "Budget et dépenses",
+"page.toolkit": "Boîte à outils",
+"page.reports": "Rapports et analyses",
+"page.settings": "Réglages",
+"group.planner": "Agenda",
+"group.teaching": "Enseignement",
+"group.classroom": "Classe",
+"group.students": "Élèves",
+"group.school": "École",
+"group.mywork": "Mon travail",
+"group.resources": "Ressources et argent",
+"group.tools": "Outils",
+"pagehelp.dashboard": "Votre classe en un coup d'œil. Chaque encadré mène à la page correspondante.\nÀ surveiller liste les élèves sous la note de passage, avec au moins deux travaux manquants, ou avec au moins trois absences ces deux dernières semaines.",
+"pagehelp.gradebook": "Tapez une note dans une case. Des lettres marquent le reste : M pour manquant (compte comme zéro), X pour excusé et E pour exempté (tous deux exclus de la moyenne). Ajoutez R après une note pour un travail en retard, par exemple 18R.\nEntrée ou la flèche du bas passe à l'élève suivant. Cliquez sur une moyenne pour voir exactement comment elle est calculée.",
+"pagehelp.attendance": "Touchez une lettre à côté de chaque élève : P présent, R en retard, A absent, E excusé. Touchez-la à nouveau pour l'effacer. « Tous les autres présents » marque chaque élève pas encore marqué.\nLe taux compte les présents et les retards sur tous les cours marqués.",
+"pagehelp.classes": "Chaque classe a sa propre page avec sa liste d'élèves, ses notes, ses présences, son programme et son matériel. Les plages sans enseignement (temps de préparation, surveillance, dîner) apparaissent dans votre horaire du jour.",
+"pagehelp.students": "Tous les élèves, avec leurs classes et leur moyenne actuelle. Ouvrez un élève pour voir ses contacts, son profil, ses notes dans chaque classe et un fil de tout ce qui s'est passé.",
+"side.theme": "Mode sombre",
+"side.theme.toLight": "Passer en mode clair",
+"side.theme.toDark": "Passer en mode sombre",
+"look.help": "Afficher les explications « ? »",
+"top.help.short": "Astuces",
+"top.help.hide": "Masquer les explications « ? »",
+"top.help.show": "Afficher les explications « ? »",
+"help.aria": "Aide : {section}",
+"search.open": "Rechercher (/ ou Ctrl+K)",
+"search.title": "Rechercher",
+"search.placeholder": "Un élève, une classe, un travail ou une page",
+"search.none": "Rien trouvé.",
+"search.kind.page": "Page",
+"search.kind.class": "Classe",
+"search.kind.student": "Élève",
+"search.kind.assignment": "Travail",
+"soon.mark": "Arrive dans une prochaine mise à jour",
+"soon.short": "bientôt",
+"undo.undo": "Annuler",
+"undo.done": "Annulé.",
+"sheet.close": "Fermer",
+"edit.cancel": "Annuler",
+"form.optional": "(facultatif)",
+"form.save": "Enregistrer",
+"form.edit": "Modifier",
+"form.editName": "Modifier {name}",
+"form.needName": "Donnez-lui d'abord un nom.",
+"dash.hello.morning": "Bonjour",
+"dash.hello.afternoon": "Bon après-midi",
+"dash.hello.evening": "Bonsoir",
+"dash.lede": "Votre classe en un coup d'œil.",
+"dash.tile.students": "Élèves",
+"dash.tile.studentsSub.one": "Dans {n} classe",
+"dash.tile.studentsSub": "Dans {n} classes",
+"dash.tile.classes": "Classes",
+"dash.tile.classesSub": "{n} aujourd'hui",
+"dash.tile.average": "Moyenne",
+"dash.tile.attendance": "Présences",
+"dash.tile.attendanceSub": "30 derniers jours",
+"dash.tile.missing": "Travaux manquants",
+"dash.tile.missingSub": "À réclamer",
+"dash.tile.missingNone": "Rien ne manque",
+"dash.tile.birthdays": "Anniversaires",
+"dash.tile.birthdaysSub": "Dans les 7 prochains jours",
+"dash.schedule": "Horaire du jour",
+"dash.takeAttendance": "Prendre les présences",
+"dash.noClassesToday": "Pas de cours aujourd'hui.",
+"dash.attention": "À surveiller",
+"dash.attentionNone": "Personne n'a besoin d'une attention particulière pour l'instant.",
+"dash.attentionMore": "Et {n} de plus.",
+"dash.why.below": "Sous la note de passage en {cls} ({grade})",
+"dash.why.missing": "{n} travaux manquants",
+"dash.why.absent.one": "{n} absence en 2 semaines",
+"dash.why.absent": "{n} absences en 2 semaines",
+"dash.birthdays": "Anniversaires de la semaine",
+"dash.birthdaysNone": "Aucun anniversaire dans les 7 prochains jours.",
+"dash.bdayToday": "Aujourd'hui ! 🎉",
+"dash.turns": "{n} ans",
+"dash.toGrade": "À corriger",
+"dash.toGradeNone": "Toutes les corrections sont à jour.",
+"dash.graded": "{n} sur {of} corrigés",
+"dash.upcoming": "À venir",
+"dash.upcomingNone": "Rien à rendre dans les deux prochaines semaines.",
+"dash.classSummaries": "Résumé des classes",
+"dash.noClasses": "Ajoutez votre première classe pour commencer.",
+"dash.avg": "moy.",
+"dash.present": "présents",
+"dash.quick": "Actions rapides",
+"quick.title": "Ajout rapide",
+"quick.attendance": "Prendre les présences",
+"quick.assignment": "Travail",
+"quick.student": "Élève",
+"quick.class": "Classe",
+"quick.block": "Plage sans enseignement",
+"quick.backup": "Faire une sauvegarde",
+"example.bar": "Vous regardez des données d'exemple. Explorez librement ; le moment venu, effacez-les et ajoutez vos propres classes.",
+"example.clear": "Effacer les données d'exemple",
+"example.clearTitle": "Effacer les données d'exemple ?",
+"example.clearText": "Chaque classe, élève, note et présence d'exemple sera retiré. Votre apparence et vos réglages d'année scolaire restent. Vous pouvez annuler juste après.",
+"example.cleared": "Données d'exemple effacées. Votre planner est prêt pour vos propres classes.",
+"example.loaded": "Données d'exemple chargées.",
+"example.title": "Données d'exemple",
+"example.on": "Le planner affiche des données d'exemple. Les effacer retire chaque classe, élève, note et présence d'exemple.",
+"example.off": "Envie de voir d'abord comment tout fonctionne ? Chargez la classe d'exemple. Elle remplace le contenu actuel du planner : faites d'abord une sauvegarde.",
+"example.load": "Charger les données d'exemple",
+"example.loadTitle": "Charger les données d'exemple ?",
+"example.loadText": "La classe d'exemple remplace tout le contenu actuel du planner. Vous pouvez annuler juste après.",
+"backup.title": "Sauvegarde",
+"backup.lede": "Tout ce que vous ajoutez reste sur cet appareil, dans ce navigateur. Faites régulièrement un fichier de sauvegarde et gardez-le en lieu sûr (un dossier en ligne, une clé USB). C'est aussi le moyen de passer le planner à un autre appareil.",
+"backup.save": "Faire une sauvegarde",
+"backup.saveNow": "Faire une sauvegarde",
+"backup.saved": "Sauvegarde enregistrée dans vos téléchargements.",
+"backup.restore": "Restaurer une sauvegarde",
+"backup.restored": "Sauvegarde restaurée.",
+"backup.bad": "Ce fichier n'est pas une sauvegarde du Planner enseignant.",
+"backup.newer": "Cette sauvegarde vient d'une version plus récente du planner. Mettez d'abord le planner à jour.",
+"backup.last": "Dernière sauvegarde : {day}",
+"backup.never": "Aucune sauvegarde pour l'instant.",
+"backup.nudgeNever": "Vous n'avez pas encore fait de sauvegarde. Un seul fichier met tout ceci à l'abri.",
+"backup.nudgeOld": "Votre dernière sauvegarde date de {n} jours.",
+"backup.blocked": "Ce navigateur n'autorise pas le planner à enregistrer. Les modifications seront perdues à la fermeture de l'onglet. Essayez un autre navigateur ou quittez la navigation privée.",
+"erase.title": "Recommencer",
+"erase.lede": "Tout retirer de ce planner sur cet appareil et repartir de l'écran d'accueil.",
+"erase.button": "Tout effacer",
+"erase.confirm": "Tout le contenu de ce planner sera effacé de cet appareil. Faites d'abord une sauvegarde si vous pourriez en avoir besoin. C'est irréversible.",
+"about.title": "À propos",
+"about.text": "Le Planner enseignant fonctionne entièrement dans votre navigateur. Rien n'est envoyé nulle part.",
+"about.version": "Version {v} · build {id}",
+"class.add": "Ajouter une classe",
+"class.edit": "Modifier la classe",
+"class.lede": "Chaque classe a sa propre page : liste d'élèves, notes, présences, programme, matériel et remarques.",
+"class.none": "Pas encore de classe. Ajoutez la première.",
+"class.name": "Nom de la classe",
+"class.namePh": "Français 9, CE2 B…",
+"class.subject": "Matière",
+"class.grade": "Niveau",
+"class.room": "Salle",
+"class.days": "Jours de cours",
+"class.start": "Début",
+"class.end": "Fin",
+"class.colour": "Couleur",
+"class.colourN": "Couleur {n}",
+"class.syllabus": "Programme",
+"class.materials": "Matériel demandé",
+"class.notes": "Notes et ressources",
+"class.saved": "Classe enregistrée.",
+"class.added": "{name} ajoutée.",
+"class.delete": "Supprimer cette classe",
+"class.deleteTitle": "Supprimer {name} ?",
+"class.deleteText": "Ses travaux, notes et présences partent aussi. Les élèves restent dans le planner. Vous pouvez annuler juste après.",
+"class.deleted": "{name} supprimée.",
+"class.gradeN": "Niveau {n}",
+"class.roomN": "Salle {room}",
+"class.students": "élèves",
+"class.studentsN.one": "{n} élève",
+"class.studentsN": "{n} élèves",
+"class.all": "Toutes les classes",
+"class.openGradebook": "Carnet de notes",
+"class.attendance30": "Présences, 30 derniers jours",
+"class.upcoming": "À venir",
+"class.upcomingNone": "Rien à rendre pour l'instant.",
+"class.syllabusNone": "Pas encore de programme. Ajoutez-le avec Modifier.",
+"class.materialsNone": "Pas encore de liste de matériel. Ajoutez-la avec Modifier.",
+"class.notesNone": "Pas encore de notes.",
+"class.seatingOpen": "Ouvrir",
+"class.seatingNone": "Aucune place attribuée. Ouvrez le plan de classe pour placer les élèves.",
+"classtab.overview": "Vue d'ensemble",
+"classtab.roster": "Élèves ({n})",
+"classtab.grades": "Notes",
+"classtab.attendance": "Présences",
+"block.title": "Plages sans enseignement",
+"block.add": "Ajouter une plage",
+"block.edit": "Modifier la plage",
+"block.name": "Nom",
+"block.namePh": "Temps de préparation, surveillance du dîner…",
+"block.none": "Les temps de préparation, surveillances et le dîner apparaissent dans votre horaire du jour. Aucune plage pour l'instant.",
+"block.saved": "Plage enregistrée.",
+"block.added": "{name} ajoutée.",
+"block.delete": "Supprimer cette plage",
+"block.deleted": "{name} supprimée.",
+"roster.add": "Ajouter des élèves",
+"roster.addTitle": "Ajouter des élèves à {name}",
+"roster.newStudent": "Un nouvel élève",
+"roster.pick": "Ou choisissez des élèves déjà dans le planner :",
+"roster.addSelected": "Ajouter les élèves cochés",
+"roster.added": "{n} ajoutés à la classe.",
+"roster.remove": "Retirer",
+"roster.removeName": "Retirer {name} de cette classe",
+"roster.removed": "{name} retiré de la classe.",
+"roster.none": "Pas encore d'élève dans cette classe.",
+"students.search": "Rechercher par nom ou numéro d'élève",
+"students.filter": "Afficher une classe",
+"students.all": "Tous ({n})",
+"students.listTitle": "Élèves ({n})",
+"students.none": "Pas encore d'élève. Ajoutez-les un par un ou importez une liste.",
+"students.noMatch": "Aucun élève ne correspond.",
+"students.import": "Importer une liste",
+"students.allBack": "Tous les élèves",
+"student.add": "Ajouter un élève",
+"student.edit": "Modifier l'élève",
+"student.first": "Prénom",
+"student.last": "Nom",
+"student.id": "Numéro d'élève",
+"student.idN": "N° {id}",
+"student.grade": "Niveau",
+"student.birthday": "Date de naissance",
+"student.age": "{n} ans",
+"student.classes": "Classes",
+"student.guardians": "Parent ou tuteur",
+"student.emergency": "Contact d'urgence",
+"student.profile": "Profil",
+"student.strengths": "Points forts et intérêts",
+"student.needs": "Besoins",
+"student.accommodations": "Aménagements",
+"student.medical": "Allergies et notes médicales",
+"student.notes": "Notes et suivis",
+"student.saved": "Élève enregistré.",
+"student.added": "{name} ajouté.",
+"student.delete": "Supprimer cet élève",
+"student.deleteTitle": "Supprimer {name} ?",
+"student.deleteText": "Ses notes et présences partent aussi. Vous pouvez annuler juste après.",
+"student.deleted": "{name} supprimé.",
+"student.hasAcc": "Aménagements",
+"student.hasMedical": "Note médicale",
+"student.flagAcc": "Amén.",
+"student.flagMed": "Méd.",
+"student.attSub": "{a} absences, {l} retards (30 jours)",
+"student.gradesBox": "Notes",
+"student.gradesHint": "Cliquez sur une note pour voir comment elle est calculée.",
+"student.noClasses": "Dans aucune classe pour l'instant.",
+"student.contacts": "Contacts",
+"student.profileNone": "Rien de noté pour l'instant. Ajoutez points forts, besoins et aménagements avec Modifier.",
+"student.notesNone": "Pas encore de notes.",
+"student.timeline": "Fil de l'élève",
+"student.timelineNone": "Les notes et les présences apparaîtront ici au fil du temps.",
+"guardian.name": "Nom",
+"guardian.relation": "Lien",
+"guardian.phone": "Téléphone",
+"guardian.email": "Courriel",
+"guardian.second": "Un deuxième parent ou tuteur",
+"guardian.none": "Pas encore de contact.",
+"guardian.unnamed": "Parent ou tuteur",
+"timeline.missing": "manquant",
+"timeline.mark.A": "Absent",
+"timeline.mark.L": "En retard",
+"timeline.mark.E": "Absence excusée",
+"import.title": "Importer une liste d'élèves",
+"import.lede": "Choisissez un fichier CSV exporté de votre logiciel scolaire ou d'un tableur, ou collez les lignes. La première ligne peut nommer les colonnes : Prénom, Nom, Numéro, Niveau, Date de naissance (AAAA-MM-JJ), Parent, Téléphone, Courriel. Sans noms de colonnes, elles sont lues comme prénom, nom.",
+"import.chooseFile": "Choisir un fichier",
+"import.paste": "Ou collez les lignes ici",
+"import.class": "Les ajouter à une classe",
+"import.noClass": "Aucune classe pour l'instant",
+"import.go": "Importer",
+"import.none": "Aucun élève trouvé dans ce texte.",
+"import.done.one": "{n} élève importé.",
+"import.done": "{n} élèves importés.",
+"grade.noClasses": "Ajoutez d'abord une classe.",
+"grade.classes": "Classes",
+"grade.term": "Période",
+"grade.wholeYear": "Toute l'année",
+"grade.categories": "Catégories et pondérations",
+"grade.exportCsv": "Exporter en CSV",
+"grade.print": "Imprimer",
+"grade.student": "Élève",
+"grade.average": "Moyenne",
+"grade.missing": "Manquants",
+"grade.missingN": "{n} manquants",
+"grade.classAvg": "Moyenne de classe",
+"grade.gradedShort": "{n}/{of}",
+"grade.explain": "Comment est-ce calculé ?",
+"grade.explainFor": "{name} : {grade}. Voir le calcul",
+"grade.cellLabel": "{name}, {title}, sur {n}",
+"grade.badCell": "Tapez une note, ou M, X, E (ou une note suivie de R pour un retard).",
+"grade.tooHigh": "C'est plus du double des {n} points. Vérifiez la note.",
+"grade.legend": "M manquant (compte 0) · X excusé · E exempté · 18R en retard · Entrée descend",
+"grade.noAssignments": "Pas encore de travail sur cette période. Ajoutez-en un pour commencer à noter.",
+"grade.warnTitle.one": "{n} travail est exclu des moyennes",
+"grade.warnTitle": "{n} travaux sont exclus des moyennes",
+"grade.warnText": "Leur catégorie n'a pas de pondération, donc ils ne comptent pas : {list}. Donnez une pondération à la catégorie, ou déplacez-les dans une catégorie qui en a une.",
+"grade.fixWeights": "Vérifier les pondérations",
+"grade.distribution": "Répartition des notes",
+"grade.missingWork": "Travaux manquants ({n})",
+"grade.missingNone": "Rien ne manque.",
+"grade.pointsN": "{n} pts",
+"explain.title": "{name} en {cls}",
+"explain.weighted": "Cette classe utilise des catégories pondérées. Le pourcentage de chaque catégorie compte selon sa pondération.",
+"explain.pointsMode": "Cette classe additionne les points : tous les points obtenus sur tous les points possibles.",
+"explain.category": "Catégorie",
+"explain.points": "Points",
+"explain.pct": "Résultat",
+"explain.weight": "Pondération",
+"explain.adds": "Apporte",
+"explain.nothing": "Rien pour l'instant",
+"explain.rescaled": "Seules les catégories avec des travaux notés comptent : les pondérations utilisées totalisent {n} et le résultat est divisé par {n}.",
+"explain.none": "Rien n'a encore été noté.",
+"explain.rules": "Un travail manquant compte zéro. Les travaux excusés et exemptés sont exclus. Les travaux non notés ne comptent pas encore.",
+"explain.letter": "Sur votre barème, cela donne {letter}.",
+"cats.title": "Catégories et pondérations : {cls}",
+"cats.lede": "Les pondérations sont des pourcentages de la note finale. Sans aucune pondération, la classe additionne les points.",
+"cats.name": "Nom de la catégorie",
+"cats.weight": "Pondération",
+"cats.add": "Ajouter une catégorie",
+"cats.remove": "Retirer",
+"cats.removeName": "Retirer {name}",
+"cats.total": "Total : {n} %",
+"cats.totalOff": "Total : {n} %. Les pondérations font en général 100 % ; le planner calcule dans tous les cas.",
+"cats.saved": "Catégories enregistrées.",
+"assign.add": "Ajouter un travail",
+"assign.edit": "Modifier le travail",
+"assign.title": "Titre",
+"assign.titlePh": "Quiz du chapitre 3, fiche de lecture…",
+"assign.class": "Classe",
+"assign.type": "Type",
+"assign.category": "Catégorie de notes",
+"assign.noCategory": "Sans catégorie",
+"assign.kind": "Formative ou sommative",
+"assign.formative": "Formative",
+"assign.summative": "Sommative",
+"assign.due": "À rendre le",
+"assign.points": "Points",
+"assign.notes": "Notes",
+"assign.saved": "Travail enregistré.",
+"assign.added": "{name} ajouté.",
+"assign.delete": "Supprimer ce travail",
+"assign.deleted": "{name} supprimé.",
+"assign.needClass": "Ajoutez d'abord une classe.",
+"atype.homework": "Devoir",
+"atype.assignment": "Travail",
+"atype.quiz": "Quiz",
+"atype.test": "Contrôle",
+"atype.project": "Projet",
+"atype.exam": "Examen",
+"flag.missing": "Manquant",
+"flag.late": "en retard",
+"flag.excused": "Excusé",
+"flag.exempt": "Exempté",
+"mark.P": "Présent",
+"mark.L": "En retard",
+"mark.A": "Absent",
+"mark.E": "Excusé",
+"mark.short.P": "P",
+"mark.short.L": "R",
+"mark.short.A": "A",
+"mark.short.E": "E",
+"att.view": "Vue",
+"att.view.take": "Prendre les présences",
+"att.view.month": "Mois",
+"att.view.summary": "Taux",
+"att.day": "Jour",
+"att.prevDay": "Jour précédent",
+"att.nextDay": "Jour suivant",
+"att.today": "Aujourd'hui",
+"att.noMeeting": "cette classe n'a pas cours d'habitude ce jour-là",
+"att.allPresent": "Tout le monde présent",
+"att.restPresent": "Tous les autres présents ({n})",
+"att.markedPresent": "{n} marqués présents.",
+"att.counts": "{p} présents · {l} en retard · {a} absents · {e} excusés · {u} non marqués",
+"att.tapAgain": "Touchez à nouveau une lettre pour l'effacer.",
+"att.takeTitle": "{cls}",
+"att.prevMonth": "Mois précédent",
+"att.nextMonth": "Mois suivant",
+"att.monthTitle": "{cls} : mois",
+"att.noDays": "Cette classe n'a pas cours ce mois-ci.",
+"att.summaryTitle": "Taux de présence : {term}",
+"att.classRate": "Taux de la classe : {rate} sur {n} marques.",
+"att.rate": "Taux",
+"att.patternTitle": "À prendre des nouvelles",
+"att.pattern": "{name} : {n} absences ces 2 dernières semaines",
+"settings.tab.school": "Année scolaire et notation",
+"settings.tab.look": "Apparence",
+"settings.tab.data": "Sauvegarde et données",
+"settings.you": "Vous",
+"settings.name": "Votre nom",
+"settings.nameHint": "Utilisé pour vous saluer, par exemple Mme Rivière.",
+"settings.school": "École",
+"settings.saved": "Enregistré.",
+"settings.year": "Année scolaire",
+"settings.yearStart": "Premier jour",
+"settings.yearEnd": "Dernier jour",
+"settings.terms": "Périodes (périodes de notation)",
+"settings.preset2": "2 semestres",
+"settings.preset3": "3 trimestres",
+"settings.preset4": "4 étapes",
+"settings.semesterN": "Semestre {n}",
+"settings.termN": "Trimestre {n}",
+"settings.quarterN": "Étape {n}",
+"settings.addTerm": "Ajouter une période",
+"settings.termName": "Nom de la période",
+"settings.termStart": "Début de la période",
+"settings.termEnd": "Fin de la période",
+"settings.badYear": "Le premier jour doit venir avant le dernier jour.",
+"settings.needTerm": "Gardez au moins une période avec une date de début et de fin.",
+"settings.grading": "Notation",
+"settings.gradingLede": "Les notes se tapent en points et s'affichent en pourcentages. Le barème en lettres et la note de passage s'appliquent partout où les notes apparaissent.",
+"settings.display": "Afficher les notes en",
+"settings.display.percent": "Pourcentage",
+"settings.display.letter": "Lettre",
+"settings.display.both": "Les deux",
+"settings.passMark": "Note de passage (%)",
+"settings.passHint": "Les élèves en dessous apparaissent dans À surveiller.",
+"settings.scale": "Barème en lettres",
+"settings.scaleLetter": "Lettre",
+"settings.scaleMin": "Pourcentage minimum pour {letter}",
+"settings.from": "dès",
+"look.lang": "Langue",
+"look.theme": "Clair ou sombre",
+"look.theme.dark": "Sombre",
+"look.theme.light": "Clair",
+"look.theme.auto": "Comme mon appareil",
+"look.theme.contrast": "Contraste élevé",
+"look.palette": "Couleurs",
+"look.palette.rainbow": "Pastel rainbow",
+"look.palette.ocean": "Ocean",
+"look.palette.forest": "Forest",
+"look.palette.sunset": "Sunset",
+"look.palette.lavender": "Lavender fields",
+"look.palette.nordic": "Nordic",
+"look.size": "Taille du texte",
+"look.size.default": "Normale",
+"look.size.large": "Grande",
+"look.size.larger": "Très grande",
+"look.font": "Police",
+"look.font.standard": "Standard",
+"look.font.dyslexic": "Adaptée à la dyslexie",
+"look.date": "Dates",
+"look.date.mdy": "10 novembre",
+"look.date.dmy": "10 novembre",
+"look.clock": "Heures",
+"look.clock.12": "12 heures (2:30 pm)",
+"look.clock.24": "24 heures (14 h 30)",
+"onb.step": "Étape {n} sur {of}",
+"onb.welcome": "Bienvenue dans votre Planner enseignant",
+"onb.lede": "Classes, élèves, notes, présences et plans de cours au même endroit. Trois petites questions et c'est parti.",
+"onb.name": "Comment le planner doit-il vous appeler ?",
+"onb.namePh": "Mme Rivière",
+"onb.school": "Votre école",
+"onb.next": "Suivant",
+"onb.back": "Retour",
+"onb.finish": "Ouvrir mon planner",
+"onb.privacy": "Tout reste sur cet appareil. Rien n'est envoyé nulle part.",
+"onb.example": "Explorer avec des données d'exemple",
+"onb.restore": "Restaurer une sauvegarde",
+"onb.yearTitle": "Votre année scolaire",
+"onb.yearLede": "Les périodes sont les périodes de notation sur lesquelles le carnet de notes fait ses moyennes.",
+"onb.terms": "Comment votre année est-elle découpée ?",
+"onb.yearHint": "Vous pourrez tout changer plus tard dans Réglages, y compris le barème en lettres et la note de passage.",
+"onb.lookTitle": "L'apparence",
+"onb.lookLede": "Clair ou sombre : le bouton en bas du menu le change à tout moment.",
+"soon.title": "Arrive avec la mise à jour {slice}",
+"soon.lede": "Cette page fait partie du plan et est en construction. Voici ce qu'elle contiendra :",
+"soon.today": "Horaire du jour avec les heures de sonnerie et les plages sans enseignement\nLes cours, tâches et priorités du jour\nNotes du jour, liste de préparation et rappels\nPrendre les présences de chaque cours d'ici\nRéflexion de fin de journée",
+"soon.week": "Horaire de la semaine avec chaque plan de cours à sa place\nObjectif, tâches, préparation et événements de la semaine\nReporter la semaine précédente, glisser un cours vers un autre jour\nImprimer la semaine comme une page de cahier de préparation",
+"soon.calendar": "Vues mois, semaine et liste\nCours, travaux, contrôles, tâches, événements, rencontres, réunions, anniversaires\nCouleur par classe ou par type, avec filtres\nExport vers Google Agenda, Apple ou Outlook",
+"soon.year": "L'année scolaire en un coup d'œil : périodes, congés, périodes d'examens et dates clés",
+"soon.notifications": "Les alertes que le planner trouve pour vous : tâches en retard, copies à corriger, travaux manquants, suivis, anniversaires, stock bas, rencontres\nMarquer comme fait ou reporter",
+"soon.lessons": "Plans de cours détaillés : objectifs, attentes, matériel, déroulement, différenciation, vérifications de la compréhension, devoirs, réflexion\nFavoris et modèles, dupliquer ou copier vers une autre classe\nPlans imprimables",
+"soon.units": "Planification des unités : grandes idées, questions essentielles, objectifs d'apprentissage, attentes, évaluations\nCours donnés par unité\nGrille de couverture des attentes",
+"soon.assessments": "Devoirs, quiz, contrôles et projets dans une seule liste, avec des modèles\nAvancement des corrections et moyennes de classe\nPlanification des reprises",
+"soon.rubrics": "Grilles d'évaluation réutilisables\nNoter en cliquant sur les cases ; le total va au carnet de notes",
+"soon.seating": "Rangées et colonnes, l'avant de la classe\nGlisser les élèves vers les places, ranger de A à Z, mélanger, vider\nPaires à séparer, imprimer",
+"soon.behavior": "Moments positifs, inquiétudes et incidents\nMesures prises, contact avec les parents, suivi\nPlans de soutien et notes d'observation",
+"soon.family": "Appels, courriels et rencontres avec les familles\nDates de suivi et modèles de messages",
+"soon.conferences": "Planification des rencontres, ordre du jour, forces, inquiétudes, actions\nUne fiche de préparation qui reprend les notes, les présences et le comportement",
+"soon.reading": "Bibliothèque de livres et progression en lecture par classe ou par élève",
+"soon.events": "Sorties, assemblées, périodes d'examens, échéances et réunions\nAutorisations parentales avec la liste des retours\nOrdres du jour, notes et actions des réunions",
+"soon.subplan": "Infos permanentes pour le remplaçant : routines, procédures, élèves aidants, contacts d'urgence\nChoisissez une date et le planner prépare le dossier du remplaçant à partir de l'horaire, des cours et des listes d'élèves de ce jour\nImprimer ou enregistrer en PDF",
+"soon.contacts": "Collègues, direction, spécialistes et bureaux, avec téléphone, poste et courriel",
+"soon.tasks": "Préparation, corrections, réunions, suivis et administration\nPriorités, échéances, tâches récurrentes",
+"soon.goals": "Objectifs professionnels avec leur progression\nSuivi d'habitudes quotidiennes avec séries",
+"soon.notes": "Un carnet de notes épinglées, datées et colorées\nListes et modèles personnalisés",
+"soon.reflections": "Réflexions quotidiennes ou par cours, avec la tendance des évaluations",
+"soon.time": "Noter les heures par catégorie, avec un minuteur\nTotal de la semaine par rapport à vos heures de contrat",
+"soon.growth": "Ateliers, formations et accompagnement, avec heures, attestations et points à retenir",
+"soon.resources": "Sites, vidéos, fiches et diaporamas avec étiquettes et favoris\nLiés aux cours et aux unités",
+"soon.links": "Les outils et sites de l'école que vous utilisez tous les jours, groupés et faciles à chercher\nÉpingler les favoris au tableau de bord",
+"soon.supplies": "Inventaire de la classe avec seuils de réapprovisionnement\nListe de fournitures par classe, imprimable pour les familles\nListe d'envies",
+"soon.shopping": "Groupée par magasin, à cocher\nArticles sous leur seuil ajoutés automatiquement",
+"soon.budget": "Achats, reçus et remboursements\nTotaux par mois et par catégorie par rapport à un budget",
+"soon.toolkit": "Minuteur, chronomètre, tirage au sort d'un élève, création de groupes, sonomètre, compteur de points\nPlein écran pour le projecteur",
+"soon.reports": "Rapports par classe et par élève, répartition des notes, présences par semaine, travaux manquants\nBanque de commentaires de bulletin\nImprimer ou enregistrer en PDF",
+};
+const FR_PLANNER_STRINGS = {
+"pagehelp.today": "Votre journée sur une page. Chaque cours affiche son plan (ou un bouton pour le préparer) et indique si les présences sont prises.\nPriorités, préparation, notes et réflexion s'enregistrent quand vous cliquez ailleurs. Utilisez les flèches pour préparer un autre jour.",
+"pagehelp.week": "Votre cahier de préparation : une colonne par jour, avec les cours du jour dans l'ordre des heures. Cliquez sur « Préparer le cours » sous un cours pour le préparer.\n« Reprendre la semaine dernière » remplit les cases vides avec les cours de la semaine précédente, une semaine plus tard. Imprimer vous donne une page de cahier de préparation.",
+"pagehelp.calendar": "Cours, travaux, tâches, événements et anniversaires au même endroit. Touchez les pastilles pour afficher ou masquer un type.\nLes jours grisés n'ont pas de cours (week-ends, congés, journées pédagogiques). Exporter enregistre un fichier de calendrier à importer dans Google Agenda, Apple Calendrier ou Outlook.",
+"pagehelp.year": "Toute l'année scolaire en un coup d'œil. Les jours colorés sont des dates clés ; un cercle marque le début ou la fin d'une période.\nLes congés et journées pédagogiques comptent partout dans le planner comme des jours sans cours.",
+"pagehelp.notifications": "Ce que le planner a remarqué pour vous aujourd'hui. Fait masque une alerte jusqu'à ce que sa raison change ; Demain et Dans une semaine la reportent.",
+"pagehelp.lessons": "Un plan par classe et par jour, des objectifs aux devoirs. Ouvrez un plan pour le marquer comme donné, le dupliquer au cours suivant, le copier vers une autre classe, l'enregistrer comme modèle ou l'imprimer.",
+"pagehelp.units": "Préparez chaque unité avec ses grandes idées, ses questions essentielles, ses objectifs, ses attentes et son évaluation. Les cours liés à une unité apparaissent sur sa page.\nTapez les attentes sous forme de codes séparés par des virgules (par exemple RL.9.2, W.9.3) ; Couverture des attentes montre où chacune est enseignée.",
+"pagehelp.assessments": "Tous vos devoirs, quiz, contrôles et projets, avec l'avancement des corrections. Les notes vivent dans le carnet de notes ; joignez une grille d'évaluation à un travail pour le noter en cliquant sur les cases.\nÉcrivez des notes de reprise sur un travail pour prévoir la suite.",
+"pagehelp.rubrics": "Des grilles d'évaluation réutilisables. Chaque critère est noté à un niveau ; le total devient les points du travail et part au carnet de notes.",
+"pagehelp.tasks": "Tout ce que vous avez à faire, groupé par échéance. Cochez une tâche pour la terminer ; une tâche récurrente revient à sa prochaine date.",
+"dash.scheduleNone": "Rien à l'horaire.",
+"dash.seeAll": "Tout voir",
+"search.kind.lesson": "Cours",
+"search.kind.unit": "Unité",
+"search.kind.rubric": "Grille",
+"search.kind.task": "Tâche",
+"search.kind.event": "Événement",
+"quick.task": "Tâche",
+"quick.lesson": "Plan de cours",
+"quick.event": "Événement ou date clé",
+"dow.0": "dim.", "dow.1": "lun.", "dow.2": "mar.", "dow.3": "mer.", "dow.4": "jeu.", "dow.5": "ven.", "dow.6": "sam.", "dow.weekdays": "lun.–ven.",
+"task.add": "Ajouter une tâche",
+"task.addShort": "Ajouter",
+"task.edit": "Modifier la tâche",
+"task.title": "Tâche",
+"task.titlePh": "Par exemple : photocopier le dossier de poésie",
+"task.due": "Échéance",
+"task.priority": "Priorité",
+"task.category": "Type",
+"task.repeat": "Répétition",
+"task.class": "Classe",
+"task.noClass": "Aucune classe",
+"task.notes": "Notes",
+"task.delete": "Supprimer la tâche",
+"task.deleted": "« {name} » supprimée.",
+"task.added": "« {name} » ajoutée.",
+"task.saved": "Tâche enregistrée.",
+"task.doneToast": "Fait : {name}",
+"task.markDone": "Marquer « {name} » comme faite",
+"task.overdueBy": "Prévue le {when}",
+"task.quickPh": "Ajoutez une tâche et appuyez sur Entrée",
+"task.all": "Toutes",
+"task.none": "Aucune tâche à faire. Profitez-en !",
+"task.openCount": "{n} tâches à faire",
+"task.openCount.one": "{n} tâche à faire",
+"task.clearDone": "Effacer les tâches terminées",
+"task.cleared": "{n} tâches terminées effacées.",
+"priority.high": "Haute",
+"priority.normal": "Moyenne",
+"priority.low": "Basse",
+"taskcat.prep": "Préparation",
+"taskcat.grading": "Corrections",
+"taskcat.meeting": "Réunion",
+"taskcat.followup": "Suivi",
+"taskcat.admin": "Administratif",
+"taskcat.other": "Autre",
+"repeat.none": "Ne se répète pas",
+"repeat.daily": "Tous les jours",
+"repeat.weekdays": "Chaque jour d'école",
+"repeat.weekly": "Toutes les semaines",
+"repeat.days": "Certains jours de la semaine",
+"repeat.weeks": "Toutes les quelques semaines",
+"repeat.months": "Tous les quelques mois",
+"repeat.quarterly": "Chaque trimestre (3 mois)",
+"repeat.yearly": "Tous les ans",
+"repeat.everyWeeks": "Toutes les {n} semaines",
+"repeat.everyMonths": "Tous les {n} mois",
+"repeat.every": "Tous les",
+"repeat.unitWeeks": "semaines",
+"repeat.unitMonths": "mois",
+"repeat.onDays": "Ces jours-là",
+"repeat.needDay": "Choisissez au moins un jour.",
+"task.goal": "Objectif",
+"task.noGoal": "Aucun objectif",
+"repeat.monthly": "Tous les mois",
+"bucket.overdue": "En retard",
+"bucket.today": "Aujourd'hui",
+"bucket.week": "Cette semaine",
+"bucket.later": "Plus tard",
+"bucket.nodate": "Sans date",
+"bucket.done": "Fait",
+"lesson.add": "Nouveau plan de cours",
+"lesson.edit": "Modifier le plan de cours",
+"lesson.title": "Titre du cours",
+"lesson.titlePh": "Par exemple : les images dans « Demain, dès l'aube »",
+"lesson.class": "Classe",
+"lesson.date": "Date",
+"lesson.unit": "Unité",
+"lesson.noUnit": "Aucune unité",
+"lesson.objectives": "Objectifs",
+"lesson.objectivesPh": "Les élèves seront capables de…",
+"lesson.standards": "Attentes",
+"lesson.standardsPh": "Codes séparés par des virgules",
+"lesson.materials": "Matériel",
+"lesson.materialsPh": "Fiches, diaporama, livres, fournitures",
+"lesson.warmup": "Mise en route",
+"lesson.warmupPh": "Activité d'entrée ou accroche (5 à 10 minutes)",
+"lesson.instruction": "Enseignement",
+"lesson.instructionPh": "Enseignement explicite, modelage, pratique guidée",
+"lesson.practice": "Pratique",
+"lesson.practicePh": "Travail individuel ou en groupe",
+"lesson.closure": "Clôture",
+"lesson.closurePh": "Billet de sortie, synthèse, mise en commun",
+"lesson.differentiation": "Différenciation",
+"lesson.differentiationPh": "Soutiens, approfondissements, aménagements",
+"lesson.checks": "Vérifications de la compréhension",
+"lesson.checksPh": "Questions, vérifications rapides, observation",
+"lesson.homework": "Devoirs",
+"lesson.homeworkPh": "Ce que les élèves font avant le prochain cours",
+"lesson.reflection": "Réflexion",
+"lesson.reflectionPh": "Comment ça s'est passé ? Que changeriez-vous la prochaine fois ?",
+"lesson.reflectionSaved": "Réflexion enregistrée.",
+"lesson.reflectSave": "Enregistrer la réflexion",
+"lesson.reflectSaved": "Enregistrée",
+"lesson.reflectUnsaved": "Pas encore enregistrée",
+"lesson.added": "« {name} » préparé.",
+"lesson.saved": "Plan de cours enregistré.",
+"lesson.deleted": "« {name} » supprimé.",
+"lesson.delete": "Supprimer",
+"lesson.views": "Plans de cours",
+"lesson.view.upcoming": "À venir",
+"lesson.view.past": "Passés",
+"lesson.view.favorites": "Favoris",
+"lesson.view.templates": "Modèles",
+"lesson.none.upcoming": "Aucun cours préparé pour l'instant. Préparez-en un ici, ou depuis Aujourd'hui ou Cette semaine.",
+"lesson.none.past": "Pas encore de cours passés.",
+"lesson.none.favorites": "Mettez une étoile à un cours que vous aimez pour le retrouver ici.",
+"lesson.none.templates": "Ouvrez un cours et choisissez « Enregistrer comme modèle » pour réutiliser sa structure.",
+"lesson.count": "{n} plans de cours",
+"lesson.count.one": "{n} plan de cours",
+"lesson.today": "Aujourd'hui",
+"lesson.taught": "Donné",
+"lesson.template": "Modèle",
+"lesson.markTaught": "Marquer comme donné",
+"lesson.markPlanned": "Marquer comme non donné",
+"lesson.favorite": "☆ Favori",
+"lesson.unfavorite": "★ Favori",
+"lesson.duplicate": "Dupliquer",
+"lesson.duplicated": "Copié au {when}.",
+"lesson.copyTo": "Copier vers une autre classe",
+"lesson.copyTitle": "Copier ce cours",
+"lesson.copy": "Copier",
+"lesson.copied": "« {name} » copié.",
+"lesson.saveTemplate": "Enregistrer comme modèle",
+"lesson.templateSaved": "Enregistré comme modèle.",
+"lesson.fromTemplate": "Nouveau à partir d'un modèle",
+"lesson.noTemplates": "Pas encore de modèle. Ouvrez un cours et choisissez « Enregistrer comme modèle ».",
+"lesson.use": "Utiliser",
+"lesson.empty": "Ce plan n'a pour l'instant qu'un titre. Choisissez Modifier pour le compléter.",
+"unit.add": "Nouvelle unité",
+"unit.addShort": "Unité",
+"unit.addFor": "Ajouter une unité à {name}",
+"unit.edit": "Modifier l'unité",
+"unit.title": "Titre de l'unité",
+"unit.titlePh": "Par exemple : la poésie",
+"unit.start": "Début",
+"unit.end": "Fin",
+"unit.bigIdeas": "Grandes idées",
+"unit.bigIdeasPh": "Les compréhensions durables",
+"unit.questions": "Questions essentielles",
+"unit.questionsPh": "Une par ligne",
+"unit.goals": "Objectifs d'apprentissage",
+"unit.goalsPh": "Ce que les élèves sauront et sauront faire",
+"unit.standards": "Attentes",
+"unit.standardsPh": "Codes séparés par des virgules, par exemple RL.9.4, L.9.5",
+"unit.assessment": "Évaluation",
+"unit.assessmentPh": "Comment les élèves montrent ce qu'ils ont appris",
+"unit.notes": "Notes",
+"unit.notesPh": "Ressources, idées, à changer l'an prochain",
+"unit.delete": "Supprimer l'unité",
+"unit.deleted": "« {name} » supprimée. Ses cours sont conservés.",
+"unit.added": "« {name} » ajoutée.",
+"unit.saved": "Unité enregistrée.",
+"unit.lede": "Les unités de chaque classe, avec leurs cours et leurs attentes.",
+"unit.none": "Pas encore d'unité pour cette classe.",
+"unit.empty": "Cette unité n'a pour l'instant qu'un titre. Choisissez Modifier pour la préparer.",
+"unit.views": "Unités",
+"unit.view.units": "Unités",
+"unit.view.coverage": "Couverture des attentes",
+"unit.lessons": "{n} cours",
+"unit.lessons.one": "{n} cours",
+"unit.progress": "{done} cours donnés sur {n}",
+"unit.state.now": "En cours",
+"unit.state.next": "Ensuite",
+"unit.state.done": "Terminée",
+"unit.lessonsTitle": "Cours de cette unité",
+"unit.noLessons": "Aucun cours lié pour l'instant. Choisissez une unité quand vous préparez un cours.",
+"unit.standard": "Attente",
+"unit.lessonsCol": "Cours",
+"unit.covered": "Couverte",
+"unit.notCovered": "Non couverte",
+"unit.noStandards": "Pas encore d'attentes. Ajoutez des codes d'attentes aux unités ou aux cours de cette classe.",
+"unit.coverageHelp": "Un point signifie que l'unité cite l'attente, ou qu'un de ses cours la cite. Cours compte les plans de cours qui la nomment ; 0 veut dire qu'elle n'est pas encore enseignée.",
+"assess.tile.tograde": "À corriger",
+"assess.tile.papers": "{n} copies en attente",
+"assess.tile.papers.one": "{n} copie en attente",
+"assess.tile.week": "À rendre cette semaine",
+"assess.tile.weekSub": "Devoirs, quiz, contrôles et projets",
+"assess.tile.graded": "Corrigés",
+"assess.tile.gradedSub": "Entièrement corrigés à ce jour",
+"assess.plan": "Préparer :",
+"assess.views": "Évaluations",
+"assess.view.tograde": "À corriger",
+"assess.view.upcoming": "À venir",
+"assess.view.graded": "Corrigés",
+"assess.view.all": "Tous",
+"assess.none.tograde": "Rien n'attend d'être corrigé.",
+"assess.none.upcoming": "Rien à venir. Préparez-en un ci-dessus.",
+"assess.none.graded": "Rien n'est encore entièrement corrigé.",
+"assess.none.all": "Pas encore de travail.",
+"assess.allTypes": "Tous les types",
+"assess.points": "{n} pts",
+"assess.due": "À rendre {when}",
+"assess.gradedOf": "{done} corrigés sur {n}",
+"assess.avg": "Moyenne de classe",
+"assess.open": "Carnet de notes",
+"assess.scoreRubric": "Noter avec la grille",
+"assign.rubric": "Grille d'évaluation",
+"assign.noRubric": "Aucune grille",
+"assign.description": "Consignes",
+"assign.descriptionPh": "Ce que les élèves doivent faire",
+"assign.reteach": "Plan de reprise",
+"assign.reteachPh": "Ce qu'il faut revoir, et avec qui",
+"rubric.add": "Nouvelle grille",
+"rubric.edit": "Modifier la grille",
+"rubric.title": "Nom de la grille",
+"rubric.titlePh": "Par exemple : rédaction",
+"rubric.description": "Description",
+"rubric.levels": "Niveaux",
+"rubric.levelName": "Nom du niveau {n}",
+"rubric.levelPoints": "Points du niveau {n}",
+"rubric.pts": "points",
+"rubric.addLevel": "Ajouter un niveau",
+"rubric.lvl.4": "Excellent", "rubric.lvl.3": "Bien", "rubric.lvl.2": "En progrès", "rubric.lvl.1": "Débutant",
+"rubric.criteria": "Critères",
+"rubric.criterion": "Critère",
+"rubric.criterionN": "Critère {n}",
+"rubric.criterionName": "Nom du critère {n}",
+"rubric.criterionPh": "Par exemple : organisation",
+"rubric.addCriterion": "Ajouter un critère",
+"rubric.needCriterion": "Donnez au moins un critère à la grille.",
+"rubric.added": "« {name} » ajoutée.",
+"rubric.saved": "Grille enregistrée.",
+"rubric.delete": "Supprimer la grille",
+"rubric.deleted": "« {name} » supprimée.",
+"rubric.duplicated": "Grille copiée.",
+"rubric.copyOf": "{name} (copie)",
+"rubric.lede": "Notez en cliquant sur les cases ; le total va au carnet de notes.",
+"rubric.none": "Pas encore de grille. Créez-en une, puis joignez-la à un travail.",
+"rubric.count": "{n} grilles",
+"rubric.count.one": "{n} grille",
+"rubric.maxPts": "Jusqu'à {n} points",
+"rubric.usedBy": "Utilisée par",
+"rubric.unused": "Pas encore jointe à un travail",
+"rubric.open": "Ouvrir",
+"rubric.noneAttached": "Ce travail n'a pas de grille. Modifiez-le pour en joindre une.",
+"rubric.scoreTitle": "Noter : {name}",
+"rubric.prev": "Élève précédent",
+"rubric.next": "Élève suivant",
+"rubric.pickCells": "Choisissez un niveau pour chaque critère.",
+"rubric.total": "Grille : {total} sur {max}, soit {points} points sur {outOf} au carnet de notes.",
+"rubric.saveNext": "Enregistrer et élève suivant",
+"rubric.saveClose": "Enregistrer et fermer",
+"rubric.scoresSaved": "Résultats de la grille enregistrés au carnet de notes.",
+"today.isToday": "Aujourd'hui",
+"today.noClasses": "Pas de cours",
+"today.planLesson": "Préparer le cours",
+"today.takeAtt": "Prendre les présences",
+"today.attTaken": "Présences prises",
+"today.priorities": "3 priorités",
+"today.priorityN": "Priorité {n}",
+"today.priorityPh": "Qu'est-ce qui compte le plus ?",
+"today.tasks": "Tâches",
+"today.noTasks": "Aucune tâche ce jour-là.",
+"today.due": "À rendre",
+"today.noDue": "Aucun travail à rendre.",
+"today.events": "Événements",
+"today.noEvents": "Aucun événement.",
+"today.notes": "Préparation et notes",
+"today.prep": "Liste de préparation",
+"today.prepPh": "Photocopies à faire, choses à installer",
+"today.notesLabel": "Notes et rappels",
+"today.notesPh": "Tout ce qu'il faut retenir",
+"today.reflection": "Réflexion de fin de journée",
+"today.reflectionPh": "Qu'est-ce qui a bien marché ? Que ferez-vous autrement ?",
+"today.savedOnLeave": "S'enregistre quand vous cliquez ailleurs.",
+"today.summary": "{n} cours ce jour-là",
+"today.summary.one": "{n} cours ce jour-là",
+"week.prev": "Semaine précédente",
+"week.next": "Semaine suivante",
+"week.this": "Cette semaine",
+"week.class": "Classe",
+"week.noClass": "Pas de cours",
+"week.noClasses": "Pas de cours.",
+"week.plan": "Préparer le cours",
+"week.hw": "Devoirs :",
+"week.planFor": "Préparer {cls} le {day}",
+"week.copy": "Reprendre la semaine dernière ({n} cours)",
+"week.copy.one": "Reprendre la semaine dernière ({n} cours)",
+"week.copied": "{n} cours repris de la semaine dernière.",
+"week.copied.one": "{n} cours repris de la semaine dernière.",
+"week.copyNone": "Rien à reprendre de la semaine dernière",
+"week.focus": "Objectif de la semaine",
+"week.focusPh": "La chose qui compte cette semaine",
+"week.tasks": "Tâches de la semaine",
+"week.noTasks": "Aucune tâche cette semaine.",
+"week.agenda": "Événements et travaux à rendre",
+"week.noAgenda": "Aucun événement ni travail à rendre cette semaine.",
+"cal.views": "Vues du calendrier",
+"cal.view.month": "Mois",
+"cal.view.agenda": "Liste",
+"cal.show": "Afficher",
+"cal.kind.lesson": "Cours",
+"cal.kind.assignment": "Travaux",
+"cal.kind.task": "Tâches",
+"cal.kind.event": "Événements",
+"cal.kind.birthday": "Anniversaires",
+"cal.prev": "Mois précédent",
+"cal.next": "Mois suivant",
+"cal.thisMonth": "Ce mois-ci",
+"cal.more": "+{n} de plus",
+"cal.openDay": "Ouvrir le jour",
+"cal.dayNone": "Rien ce jour-là.",
+"cal.export": "Exporter le calendrier",
+"cal.exported": "Fichier de calendrier enregistré avec {n} éléments. Importez-le dans Google Agenda, Apple Calendrier ou Outlook.",
+"cal.exportTitle": "Exporter vers votre calendrier",
+"cal.exportWhat": "Quoi inclure",
+"cal.exportWhen": "Quelles dates",
+"cal.exportFuture": "À partir d'aujourd'hui",
+"cal.exportAll": "Toute l'année scolaire, dates passées comprises",
+"cal.exportHelp": "Vous obtenez un fichier de calendrier (.ics). Ouvrez-le ou importez-le dans Google Agenda, Apple Calendrier ou Outlook. Un nouvel import ajoute une nouvelle copie : supprimez d'abord l'ancienne si vous importez à nouveau.",
+"cal.exportGo": "Enregistrer le fichier de calendrier",
+"cal.exportNeedKind": "Cochez au moins une chose à inclure.",
+"cal.exportEmpty": "Rien à exporter pour ces choix.",
+"cal.agendaNone": "Rien dans les 30 prochains jours.",
+"event.add": "Ajouter un événement",
+"event.addShort": "Événement",
+"event.edit": "Modifier l'événement",
+"event.title": "Nom",
+"event.titlePh": "Par exemple : soirée parents-enseignants",
+"event.type": "Type",
+"event.date": "Date",
+"event.end": "Dernier jour",
+"event.endHint": "Pour les événements sur plusieurs jours",
+"event.time": "Heure",
+"event.notes": "Notes",
+"event.needDate": "Choisissez une date.",
+"event.delete": "Supprimer l'événement",
+"event.deleted": "« {name} » supprimé.",
+"event.added": "« {name} » ajouté.",
+"event.saved": "Événement enregistré.",
+"evtype.holiday": "Congé",
+"evtype.pd": "Journée pédagogique",
+"evtype.testing": "Examens",
+"evtype.meeting": "Réunion",
+"evtype.conference": "Rencontres parents",
+"evtype.deadline": "Échéance",
+"evtype.event": "Événement",
+"year.lede": "Année scolaire {range}.",
+"year.terms": "Périodes",
+"year.nowIn": "Aujourd'hui, vous êtes en {term} · encore environ {n} semaines.",
+"year.nowOut": "Aujourd'hui est en dehors des périodes.",
+"year.editTerms": "Modifier les périodes",
+"year.addDate": "Ajouter une date clé",
+"year.keyDates": "Dates clés à venir",
+"year.none": "Pas encore de dates clés. Ajoutez les congés, journées pédagogiques, périodes d'examens et dates de remise des bulletins.",
+"year.past": "Dates clés passées",
+"alert.count": "{n} choses à regarder",
+"alert.count.one": "{n} chose à regarder",
+"alert.none": "Tout est en ordre. Rien ne demande votre attention pour l'instant.",
+"alert.navCount": "{n} notifications",
+"alert.overdue": "Tâche prévue {when}",
+"alert.taskToday": "Tâche prévue aujourd'hui",
+"alert.noPlan": "Pas de plan de cours pour {cls}",
+"alert.toGrade": "{n} encore à corriger",
+"alert.toGrade.one": "{n} encore à corriger",
+"alert.absent": "{n} absences ces 2 dernières semaines",
+"alert.absent.one": "{n} absence ces 2 dernières semaines",
+"alert.missing": "{n} travaux manquants",
+"alert.missing.one": "{n} travail manquant",
+"alert.birthday": "Anniversaire {when}",
+"alert.complete": "Fait",
+"alert.done": "Fait",
+"alert.tomorrow": "Demain",
+"alert.week": "Dans une semaine",
+"alert.dismissed": "Marquée comme faite.",
+"alert.snoozed": "Reportée.",
+"alert.unsnooze": "Afficher les {n} reportées",
+"alert.unsnooze.one": "Afficher {n} reportée",
+"sched.title": "Quand cette classe a cours",
+"sched.help.weekly": "Ajoutez une ligne par cours. Chaque ligne a son jour, ses heures et sa salle, la classe peut donc avoir cours à des heures différentes selon les jours.",
+"sched.help.ab": "Ajoutez une ligne par cours. Choisissez Semaine A ou Semaine B pour une ligne qui n'a lieu qu'une semaine sur deux.",
+"sched.help.cycle": "Votre école fonctionne avec un cycle de jours. Ajoutez une ligne par jour du cycle où la classe a cours, avec ses heures et sa salle.",
+"sched.none": "Pas encore d'horaire. La classe n'apparaîtra pas dans votre horaire tant que vous n'en ajoutez pas.",
+"sched.add": "Ajouter un horaire",
+"sched.fillWeek": "Même horaire du lundi au vendredi",
+"sched.fillCycle": "Même horaire chaque jour du cycle",
+"sched.bothWeeks": "Chaque semaine",
+"sched.dayN": "Jour de l'horaire {n}",
+"sched.weekN": "Semaine de l'horaire {n}",
+"sched.startN": "Début de l'horaire {n}",
+"sched.endN": "Fin de l'horaire {n}",
+"sched.roomN": "Salle de l'horaire {n}",
+"sched.roomPh": "Salle",
+"sched.removeN": "Retirer l'horaire {n}",
+"class.roomHint": "La salle habituelle. Un horaire peut en indiquer une autre.",
+"class.copyGroup": "Copier pour un autre groupe",
+"class.copyTitle": "Copier pour un autre groupe",
+"class.copyName": "{name} (groupe 2)",
+"class.copyHelp": "Vous enseignez le même cours à un autre groupe ? Cela crée une nouvelle classe avec les mêmes informations et catégories de notes. Indiquez ses propres horaires ci-dessous, puis ajoutez ses élèves.",
+"rot.title": "Emploi du temps",
+"rot.type": "Comment votre emploi du temps se répète",
+"rot.type.weekly": "Identique chaque semaine",
+"rot.typeHelp.weekly": "Un lundi est toujours le même lundi.",
+"rot.type.ab": "Semaine A et semaine B",
+"rot.typeHelp.ab": "Deux semaines qui alternent.",
+"rot.type.cycle": "Un cycle de jours numérotés",
+"rot.typeHelp.cycle": "Jour 1, Jour 2 et ainsi de suite, comptés seulement les jours d'école : les congés ne cassent pas le cycle.",
+"rot.length": "Jours dans le cycle",
+"rot.lengthHint": "Seulement pour un cycle de jours, par exemple 6.",
+"rot.start": "Commence le",
+"rot.startHint": "La première semaine A, ou le premier Jour 1.",
+"rot.today": "{day} : {label}.",
+"rot.help": "Après ce changement, vérifiez les horaires de chaque classe dans sa fiche Modifier.",
+"rot.weekX": "Semaine {w}",
+"rot.dayN": "Jour {n}",
+"change.button": "Changer",
+"change.buttonFor": "Changer {name} pour ce jour seulement",
+"change.title": "Changement pour le {day} seulement",
+"change.what": "Ce qui change",
+"change.kind.move": "Autre heure ou autre salle",
+"change.kind.cancel": "Annulé",
+"change.kind.extra": "Cours en plus",
+"change.short.move": "Déplacé aujourd'hui",
+"change.short.cancel": "Annulé",
+"change.short.extra": "Cours en plus",
+"change.cancelled": "Annulé",
+"change.changedDay": "Changé pour ce jour",
+"change.extraShort": "Cours en plus",
+"change.note": "Note",
+"change.notePh": "Par exemple : assemblée, sortie, bibliothèque",
+"change.needTime": "Choisissez une heure de début.",
+"change.existing": "Changements déjà prévus ce jour-là :",
+"change.undo": "Annuler",
+"change.restore": "Rétablir",
+"change.restored": "Retour à l'emploi du temps habituel.",
+"change.saved.move": "Déplacé pour ce jour seulement.",
+"change.saved.cancel": "Annulé pour ce jour seulement.",
+"change.saved.extra": "Cours en plus ajouté.",
+"change.help": "Cela ne change que cette date. L'emploi du temps habituel reste le même.",
+};
+const FR_SCHOOL_STRINGS = {
+"pagehelp.seating": "Touchez un élève, puis une place (sur ordinateur, vous pouvez aussi glisser). Touchez deux élèves assis pour les échanger.\nA–Z place la classe dans l'ordre, en commençant par le premier rang. Mélanger répartit tout le monde en gardant séparées les paires que vous indiquez. Un point signale un élève avec des aménagements ou des notes médicales.",
+"pagehelp.behavior": "Notez les moments positifs, les inquiétudes et les incidents, avec ce que vous avez fait. Cochez « Famille contactée » quand vous avez appelé la maison, et ajoutez un suivi pour le voir dans Suivis et Notifications.\nLes plans de soutien rassemblent les objectifs et les stratégies pour un élève, avec une date de révision.",
+"pagehelp.family": "Chaque appel, courriel, message et rencontre avec les familles dans un seul journal. Les modèles remplissent pour vous l'élève, le parent et la classe : copiez le texte ou ouvrez-le dans votre messagerie.",
+"pagehelp.conferences": "Planifiez les rencontres, puis ouvrez la fiche de préparation : notes, présences, travaux manquants, comportement et plans de soutien de l'élève sur une seule page. Les notes s'enregistrent pendant que vous tapez ; imprimez la fiche pour l'emporter.",
+"pagehelp.reading": "Ce que chaque élève lit et a terminé, et la bibliothèque de la classe. Ajoutez un livre en notant une lecture s'il n'est pas encore dans la bibliothèque.",
+"pagehelp.events": "Les événements et réunions de l'école, depuis votre calendrier. Ouvrez-en un pour écrire l'ordre du jour, le compte rendu et les actions, ou pour suivre les autorisations classe par classe.",
+"pagehelp.subplan": "Choisissez le jour de votre absence : le plan rassemble l'horaire, les plans de cours, les listes d'élèves, les plans de classe et les notes sur les élèves. Remplissez une fois vos routines et procédures avec le crayon ; elles reviennent à chaque fois.\nMasquez avec l'œil ce dont le remplaçant n'a pas besoin, puis imprimez.",
+"pagehelp.contacts": "L'annuaire du personnel de votre école. Touchez un numéro pour appeler ou le bouton courriel pour écrire.",
+"search.kind.staff": "Contact",
+"search.kind.book": "Livre",
+"quick.behavior": "Note de comportement",
+"quick.family": "Contact avec une famille",
+"quick.staff": "Contact de l'école",
+"event.location": "Lieu",
+"alert.followUp": "Suivi · {name}",
+"alert.followUpDue": "Prévu {when}",
+"alert.conference": "Rencontre avec {name}",
+"alert.slips": "{n} autorisations manquantes",
+"alert.slips.one": "{n} autorisation manquante",
+"alert.review": "Révision du plan de soutien · {name}",
+"seat.rows": "Rangées",
+"seat.cols": "Colonnes",
+"seat.az": "A–Z",
+"seat.arranged": "Placés de A à Z",
+"seat.shuffle": "Mélanger",
+"seat.shuffled": "Places mélangées",
+"seat.clear": "Vider",
+"seat.cleared": "Places vidées",
+"seat.gridLabel": "Plan de classe de {name}",
+"seat.seatWith": "{seat} : {name}",
+"seat.seatEmpty": "{seat} : libre",
+"seat.rowSeat": "Rangée {r}, place {c}",
+"seat.groupSeat": "Groupe {g}, place {n}",
+"seat.groupN": "Groupe {n}",
+"seat.seatN": "Place {n}",
+"seat.layout": "Disposition",
+"seat.layout.rows": "Rangées",
+"seat.layout.groups": "Îlots",
+"seat.layout.circle": "Cercle",
+"seat.layout.ushape": "En U",
+"seat.groups": "Îlots",
+"seat.groupSize": "Pupitres par îlot",
+"seat.seats": "Places",
+"seat.unseated": "Pas encore placés",
+"seat.allSeated": "Tout le monde a une place.",
+"seat.tooFew": "Il manque {n} places : ajoutez des places ou changez la disposition.",
+"seat.pickedHint": "{name} est sélectionné. Touchez une place pour l'y déplacer.",
+"seat.howTo": "Touchez un élève, puis une place.",
+"seat.unseat": "Retirer de sa place",
+"seat.apart": "À séparer",
+"seat.apartHelp": "Mélanger ne placera pas ces paires l'une près de l'autre : côte à côte ou devant-derrière en rangées, dans le même îlot, ou voisins dans un cercle ou un U.",
+"seat.apartAdd": "Ajouter la paire",
+"seat.apartAdded": "Paire ajoutée",
+"seat.apartPickTwo": "Choisissez deux élèves différents.",
+"seat.student1": "Élève",
+"seat.student2": "et",
+"seat.clash": "assis ensemble",
+"seat.clashWarn": "{n} paires à séparer sont assises ensemble.",
+"seat.clashWarn.one": "Une paire à séparer est assise ensemble.",
+"seat.front": "Avant de la classe",
+"beh.tab.log": "Journal",
+"beh.tab.followups": "Suivis",
+"beh.tab.supports": "Plans de soutien",
+"beh.add": "Noter un comportement",
+"beh.addPositive": "Note positive",
+"beh.edit": "Modifier la note de comportement",
+"beh.added": "Enregistré pour {name}",
+"beh.saved": "Note de comportement enregistrée",
+"beh.delete": "Supprimer cette note",
+"beh.deleted": "Note de comportement supprimée",
+"beh.student": "Élève",
+"beh.date": "Date",
+"beh.class": "Classe",
+"beh.type": "Type",
+"beh.category": "Ce qui s'est passé",
+"beh.note": "Note",
+"beh.notePh": "Ce que vous avez vu, en une ou deux phrases",
+"beh.action": "Mesure prise",
+"beh.actionPh": "Discussion, changement de place, appel à la maison…",
+"beh.actionShort": "Mesure :",
+"beh.parent": "Famille contactée",
+"beh.parentShort": "famille contactée",
+"beh.followUp": "Suivi",
+"beh.followPh": "Faire le point avec l'élève vendredi",
+"beh.followOn": "Suivi d'ici le",
+"beh.needStudent": "Choisissez d'abord un élève.",
+"beh.noStudents": "Ajoutez d'abord des élèves à vos classes.",
+"beh.none": "Rien de noté pour l'instant.",
+"beh.last30": "Les compteurs portent sur les 30 derniers jours.",
+"beh.allClasses": "Toutes les classes",
+"btype.positive": "Positif",
+"btype.concern": "Inquiétude",
+"btype.incident": "Incident",
+"bcat.effort": "Bel effort",
+"bcat.kindness": "Gentillesse",
+"bcat.leadership": "Leadership",
+"bcat.improvement": "Progrès",
+"bcat.participation": "Participation",
+"bcat.offtask": "Pas à la tâche",
+"bcat.disruption": "Dérangement",
+"bcat.unprepared": "Pas préparé",
+"bcat.phone": "Téléphone",
+"bcat.late": "Retard en classe",
+"bcat.conflict": "Conflit avec un camarade",
+"bcat.disrespect": "Manque de respect",
+"bcat.unsafe": "Comportement dangereux",
+"bcat.property": "Dégradation de matériel",
+"bcat.other": "Autre",
+"fu.help": "Les suivis du journal de comportement et du journal des familles. Cochez-en un quand il est fait.",
+"fu.count": "{n} suivis en cours",
+"fu.count.one": "{n} suivi en cours",
+"fu.none": "Aucun suivi en cours.",
+"fu.done": "Suivi fait",
+"fu.markDone": "Marquer comme fait : {what}",
+"fu.noDate": "sans date",
+"fu.student": "Élève",
+"fu.src.behavior": "Comportement",
+"fu.src.familyLog": "Famille",
+"sup.add": "Ajouter un plan de soutien",
+"sup.edit": "Modifier le plan de soutien",
+"sup.added": "Plan de soutien ajouté",
+"sup.saved": "Plan de soutien enregistré",
+"sup.delete": "Supprimer ce plan",
+"sup.deleted": "Plan de soutien supprimé",
+"sup.title": "Nom du plan",
+"sup.titlePh": "Soutien en lecture, suivi quotidien…",
+"sup.goals": "Objectifs",
+"sup.strategies": "Stratégies",
+"sup.stratPh": "Place à l'avant, tâches découpées, point quotidien…",
+"sup.start": "Début",
+"sup.review": "Révision le",
+"sup.status": "Statut",
+"sup.st.active": "Actif",
+"sup.st.review": "En révision",
+"sup.st.closed": "Fermé",
+"sup.reviewOn": "Révision le {when}",
+"sup.reviewDue": "Révision prévue {when}",
+"sup.help": "Objectifs et stratégies pour les élèves qui ont besoin d'un soutien supplémentaire.",
+"sup.none": "Pas encore de plan de soutien.",
+"fam.tab.log": "Journal des contacts",
+"fam.tab.templates": "Modèles",
+"fam.add": "Noter un contact",
+"fam.edit": "Modifier le contact",
+"fam.added": "Contact noté pour {name}",
+"fam.saved": "Contact enregistré",
+"fam.delete": "Supprimer ce contact",
+"fam.deleted": "Contact supprimé",
+"fam.guardian": "Avec qui",
+"fam.method": "Comment",
+"fam.reason": "Motif",
+"fam.reasonPh": "Travail manquant, bonne nouvelle, absence…",
+"fam.summary": "Résumé",
+"fam.summaryPh": "Ce qui a été dit et convenu",
+"fam.none": "Aucun contact avec les familles noté pour l'instant.",
+"fam.thisMonth": "{n} contacts ce mois-ci",
+"fam.thisMonth.one": "{n} contact ce mois-ci",
+"method.call": "Appel",
+"method.email": "Courriel",
+"method.message": "Message",
+"method.meeting": "Rencontre",
+"method.note": "Mot à la maison",
+"tpl.add": "Nouveau modèle",
+"tpl.edit": "Modifier le modèle",
+"tpl.added": "Modèle ajouté",
+"tpl.saved": "Modèle enregistré",
+"tpl.delete": "Supprimer ce modèle",
+"tpl.deleted": "Modèle supprimé",
+"tpl.title": "Nom du modèle",
+"tpl.titlePh": "Rappel de travail manquant",
+"tpl.subject": "Objet",
+"tpl.body": "Message",
+"tpl.placeholders": "Champs à remplir automatiquement :",
+"tpl.use": "Utiliser",
+"tpl.copy": "Copier le texte",
+"tpl.copied": "Copié",
+"tpl.copyFail": "Copie impossible. Sélectionnez le texte et copiez-le vous-même.",
+"tpl.email": "Écrire à {name}",
+"tpl.noEmail": "Aucun courriel de parent enregistré.",
+"tpl.log": "Noter comme envoyé",
+"tpl.help": "Des messages réutilisables. Les champs comme {student} et {guardian} sont remplis pour l'élève que vous choisissez.",
+"tpl.none": "Pas encore de modèle.",
+"conf.tab.upcoming": "À venir",
+"conf.tab.past": "Passées",
+"conf.add": "Planifier une rencontre",
+"conf.edit": "Modifier la rencontre",
+"conf.added": "Rencontre avec {name} planifiée",
+"conf.saved": "Rencontre enregistrée",
+"conf.delete": "Supprimer cette rencontre",
+"conf.deleted": "Rencontre supprimée",
+"conf.with": "Avec",
+"conf.withPh": "Noms des parents ou tuteurs",
+"conf.withX": "avec {name}",
+"conf.agenda": "Ordre du jour",
+"conf.agendaPh": "Ce dont vous voulez parler",
+"conf.st.scheduled": "Prévue",
+"conf.st.done": "Faite",
+"conf.st.cancelled": "Annulée",
+"conf.count": "{n} rencontres à venir",
+"conf.count.one": "{n} rencontre à venir",
+"conf.none": "Aucune rencontre ici.",
+"conf.unknown": "Élève introuvable",
+"conf.prep": "Fiche de préparation",
+"conf.markDone": "Marquer comme faite",
+"conf.doneToast": "Rencontre marquée comme faite",
+"conf.heading": "Rencontre : {name}",
+"conf.grades": "Notes",
+"conf.gradesTerm": "Notes · {term}",
+"conf.noGrades": "Pas encore de classe.",
+"conf.attendance": "Présences",
+"conf.rate": "Taux de présence",
+"conf.absences": "Absences",
+"conf.lates": "Retards",
+"conf.noAtt": "Aucune présence prise pour l'instant.",
+"conf.missing": "Travaux manquants",
+"conf.noMissing": "Aucun travail manquant.",
+"conf.profile": "À propos de l'élève",
+"conf.strengthsKnown": "Points forts",
+"conf.needsKnown": "Besoins",
+"conf.accom": "Aménagements",
+"conf.noProfile": "Rien de noté sur la page de l'élève pour l'instant.",
+"conf.behavior": "Notes de comportement récentes",
+"conf.recentContact": "Contacts récents avec la famille",
+"conf.notesTitle": "Notes de la rencontre",
+"conf.strengths": "Points forts partagés",
+"conf.strengthsPh": "Commencez par ce qui va bien",
+"conf.concerns": "Inquiétudes",
+"conf.actions": "Prochaines étapes",
+"conf.actionsPh": "Qui fait quoi, et pour quand",
+"conf.notes": "Autres notes",
+"conf.autosave": "Les notes s'enregistrent quand vous cliquez ailleurs.",
+"read.tab.students": "Élèves",
+"read.tab.library": "Bibliothèque",
+"read.stats": "{reading} élèves sur {total} lisent un livre · {finished} terminés ce mois-ci",
+"read.notReading": "Ne lit pas de livre en ce moment",
+"read.finished": "{n} lus",
+"read.finishedLabel": "Livres terminés",
+"read.addFor": "Noter un livre pour {name}",
+"read.show": "Historique",
+"read.hide": "Masquer",
+"rstat.reading": "En cours",
+"rstat.finished": "Terminé",
+"rstat.abandoned": "Abandonné",
+"rlog.add": "Noter un livre",
+"rlog.edit": "Modifier la lecture",
+"rlog.added": "Livre noté",
+"rlog.saved": "Lecture enregistrée",
+"rlog.delete": "Supprimer cette lecture",
+"rlog.deleted": "Lecture supprimée",
+"rlog.book": "Livre",
+"rlog.otherBook": "Pas dans la bibliothèque",
+"rlog.newBook": "Ou tapez un nouveau titre",
+"rlog.newBookHint": "Il est ajouté à la bibliothèque.",
+"rlog.needBook": "Choisissez un livre ou tapez son titre.",
+"rlog.rating": "Appréciation",
+"rlog.noRating": "Sans appréciation",
+"rlog.start": "Commencé le",
+"rlog.finish": "Terminé le",
+"rlog.notesPh": "Ce que l'élève en a pensé",
+"book.add": "Ajouter un livre",
+"book.edit": "Modifier le livre",
+"book.added": "{name} ajouté à la bibliothèque",
+"book.saved": "Livre enregistré",
+"book.delete": "Supprimer ce livre",
+"book.deleted": "{name} supprimé",
+"book.title": "Titre",
+"book.author": "Auteur",
+"book.genre": "Genre",
+"book.level": "Niveau de lecture",
+"book.levelPh": "Lexile, niveau scolaire…",
+"book.levelX": "Niveau {level}",
+"book.copies": "Exemplaires",
+"book.copiesN": "{n} exemplaires",
+"book.copiesN.one": "{n} exemplaire",
+"book.reading": "{n} en lecture",
+"book.reading.one": "{n} en lecture",
+"book.read": "lu {n} fois",
+"book.read.one": "lu une fois",
+"book.left": "{n} sur l'étagère",
+"book.left.one": "{n} sur l'étagère",
+"book.allOut": "Tous empruntés",
+"book.help": "La bibliothèque de votre classe, avec ce qui est sur l'étagère.",
+"book.none": "Pas encore de livre.",
+"evp.help": "Réunions, événements de l'école, examens et échéances de votre calendrier.",
+"evp.addMeeting": "Réunion",
+"evp.none": "Rien ici.",
+"evp.slips": "Autorisations parentales",
+"evp.slipsNeeded": "Autorisations parentales nécessaires",
+"evp.slipsOff": "Cochez la case ci-dessus pour suivre les autorisations de cet événement.",
+"evp.slipClasses": "Classes concernées",
+"evp.slipNoStudents": "Choisissez au moins une classe avec des élèves.",
+"evp.slipsCount": "{n} autorisations rendues sur {total}",
+"evp.slipsMissing": "{n} autorisations pas encore rendues",
+"evp.slipsMissing.one": "{n} autorisation pas encore rendue",
+"evp.allBack": "Toutes rendues",
+"evp.noneBack": "Effacer",
+"evp.missingSlips": "Pas encore rendues :",
+"evp.meetingNotes": "Notes de réunion",
+"evp.agenda": "Ordre du jour",
+"evp.agendaPh": "Un point par ligne",
+"evp.minutes": "Compte rendu",
+"evp.actions": "Actions",
+"evp.actionsPh": "Qui fait quoi, et pour quand",
+"evp.autosave": "Les notes s'enregistrent quand vous cliquez ailleurs.",
+"evp.planning": "Organisation",
+"evp.plan": "Plan et liste de contrôle",
+"evp.planPh": "Autobus réservé, bénévoles, fournitures…",
+"sub.sec.cover": "Bienvenue",
+"sub.sections": "Sections à inclure ({n} sur {total})",
+"sub.sectionsHelp": "Touchez une section pour l'afficher ou la masquer. Les sections masquées ne sont pas imprimées. Vous pouvez aussi masquer une section avec l'œil à côté de son titre.",
+"sub.partsLabel": "Dans chaque cours",
+"sub.part.lesson": "Plan de cours",
+"sub.part.flags": "Élèves à connaître",
+"sub.part.seating": "Plan de classe",
+"sub.part.roster": "Liste des élèves",
+"sub.editX": "Modifier {name}",
+"sub.hideX": "Masquer {name}",
+"sub.addX": "Ajouter {name}",
+"sub.planIt": "Le préparer maintenant",
+"sub.noHelpers": "Ajoutez le secrétariat, l'infirmerie ou le collègue d'à côté dans Contacts de l'école.",
+"sub.print": "Imprimer",
+"sub.welcome": "Bienvenue ! Plans pour le {date}",
+"sub.classOf": "Les classes de {name}",
+"sub.notTeaching": "Ce n'est pas un jour de cours.",
+"sub.schedule": "La journée",
+"sub.whoToAsk": "À qui s'adresser",
+"sub.noLesson": "Pas encore de plan de cours pour cette classe.",
+"sub.missingPlans": "{n} cours de ce jour n'ont pas encore de plan.",
+"sub.missingPlans.one": "{n} cours de ce jour n'a pas encore de plan.",
+"sub.flags": "Élèves à connaître",
+"sub.roster": "Liste des élèves ({n})",
+"sub.saved": "Enregistré",
+"sub.f.routines": "Routines quotidiennes",
+"sub.f.procedures": "Procédures",
+"sub.f.helpers": "Élèves et collègues qui peuvent aider",
+"sub.f.emergency": "Procédures d'urgence",
+"sub.f.notes": "Autres notes",
+"sub.ph.routines": "Activité d'entrée au tableau, présences dans les 5 premières minutes…",
+"sub.ph.procedures": "Sorties aux toilettes, téléphones, élèves qui finissent tôt, sortie de classe…",
+"sub.ph.helpers": "Élèves qui peuvent aider, le collègue d'à côté…",
+"sub.ph.emergency": "Sortie en cas d'incendie, lieu de confinement, où se trouve la pochette rouge…",
+"sub.ph.notes": "Tout le reste",
+"staff.add": "Ajouter un contact",
+"staff.edit": "Modifier le contact",
+"staff.added": "{name} ajouté",
+"staff.saved": "Contact enregistré",
+"staff.delete": "Supprimer ce contact",
+"staff.deleted": "{name} supprimé",
+"staff.name": "Nom",
+"staff.role": "Fonction",
+"staff.rolePh": "Direction, infirmière, conseiller…",
+"staff.dept": "Service",
+"staff.room": "Salle",
+"staff.phone": "Téléphone",
+"staff.ext": "Poste",
+"staff.extN": "poste {ext}",
+"staff.email": "Courriel",
+"staff.emailShort": "Courriel",
+"staff.copyEmail": "Copier le courriel",
+"staff.copied": "{email} copié",
+"staff.badEmail": "Cette adresse courriel ne semble pas correcte.",
+"staff.notesPh": "Meilleur moment pour les joindre, ce qu'ils peuvent faire pour vous…",
+"staff.search": "Rechercher un contact",
+"staff.count": "{n} contacts",
+"staff.count.one": "{n} contact",
+"staff.noDept": "Autre",
+"staff.none": "Pas encore de contact.",
+"staff.noMatch": "Aucun contact ne correspond.",
+};
+const FR_MYWORK_STRINGS = {
+"pagehelp.goals": "Des objectifs professionnels avec des étapes : cochez une étape et la barre de progression avance. Les habitudes sont de petites choses à faire certains jours ; touchez une case pour cocher un jour. La flamme compte les jours d'affilée.",
+"pagehelp.notes": "Un carnet pour tout ce qui n'est ni un cours ni une tâche. Épinglez une note pour la garder en haut. Les listes peuvent être remises à zéro et réutilisées, ou dupliquées comme modèle.",
+"pagehelp.reflections": "Comment s'est passée la journée ? Choisissez un visage et écrivez quelques lignes ; c'est la même réflexion que dans Aujourd'hui. La tendance montre vos évaluations des 30 derniers jours. Les réflexions de cours viennent de vos plans de cours.",
+"pagehelp.time": "Notez vos heures de travail, à la main ou avec le minuteur (il continue même si vous fermez le planner). Le total de la semaine est comparé aux heures de contrat indiquées dans Réglages.",
+"pagehelp.growth": "Ateliers, formations et congrès suivis ou prévus. Les totaux de l'année scolaire aident pour le renouvellement de votre certification ; exportez-les en tableur.",
+"pagehelp.resources": "Les sites, vidéos, fiches et diaporamas que vous utilisez. Ajoutez des étiquettes, mettez des favoris et liez-les à une classe ou une unité pour les retrouver en préparant.",
+"pagehelp.links": "Les sites de l'école que vous ouvrez chaque jour. Épinglez les principaux pour les voir sur le tableau de bord. Pour votre sécurité, le planner n'enregistre jamais de mot de passe.",
+"pagehelp.supplies": "Comptez ce qu'il y a dans l'armoire avec − et +. Quand un article atteint son seuil, il va tout seul dans la liste de courses. Les listes de fournitures viennent du matériel de chaque classe.",
+"pagehelp.shopping": "Cochez un article quand vous l'achetez. Les articles de l'inventaire sont rajoutés au stock quand vous les cochez.",
+"pagehelp.budget": "Notez ce que vous dépensez pour votre classe. Cochez « Remboursable » pour ce que l'école vous rembourse, et marquez-le payé quand l'argent arrive. Le résumé montre les totaux par rapport à votre budget annuel.",
+"pagehelp.toolkit": "Des outils de classe pour le projecteur. Le plein écran masque le planner autour de l'outil. Le minuteur et le chronomètre continuent quand vous changez d'outil.",
+"pagehelp.reports": "Rapports pour la période en cours, prêts à imprimer ou à enregistrer en PDF. La banque de commentaires aide pour les bulletins : choisissez un élève, touchez des commentaires et copiez le résultat.",
+"form.add": "Ajouter",
+"settings.hours": "Heures de contrat par semaine",
+"settings.hoursHint": "Utilisées par Suivi du temps.",
+"settings.currency": "Devise",
+"settings.currencyCustom": "Autre (tapez votre symbole)",
+"settings.currencyOwn": "Votre symbole de devise",
+"search.kind.note": "Note",
+"search.kind.resource": "Ressource",
+"search.kind.link": "Lien",
+"search.kind.supply": "Fourniture",
+"quick.note": "Note",
+"quick.expense": "Dépense",
+"quick.time": "Temps",
+"quick.resource": "Ressource",
+"alert.lowStock": "{n} fournitures sont presque épuisées",
+"alert.lowStock.one": "{n} fourniture est presque épuisée",
+"alert.lowStockSub": "Dans votre liste de courses",
+"alert.habits": "Habitudes encore à cocher aujourd'hui",
+"goal.tab.goals": "Objectifs",
+"goal.tab.habits": "Habitudes",
+"goal.add": "Ajouter un objectif",
+"goal.edit": "Modifier l'objectif",
+"goal.added": "Objectif ajouté",
+"goal.saved": "Objectif enregistré",
+"goal.delete": "Supprimer cet objectif",
+"goal.deleted": "Objectif supprimé",
+"goal.title": "Objectif",
+"goal.titlePh": "Utiliser plus de billets de sortie",
+"goal.why": "Pourquoi c'est important",
+"goal.area": "Domaine",
+"goal.due": "D'ici le",
+"goal.dueOn": "d'ici le {when}",
+"goal.progress": "Progression (%)",
+"goal.progressHint": "Utilisée quand l'objectif n'a pas d'étapes.",
+"goal.steps": "Étapes",
+"goal.stepsPh": "Une étape par ligne",
+"goal.activeCount": "{n} objectifs en cours",
+"goal.activeCount.one": "{n} objectif en cours",
+"goal.none": "Pas encore d'objectif.",
+"garea.teaching": "Enseignement",
+"garea.students": "Élèves",
+"garea.growth": "Développement",
+"garea.wellbeing": "Bien-être",
+"garea.admin": "Organisation",
+"gstat.active": "En cours",
+"gstat.done": "Atteint",
+"gstat.paused": "En pause",
+"habit.add": "Ajouter une habitude",
+"habit.edit": "Modifier l'habitude",
+"habit.added": "Habitude ajoutée",
+"habit.saved": "Habitude enregistrée",
+"habit.delete": "Supprimer cette habitude",
+"habit.deleted": "Habitude supprimée",
+"habit.name": "Habitude",
+"habit.namePh": "Partir à 16 h 30",
+"habit.emoji": "Une petite image",
+"habit.days": "Quels jours",
+"habit.daysHint": "Laissez vide pour n'importe quel jour. La faire un autre jour compte quand même.",
+"habit.week": "Les 7 derniers jours",
+"habit.cell": "{name}, {day}",
+"habit.none": "Pas encore d'habitude.",
+"habit.todayCount": "{n} sur {total} faites aujourd'hui",
+"habit.noneToday": "Aucune habitude prévue aujourd'hui.",
+"habit.help": "Les cases en pointillés sont des jours où l'habitude n'est pas prévue, mais vous pouvez quand même les cocher. La plante pousse quand vous tenez le rythme sur la semaine (ou le mois), et fleurit quand vous atteignez l'objectif.",
+"note.add": "Nouvelle note",
+"note.addList": "Nouvelle liste",
+"note.edit": "Modifier la note",
+"note.added": "Enregistrée",
+"note.saved": "Enregistrée",
+"note.delete": "Supprimer",
+"note.deleted": "Supprimée",
+"note.title": "Titre",
+"note.body": "Note",
+"note.items": "Éléments de la liste",
+"note.itemsPh": "Un élément par ligne",
+"note.colour": "Couleur",
+"note.pin": "Épingler en haut",
+"note.unpin": "Désépingler",
+"note.empty": "Écrivez d'abord quelque chose.",
+"note.untitled": "Note",
+"note.untitledList": "Liste",
+"note.doneOf": "{n} sur {total} faits",
+"note.reset": "Tout décocher",
+"note.wasReset": "Liste remise à zéro",
+"note.duplicate": "Dupliquer",
+"note.duplicated": "Copie faite",
+"note.copyOf": "{name} (copie)",
+"note.search": "Rechercher dans les notes",
+"note.kind": "Type",
+"note.kind.note": "Notes",
+"note.kind.list": "Listes",
+"note.count": "{n} notes",
+"note.count.one": "{n} note",
+"note.none": "Pas encore de note.",
+"notehue.8": "Lilas", "notehue.1": "Rose", "notehue.3": "Pêche", "notehue.5": "Beurre", "notehue.7": "Menthe", "notehue.9": "Ciel", "notehue.11": "Lavande",
+"refl.tab.daily": "Quotidiennes",
+"refl.tab.lessons": "Cours",
+"refl.today": "Aujourd'hui",
+"refl.rating": "Comment s'est passée la journée ?",
+"refl.r1": "Journée pénible", "refl.r2": "Journée difficile", "refl.r3": "Journée correcte", "refl.r4": "Bonne journée", "refl.r5": "Excellente journée",
+"refl.prompt": "Qu'est-ce qui a bien marché ? Que changeriez-vous ?",
+"refl.ph": "Quelques lignes suffisent",
+"refl.trend": "30 derniers jours",
+"refl.trendFew": "Évaluez quelques jours pour voir une tendance.",
+"refl.avg": "Moyenne de {avg} sur 5 sur {n} jours",
+"refl.pastCount": "Réflexions précédentes ({n})",
+"refl.noLessons": "Pas encore de réflexion de cours. Écrivez-les sur un plan de cours après l'avoir donné.",
+"time.add": "Noter du temps",
+"time.edit": "Modifier le temps",
+"time.added": "{time} noté",
+"time.saved": "Temps enregistré",
+"time.delete": "Supprimer cette entrée",
+"time.deleted": "Entrée supprimée",
+"time.category": "Catégorie",
+"time.hours": "Heures",
+"time.mins": "Minutes",
+"time.note": "Ce que vous avez fait",
+"time.needTime": "Indiquez la durée.",
+"time.thisWeek": "Cette semaine",
+"time.ofContract": "sur {h} h",
+"time.over": "{time} au-delà de vos heures de contrat",
+"time.timer": "Minuteur",
+"time.start": "Démarrer",
+"time.stop": "Arrêter et noter",
+"time.discard": "Abandonner",
+"time.discarded": "Minuteur abandonné",
+"time.tooShort": "Moins d'une minute, non noté",
+"time.running": "En cours · {cat}",
+"time.timerHelp": "Continue même si vous fermez le planner.",
+"time.entries": "{n} entrées",
+"time.entries.one": "{n} entrée",
+"time.none": "Rien de noté cette semaine.",
+"time.contractHint": "Les heures de contrat et la devise sont dans",
+"tcat.teaching": "Enseignement", "tcat.planning": "Préparation", "tcat.grading": "Corrections", "tcat.meetings": "Réunions", "tcat.communication": "Courriels et appels", "tcat.admin": "Administratif", "tcat.duty": "Surveillances et clubs", "tcat.pd": "Formation", "tcat.other": "Autre",
+"pd.add": "Ajouter une formation",
+"pd.edit": "Modifier la formation",
+"pd.added": "Formation ajoutée",
+"pd.saved": "Formation enregistrée",
+"pd.delete": "Supprimer cette formation",
+"pd.deleted": "Formation supprimée",
+"pd.title": "Titre",
+"pd.titlePh": "Atelier sur la conception universelle de l'apprentissage",
+"pd.provider": "Organisme",
+"pd.type": "Type",
+"pd.hours": "Heures",
+"pd.hoursN": "{n} h",
+"pd.cost": "Coût",
+"pd.cert": "Attestation reçue",
+"pd.certShort": "attestation",
+"pd.takeaways": "À retenir",
+"pd.takePh": "Ce que vous allez essayer en classe",
+"pd.hoursYear": "Heures cette année scolaire",
+"pd.sessions": "Formations",
+"pd.spent": "Dépensé",
+"pd.export": "Exporter (CSV)",
+"pd.none": "Aucune formation notée pour l'instant.",
+"pdtype.workshop": "Atelier", "pdtype.course": "Cours", "pdtype.conference": "Congrès", "pdtype.coaching": "Accompagnement", "pdtype.webinar": "Webinaire", "pdtype.reading": "Livre ou article", "pdtype.other": "Autre",
+"pdstat.planned": "Prévue", "pdstat.done": "Faite",
+"res.add": "Ajouter une ressource",
+"res.edit": "Modifier la ressource",
+"res.added": "Ressource ajoutée",
+"res.saved": "Ressource enregistrée",
+"res.delete": "Supprimer cette ressource",
+"res.deleted": "Ressource supprimée",
+"res.title": "Titre",
+"res.url": "Adresse web",
+"res.badUrl": "Cette adresse web ne semble pas correcte.",
+"res.type": "Type",
+"res.tags": "Étiquettes",
+"res.tagsPh": "poésie, 9e année, travail de groupe",
+"res.allTags": "Toutes les étiquettes",
+"res.unit": "Unité",
+"res.noUnit": "Aucune unité",
+"res.favorite": "Favori",
+"res.favorites": "Favoris",
+"res.search": "Rechercher des ressources",
+"res.count": "{n} ressources",
+"res.count.one": "{n} ressource",
+"res.none": "Pas encore de ressource.",
+"restype.website": "Site web", "restype.video": "Vidéo", "restype.worksheet": "Fiche", "restype.slides": "Diaporama", "restype.document": "Document", "restype.game": "Jeu", "restype.other": "Autre",
+"link.add": "Ajouter un lien",
+"link.edit": "Modifier le lien",
+"link.added": "{name} ajouté",
+"link.saved": "Lien enregistré",
+"link.delete": "Supprimer ce lien",
+"link.deleted": "Lien supprimé",
+"link.title": "Nom",
+"link.group": "Groupe",
+"link.groupPh": "École, Conseil scolaire, Enseignement…",
+"link.pin": "Épingler au tableau de bord",
+"link.unpin": "Retirer du tableau de bord",
+"link.pinHelp": "📌 affiche un lien sur le tableau de bord.",
+"link.noPasswords": "Gardez vos mots de passe dans votre navigateur ou un gestionnaire de mots de passe, pas ici.",
+"link.search": "Rechercher des liens",
+"link.count": "{n} liens",
+"link.count.one": "{n} lien",
+"link.other": "Autres",
+"link.none": "Pas encore de lien.",
+"sup2.tab.inventory": "Inventaire",
+"sup2.tab.lists": "Listes de fournitures des élèves",
+"sup2.tab.wishlist": "Liste d'envies",
+"sup2.add": "Ajouter une fourniture",
+"sup2.edit": "Modifier la fourniture",
+"sup2.added": "{name} ajouté",
+"sup2.saved": "Fourniture enregistrée",
+"sup2.delete": "Supprimer cette fourniture",
+"sup2.deleted": "{name} supprimé",
+"sup2.name": "Article",
+"sup2.namePh": "Bâtons de colle",
+"sup2.qty": "Combien",
+"sup2.unit": "Unité",
+"sup2.unitPh": "boîtes, paquets…",
+"sup2.reorder": "Racheter à",
+"sup2.reorderHint": "À ce nombre ou moins, l'article va dans la liste de courses. 0 désactive.",
+"sup2.reorderAt": "racheter à {n}",
+"sup2.location": "Où",
+"sup2.locPh": "Armoire du fond",
+"sup2.low": "presque épuisé",
+"sup2.lowCount": "{n} articles sont presque épuisés et dans la liste de courses.",
+"sup2.lowCount.one": "{n} article est presque épuisé et dans la liste de courses.",
+"sup2.seeShopping": "Voir la liste de courses",
+"sup2.useOne": "Un de moins : {name}",
+"sup2.addOne": "Un de plus : {name}",
+"sup2.search": "Rechercher des fournitures",
+"sup2.none": "Pas encore de fourniture.",
+"sup2.listsHelp": "Ce que les élèves doivent apporter, par classe. Imprimez cette page pour les familles.",
+"sup2.listEmpty": "Pas encore de liste de fournitures.",
+"sup2.editList": "Modifier la liste",
+"sup2.listFor": "Liste de fournitures de {name}",
+"sup2.listPh": "Un article par ligne",
+"sup2.listSaved": "Liste de fournitures enregistrée",
+"wish.name": "Envie",
+"wish.namePh": "Quelque chose qui vous ferait plaisir pour votre classe",
+"wish.price": "Prix",
+"wish.url": "Lien",
+"wish.urlPh": "Lien (facultatif)",
+"wish.added": "Ajouté à la liste d'envies",
+"wish.got": "Obtenu : {name}",
+"wish.remove": "Retirer {name}",
+"wish.total": "{n} envies · {total}",
+"wish.none": "La liste d'envies est vide.",
+"shop.name": "Article",
+"shop.namePh": "Ajouter un article",
+"shop.qty": "Combien",
+"shop.store": "Magasin",
+"shop.anyStore": "N'importe quel magasin",
+"shop.bought": "Acheté : {name}",
+"shop.fromInventory": "de l'inventaire",
+"shop.count": "{n} articles à acheter",
+"shop.count.one": "{n} article à acheter",
+"shop.addLow": "Ajouter {n} fournitures presque épuisées",
+"shop.addLow.one": "Ajouter {n} fourniture presque épuisée",
+"shop.done": "Acheté",
+"shop.clearDone": "Effacer les articles achetés",
+"shop.none": "Rien à acheter.",
+"exp.tab.list": "Dépenses",
+"exp.tab.summary": "Résumé",
+"exp.add": "Ajouter une dépense",
+"exp.edit": "Modifier la dépense",
+"exp.added": "{amount} ajouté",
+"exp.saved": "Dépense enregistrée",
+"exp.delete": "Supprimer cette dépense",
+"exp.deleted": "Dépense supprimée",
+"exp.item": "Quoi",
+"exp.itemPh": "Papier à affiche et feutres",
+"exp.amount": "Montant",
+"exp.needAmount": "Indiquez le montant.",
+"exp.store": "Magasin",
+"exp.receipt": "J'ai gardé le reçu",
+"exp.receiptShort": "reçu",
+"exp.reimbursable": "L'école me rembourse",
+"exp.reimbursed": "Déjà remboursé",
+"exp.notesPh": "Où est le reçu, qui l'a approuvé…",
+"exp.toClaim": "à réclamer",
+"exp.paidBack": "remboursé",
+"exp.markPaid": "Remboursé",
+"exp.paidToast": "Marqué comme remboursé",
+"exp.spentYear": "Dépensé cette année scolaire",
+"exp.left": "Reste du budget",
+"exp.owed": "En attente de remboursement",
+"exp.owedChip": "À réclamer",
+"exp.budget": "Budget annuel",
+"exp.budgetAmount": "Budget ({cur})",
+"exp.budgetHint": "Ce que vous prévoyez de dépenser cette année scolaire. 0 désactive.",
+"exp.budgetSaved": "Budget enregistré",
+"exp.byCat": "Par catégorie",
+"exp.byMonth": "Par mois",
+"exp.none": "Pas encore de dépense.",
+"ecat.supplies": "Fournitures", "ecat.books": "Livres", "ecat.tech": "Technologie", "ecat.decor": "Décoration", "ecat.snacks": "Collations", "ecat.rewards": "Récompenses", "ecat.printing": "Impression", "ecat.pd": "Formation", "ecat.other": "Autre",
+"tool.timer": "Minuteur", "tool.stopwatch": "Chronomètre", "tool.picker": "Tirage au sort", "tool.groups": "Groupes", "tool.noise": "Sonomètre", "tool.points": "Points",
+"tool.fullscreen": "Plein écran",
+"tool.exitFull": "Quitter le plein écran",
+"tool.start": "Démarrer",
+"tool.pause": "Pause",
+"tool.reset": "Remettre à zéro",
+"tool.stop": "Arrêter",
+"tool.lap": "Tour",
+"tool.min": "{n} min",
+"tool.minus": "Moins",
+"tool.plus": "Plus",
+"tool.pick": "Tirer un élève",
+"tool.startOver": "Recommencer",
+"tool.pickLeft": "{n} sur {total} pas encore tirés",
+"tool.absentToday": "Laisser de côté les élèves absents",
+"tool.gmode.size": "Élèves par groupe",
+"tool.gmode.count": "Nombre de groupes",
+"tool.makeGroups": "Faire les groupes",
+"tool.again": "Mélanger à nouveau",
+"tool.groupN": "Groupe {n}",
+"tool.groupHint": "{n} élèves. Choisissez une taille et faites les groupes ; les paires à séparer du plan de classe vont dans des groupes différents.",
+"tool.listen": "Commencer l'écoute",
+"tool.limit": "Trop fort à",
+"tool.noiseLabel": "Niveau sonore",
+"tool.noiseHelp": "Utilise le micro seulement pendant l'écoute. Rien n'est enregistré ni gardé.",
+"tool.noMic": "Le micro n'est pas disponible. Autorisez-le dans votre navigateur pour utiliser le sonomètre.",
+"tool.addTeam": "Ajouter une équipe",
+"tool.teamN": "Équipe {n}",
+"tool.teamName": "Nom de l'équipe",
+"tool.plusPoint": "{n} points pour {name}",
+"tool.minusPoint": "{n} points de moins pour {name}",
+"tool.removeTeam": "Retirer {name}",
+"tool.resetScores": "Remettre les scores à zéro",
+"tool.noTeams": "Ajoutez des équipes pour compter les points.",
+"rep.tab.class": "Rapport de classe",
+"rep.tab.attendance": "Présences",
+"rep.tab.missing": "Travaux manquants",
+"rep.tab.comments": "Banque de commentaires",
+"rep.print": "Imprimer ou enregistrer en PDF",
+"rep.avg": "Moyenne",
+"rep.avgTerm": "Moyenne · {term}",
+"rep.dist": "Répartition des notes",
+"rep.studentsN": "{n} élèves",
+"rep.studentsN.one": "{n} élève",
+"rep.watch": "Sous la note de passage",
+"rep.noWatch": "Tout le monde est au-dessus de la note de passage.",
+"rep.assignments": "Travaux",
+"rep.graded": "{n}/{total} corrigés",
+"rep.noAssign": "Aucun travail sur cette période.",
+"rep.studentList": "Élèves",
+"rep.byWeek": "Taux de présence par semaine",
+"rep.weekOf": "Semaine du {day}",
+"rep.lowAtt": "Présence sous 90 %",
+"rep.noLowAtt": "Tout le monde est à 90 % ou plus.",
+"rep.absLate": "{a} absences · {l} retards",
+"rep.missingCount": "{n} travaux manquants",
+"rep.missingCount.one": "{n} travail manquant",
+"cmt.add": "Ajouter un commentaire",
+"cmt.edit": "Modifier le commentaire",
+"cmt.added": "Commentaire ajouté",
+"cmt.saved": "Commentaire enregistré",
+"cmt.delete": "Supprimer ce commentaire",
+"cmt.deleted": "Commentaire supprimé",
+"cmt.text": "Commentaire",
+"cmt.ph": "{first} partage ses idées avec assurance lors des discussions en classe.",
+"cmt.help": "Utilisez {first} pour le prénom et {name} pour le nom complet.",
+"cmt.needText": "Écrivez d'abord le commentaire.",
+"cmt.draft": "Commentaire de bulletin",
+"cmt.draftFor": "Commentaire pour {name}",
+"cmt.pickHint": "Touchez + sur les commentaires ci-dessous pour composer le commentaire.",
+"cmt.use": "Utiliser ce commentaire",
+"cmt.none": "Pas encore de commentaire.",
+"ccat.strength": "Points forts", "ccat.growth": "Prochaines étapes", "ccat.effort": "Effort", "ccat.behavior": "Comportement", "ccat.closing": "Conclusion",
+"mail.title": "Écrire un courriel",
+"mail.to": "À : {to}",
+"mail.via.gmail": "Gmail",
+"mail.via.outlook": "Outlook (compte de l'école ou professionnel)",
+"mail.via.app": "Application de courriel de cet ordinateur",
+"mail.via.ask": "Demander à chaque fois",
+"mail.remember": "Toujours utiliser ceci (modifiable dans Réglages)",
+"mail.remembered": "Les courriels s'ouvriront là désormais.",
+"mail.copy": "Copier seulement l'adresse",
+"settings.emailVia": "Les courriels s'ouvrent dans",
+"students.sortBy": "Trier par",
+"students.sort.last": "Nom",
+"students.sort.first": "Prénom",
+"students.sort.low": "Résultat (le plus bas d'abord)",
+"students.sort.high": "Résultat (le plus haut d'abord)",
+"students.sort.class": "Classe",
+"student.tabs": "Parties du dossier de l'élève",
+"student.tab.file": "Dossier de l'élève",
+"shop.cleared": "{n} articles achetés effacés.",
+"shop.cleared.one": "{n} article acheté effacé.",
+"habit.often": "À quelle fréquence",
+"habit.often.day": "Tous les jours",
+"habit.often.weekdays": "Chaque jour de semaine",
+"habit.often.week1": "Une fois par semaine",
+"habit.often.week": "{n} fois par semaine",
+"habit.often.month1": "Une fois par mois",
+"habit.often.month": "{n} fois par mois",
+"habit.progress": "Jusqu'ici",
+"habit.soFar.week": "{done} sur {n} cette semaine",
+"habit.soFar.month": "{done} sur {n} ce mois-ci",
+"habit.plant": "Ce qui pousse à côté",
+"habit.plant.tree": "Arbre",
+"habit.plant.flower": "Fleur",
+"habit.plant.sunflower": "Tournesol",
+"habit.plant.tulip": "Tulipe",
+"habit.plant.plant": "Plante",
+"habit.plant.cactus": "Cactus",
+"habit.plantLabel": "{plant} : {stage} ({done} sur {n})",
+"habit.stage.seed": "une graine, qui attend la première fois",
+"habit.stage.sprout": "une petite pousse",
+"habit.stage.leafy": "des feuilles poussent",
+"habit.stage.grown": "bien poussé",
+"habit.stage.bloom": "en pleine floraison",
+"emoji.own": "Ou tapez le vôtre",
+"emoji.placeholder": "Coller",
+"emoji.ownHint": "N'importe quel émoji. Sur téléphone, utilisez la touche émoji du clavier ; sur ordinateur, appuyez sur Windows + . pour ouvrir le panneau des émojis.",
+"goal.toTask": "Tâche",
+"goal.toTaskName": "Ajouter « {name} » aux tâches",
+"goal.inTasks": "Dans les tâches",
+"goal.toTasksAll": "Ajouter les {n} étapes ouvertes aux tâches",
+"goal.toTasksDone": "{n} étapes ajoutées aux tâches.",
+"goal.toTasksDone.one": "{n} étape ajoutée aux tâches.",
+"tool.hours": "{h} h",
+"tool.hMin": "{h} h {m}",
+"tool.custom": "Votre propre durée :",
+"tool.h": "h",
+"tool.m": "min",
+"tool.s": "s",
+"tool.set": "Régler",
+"tool.needTime": "Indiquez d'abord une durée.",
+"tool.groupsCount": "{n} groupes",
+"tool.groupsCount.one": "{n} groupe",
+"tool.savePng": "Enregistrer en PNG",
+"tool.savePdf": "Enregistrer en PDF",
+"tool.step": "Points par toucher :",
+"tool.stepOwn": "ou",
+"tool.scoresReset": "Scores remis à 0.",
+"tool.resetTeams": "Retirer les équipes",
+"tool.teamsReset": "Toutes les équipes sont retirées.",
+"link.noGroup": "Sans groupe",
+"link.newGroup": "Nouveau groupe…",
+"link.groupNew": "Nom du nouveau groupe",
+"sup2.printWhich": "Imprimer :",
+"sup2.listHint": "Un article par ligne (les virgules marchent aussi).",
+"shop.removed": "{name} retiré.",
+"shop.goSupplies": "Aller aux fournitures",
+"exp.xlsx": "Exporter (Excel .xlsx)",
+"tool.sounds": "Sons",
+"tool.soundEnd": "À la fin :",
+"tool.soundWarn": "Petit rappel avant la fin :",
+"tool.sound.chime": "Carillon doux",
+"tool.sound.bell": "Cloche légère",
+"tool.sound.beep": "Bip",
+"tool.sound.off": "Sans son",
+"tool.secN": "{n} s",
+"tool.soundHelp": "Touchez un son pour l'écouter. Les rappels jouent une fois un son doux à deux notes.",
+"back.to": "Retour à {page}",
+"grade.phoneShow": "Afficher",
+"att.presentEveryDay": "Présent tous les jours",
+"grade.phoneAverages": "Moyennes (tous les élèves)",
+"unit.lessonsN": "{n} cours",
+"unit.lessonsN.one": "{n} cours",
+"unit.notTaught": "Pas encore enseignée",
+"unit.coverageHelpPhone": "Sous chaque attente : les unités qui la couvrent. Cours compte les plans de cours qui la nomment.",
+"unit.inNoUnit": "Dans aucune unité pour l'instant",
+"staff.noDeptPick": "Sans service",
+"staff.newDept": "Nouveau service…",
+"staff.newDeptName": "Nom du nouveau service",
+"fam.noGuardian": "Non indiqué",
+"fam.otherGuardian": "Quelqu'un d'autre…",
+"fam.guardianName": "Avec qui vous avez parlé",
+"shop.newStore": "Nouveau magasin…",
 };
 const STRINGS = {
 'app.name': 'Teacher Planner',
@@ -4049,6 +5907,7 @@ const STRINGS = {
 'settings.scaleLetter': 'Letter',
 'settings.scaleMin': 'Lowest percentage for {letter}',
 'settings.from': 'from',
+'look.lang': 'Language',
 'look.theme': 'Light or dark',
 'look.theme.dark': 'Dark',
 'look.theme.light': 'Light',
@@ -4126,17 +5985,39 @@ const STRINGS = {
 'soon.reports': 'Class and student reports, grade distribution, attendance by week, missing work\nReport-card comment bank\nPrint or save as PDF',
 };
 Object.assign(STRINGS, PLANNER_STRINGS, SCHOOL_STRINGS, MYWORK_STRINGS);
+const FRENCH = Object.assign({}, FR_STRINGS, FR_PLANNER_STRINGS, FR_SCHOOL_STRINGS, FR_MYWORK_STRINGS);
+const LANGS = ['en', 'fr'];
+let lang = 'en';
+function setLang(next) {
+lang = next === 'fr' ? 'fr' : 'en';
+if (typeof document !== 'undefined') document.documentElement.lang = lang;
+}
+const getLang = () => lang;
+const own = (table, key) => Object.prototype.hasOwnProperty.call(table, key);
+const lookup = (key) => (lang === 'fr' && own(FRENCH, key) ? FRENCH[key] : own(STRINGS, key) ? STRINGS[key] : null);
+function num(n, digits = 1) {
+if (typeof n !== 'number' || !Number.isFinite(n)) return String(n);
+const text = Number.isInteger(n) ? String(n) : String(Number(n.toFixed(digits)));
+return lang === 'fr' ? text.replace('.', ',') : text;
+}
+function pctText(n, digits = 1) {
+return lang === 'fr' ? `${num(n, digits)}\u00a0%` : `${num(n, digits)}%`;
+}
 function t(key, vars = {}) {
-const text = Object.prototype.hasOwnProperty.call(STRINGS, key) ? STRINGS[key] : key;
-return text.replace(/\{(\w+)\}/g, (all, name) => (name in vars ? String(vars[name]) : all));
+const text = lookup(key);
+if (text === null) return key;
+const out = text.replace(/\{(\w+)\}/g, (all, name) => (name in vars ? (typeof vars[name] === 'number' ? num(vars[name], 2) : String(vars[name])) : all));
+return lang === 'fr' ? out.replace(/([a-zéû])\.\.(?!\.)/g, '$1.') : out;
 }
 function tn(key, n, vars = {}) {
 const one = `${key}.one`;
-return t(n === 1 && Object.prototype.hasOwnProperty.call(STRINGS, one) ? one : key, { n, ...vars });
+const single = n === 1 || (lang === 'fr' && n === 0);
+return t(single && lookup(one) !== null ? one : key, { n, ...vars });
 }
 function hasString(key) {
-return Object.prototype.hasOwnProperty.call(STRINGS, key);
+return lookup(key) !== null;
 }
+const STRING_TABLES = { en: STRINGS, fr: FRENCH };
 const pad = (n) => String(n).padStart(2, '0');
 function todayFrom(date = new Date()) {
 return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
@@ -4154,36 +6035,47 @@ if (!a || !b) return 0;
 a.setHours(12); b.setHours(12);
 return Math.round((b - a) / 86400000);
 }
-const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const DAYS_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const MONTHS_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const DAYS_FR = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+const MONTHS_FR = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+const DAYS_FR_SHORT = ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'];
+const MONTHS_FR_SHORT = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+let calLang = 'en';
+function setCalLang(lang) { calLang = lang === 'fr' ? 'fr' : 'en'; }
+const fr = () => calLang === 'fr';
+const dayWord = (i, short) => (fr() ? (short ? DAYS_FR_SHORT : DAYS_FR)[i] : short ? DAYS_EN[i].slice(0, 3) : DAYS_EN[i]);
+const monthWord = (i, short) => (fr() ? (short ? MONTHS_FR_SHORT : MONTHS_FR)[i] : short ? MONTHS_EN[i].slice(0, 3) : MONTHS_EN[i]);
 let dateStyle = 'mdy';
 const DATE_STYLES = ['mdy', 'dmy'];
 function setDateStyle(style) { dateStyle = DATE_STYLES.includes(style) ? style : 'mdy'; }
-const getDateStyle = () => dateStyle;
+const getDateStyle = () => (fr() ? 'dmy' : dateStyle);
+const dmy = () => fr() || dateStyle === 'dmy';
 function dayMonth(day, short = false) {
 const d = parseDay(day);
 if (!d) return '';
-const m = short ? MONTHS[d.getMonth()].slice(0, 3) : MONTHS[d.getMonth()];
-return dateStyle === 'dmy' ? `${d.getDate()} ${m}` : `${m} ${d.getDate()}`;
+const m = monthWord(d.getMonth(), short);
+if (fr()) return `${d.getDate() === 1 ? '1er' : d.getDate()} ${m}`;
+return dmy() ? `${d.getDate()} ${m}` : `${m} ${d.getDate()}`;
 }
 function longDate(day, short = false) {
 const d = parseDay(day);
 if (!d) return '';
-const w = short ? DAYS[d.getDay()].slice(0, 3) : DAYS[d.getDay()];
-return `${w}${dateStyle === 'dmy' ? '' : ','} ${dayMonth(day, short)}`;
+return `${dayWord(d.getDay(), short)}${dmy() ? '' : ','} ${dayMonth(day, short)}`;
 }
 function weekdayDate(day, short = false) {
 const d = parseDay(day);
 if (!d) return '';
-return `${short ? DAYS[d.getDay()].slice(0, 3) : DAYS[d.getDay()]} ${d.getDate()}`;
+return `${dayWord(d.getDay(), short)} ${d.getDate()}`;
 }
+function dayName(i, short = false) { return dayWord(((i % 7) + 7) % 7, short); }
 function monthName(day) {
 const d = parseDay(day);
-return d ? MONTHS[d.getMonth()] : '';
+return d ? monthWord(d.getMonth(), false) : '';
 }
 function monthYear(day) {
 const d = parseDay(day);
-return d ? `${MONTHS[d.getMonth()]} ${d.getFullYear()}` : '';
+return d ? `${monthWord(d.getMonth(), false)} ${d.getFullYear()}` : '';
 }
 function dateRange(from, to, short = true, joiner = ' – ') {
 const a = parseDay(from);
@@ -4191,8 +6083,9 @@ const b = parseDay(to);
 if (!a) return '';
 if (!b || from === to) return dayMonth(from, short);
 if (a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear()) {
-const m = short ? MONTHS[a.getMonth()].slice(0, 3) : MONTHS[a.getMonth()];
-return dateStyle === 'dmy' ? `${a.getDate()}${joiner}${b.getDate()} ${m}` : `${m} ${a.getDate()}${joiner}${b.getDate()}`;
+const m = monthWord(a.getMonth(), short);
+const first = fr() && a.getDate() === 1 ? '1er' : a.getDate();
+return dmy() ? `${first}${joiner}${b.getDate()} ${m}` : `${m} ${a.getDate()}${joiner}${b.getDate()}`;
 }
 return `${dayMonth(from, short)}${joiner}${dayMonth(to, short)}`;
 }
@@ -4230,6 +6123,7 @@ const mins = minutesOf(time);
 if (mins === null) return '';
 const h = Math.floor(mins / 60);
 const m = mins % 60;
+if (fr()) return m ? `${h}\u00a0h\u00a0${String(m).padStart(2, '0')}` : `${h}\u00a0h`;
 if (clockStyle === '24') return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
 const h12 = h % 12 === 0 ? 12 : h % 12;
 return `${h12}${m ? `:${String(m).padStart(2, '0')}` : ''} ${h < 12 ? 'am' : 'pm'}`;
@@ -4243,12 +6137,12 @@ return m ? `${h} h ${m} min` : `${h} h`;
 }
 function relativeDay(day, today) {
 const diff = daysBetween(today, day);
-if (diff === 0) return 'today';
-if (diff === 1) return 'tomorrow';
-if (diff === -1) return 'yesterday';
+if (diff === 0) return fr() ? 'aujourd\'hui' : 'today';
+if (diff === 1) return fr() ? 'demain' : 'tomorrow';
+if (diff === -1) return fr() ? 'hier' : 'yesterday';
 const d = parseDay(day);
 if (!d) return '';
-if (diff > 1 && diff < 7) return DAYS[d.getDay()];
+if (diff > 1 && diff < 7) return dayWord(d.getDay(), false);
 return longDate(day, true);
 }
 const padS = (n) => String(n).padStart(2, '0');
@@ -4633,6 +6527,10 @@ n = Math.random().toString(36).slice(2, 12);
 }
 return prefix ? `${prefix}_${n}` : n;
 }
+function browserLang() {
+const nav = typeof navigator !== 'undefined' ? navigator : null;
+return nav && /^fr\b/i.test(nav.language || '') ? 'fr' : 'en';
+}
 function createState({ buildId = 'dev', today = todayFrom() } = {}) {
 const year = defaultSchoolYear(today);
 return {
@@ -4651,6 +6549,7 @@ font: 'standard',
 reduceMotion: false,
 showHelp: true,
 navCollapsed: [],
+lang: browserLang(),
 dateStyle: 'mdy',
 clock: '12',
 currency: '$',
@@ -4726,6 +6625,7 @@ if (!SIZES.includes(s.size)) s.size = 'default';
 s.font = s.font === 'dyslexic' ? 'dyslexic' : 'standard';
 s.showHelp = s.showHelp !== false;
 s.reduceMotion = !!s.reduceMotion;
+s.lang = s.lang === 'fr' ? 'fr' : s.lang === 'en' ? 'en' : browserLang();
 s.dateStyle = s.dateStyle === 'dmy' ? 'dmy' : 'mdy';
 s.clock = s.clock === '24' ? '24' : '12';
 s.name = str(s.name, 40);
@@ -5080,6 +6980,24 @@ el('span', { text: t(`look.palette.${v}`) }),
 ]))),
 ]);
 }
+function pinboard(grid) {
+const fit = () => {
+const cs = getComputedStyle(grid);
+const unit = parseFloat(cs.gridAutoRows) || 4;
+const gap = parseFloat(cs.columnGap) || 0;
+for (const card of grid.children) {
+card.style.gridRowEnd = 'auto';
+card.style.gridRowEnd = `span ${Math.max(1, Math.ceil((card.getBoundingClientRect().height + gap) / unit))}`;
+}
+};
+if (typeof ResizeObserver === 'function') {
+const ro = new ResizeObserver(() => requestAnimationFrame(fit));
+ro.observe(grid);
+for (const card of grid.children) ro.observe(card);
+}
+requestAnimationFrame(fit);
+return grid;
+}
 function demoItemCount(value) {
 if (Array.isArray(value)) return value.reduce((n, v) => n + demoItemCount(v), 0);
 if (!value || typeof value !== 'object') return 0;
@@ -5101,6 +7019,10 @@ const url = ctx.config.buyUrl;
 return el('div', { class: `card demobar${full ? ' demobar--full' : ''}`, id: 'demo-bar', role: 'note' }, [
 el('p', { text: full ? t('demo.full', { n: limit }) : t('demo.lede', { n: limit - used }) }),
 url ? el('p', {}, [el('a', { href: url, target: '_blank', rel: 'noopener', id: 'demo-buy', text: t('demo.buy') })]) : null,
+el('div', { class: 'row wrap demobar__lang', role: 'group', 'aria-label': 'Language · Langue' }, [['en', 'English'], ['fr', 'Français']].map(([lang, label]) => el('button', {
+class: `tapchip tapchip--small${ctx.state.settings.lang === lang ? ' is-on' : ''}`, type: 'button', id: `demo-lang-${lang}`, lang,
+'aria-pressed': String(ctx.state.settings.lang === lang), text: label, onClick: () => ctx.switchLang(lang),
+}))),
 ]);
 }
 function demoLimitToast(ctx) {
@@ -5143,6 +7065,444 @@ el('button', { class: 'btn btn--quiet btn--small', type: 'button', id: 'install-
 ]),
 ]);
 }
+const EXAMPLE_FR = {
+"Ms. Rivera": "Mme Rivera",
+"Maple Grove High School": "École secondaire des Érables",
+"Semester 1": "Semestre 1",
+"Semester 2": "Semestre 2",
+"English": "Français",
+"Quiet reading for the first 10 minutes every day.": "Lecture silencieuse les 10 premières minutes, tous les jours.",
+"Unit 1: Short stories. Unit 2: Poetry. Unit 3: Romeo and Juliet. Unit 4: Persuasive writing.": "Unité 1 : nouvelles. Unité 2 : poésie. Unité 3 : Roméo et Juliette. Unité 4 : texte argumentatif.",
+"Binder\nLined paper\nTwo pens\nA highlighter\nIndependent reading book": "Classeur\nFeuilles lignées\nDeux stylos\nUn surligneur\nUn livre de lecture personnelle",
+"English 9": "Français 9",
+"Wednesdays in the library for research and reading.": "Le mercredi à la bibliothèque pour la recherche et la lecture.",
+"Unit 1: Personal essay. Unit 2: Of Mice and Men. Unit 3: Media literacy. Unit 4: Research project.": "Unité 1 : récit personnel. Unité 2 : Des souris et des hommes. Unité 3 : éducation aux médias. Unité 4 : projet de recherche.",
+"Binder\nLaptop\nNovel (provided)": "Classeur\nOrdinateur portable\nRoman (fourni)",
+"English 10": "Français 10",
+"Library": "Bibliothèque",
+"Creative Writing": "Écriture créative",
+"Workshop circles of four.": "Cercles d'atelier de quatre.",
+"Fiction, poetry and personal narrative workshops, ending in a class anthology.": "Ateliers de fiction, de poésie et de récit personnel, qui aboutissent à une anthologie de la classe.",
+"Writer's notebook\nPen": "Carnet d'écriture\nStylo",
+"Creative Writing 11": "Écriture créative 11",
+"Hall duty": "Surveillance du couloir",
+"Lunch": "Dîner",
+"Planning period": "Temps de préparation",
+"Mother": "Mère",
+"Father": "Père",
+"Strong reader": "Grand lecteur",
+"Asks thoughtful questions": "Pose des questions réfléchies",
+"Extra time on tests (time and a half); seat near the front": "Temps supplémentaire aux contrôles (temps et demi) ; place près de l'avant",
+"Creative ideas": "Idées créatives",
+"Needs reminders to hand work in": "A besoin de rappels pour rendre ses travaux",
+"Building confidence speaking in class": "Prend de l'assurance pour parler en classe",
+"Peanut allergy (EpiPen in the office)": "Allergie aux arachides (EpiPen au secrétariat)",
+"Neat, organised work": "Travail soigné et organisé",
+"Audio version of texts": "Version audio des textes",
+"Great at group work": "Excellent en travail de groupe",
+"Asthma: inhaler in backpack": "Asthme : inhalateur dans le sac à dos",
+"Kind to classmates": "Gentil avec ses camarades",
+"Homework": "Devoirs",
+"Quizzes": "Quiz",
+"Tests": "Contrôles",
+"Projects": "Projets",
+"Writing assignments": "Travaux d'écriture",
+"Portfolio": "Portfolio",
+"Extra credit": "Points bonus",
+"Reading log, week 1": "Journal de lecture, semaine 1",
+"Short story vocabulary quiz": "Quiz de vocabulaire de la nouvelle",
+"Plot diagram": "Schéma narratif",
+"Short stories unit test": "Contrôle de l'unité sur les nouvelles",
+"Metaphor vs simile was weak (question 4). Mini-lesson Monday; small group with Liam, Ava and Owen.": "Métaphore et comparaison mal maîtrisées (question 4). Mini-leçon lundi ; petit groupe avec Liam, Ava et Owen.",
+"Poetry quiz": "Quiz de poésie",
+"Choose a page from your short story and black out words to make a poem. Add a 100-word reflection.": "Choisissez une page de votre nouvelle et noircissez des mots pour en faire un poème. Ajoutez une réflexion de 100 mots.",
+"Found poem": "Poème trouvé",
+"Poetry unit test": "Contrôle de l'unité de poésie",
+"Personal essay draft": "Brouillon du récit personnel",
+"Personal essay": "Récit personnel",
+"Chapters 1 to 3 quiz": "Quiz des chapitres 1 à 3",
+"Character map": "Carte des personnages",
+"Chapters 4 to 6 quiz": "Quiz des chapitres 4 à 6",
+"Novel test": "Contrôle sur le roman",
+"Flash fiction": "Micronouvelle",
+"Poem sequence": "Suite de poèmes",
+"Portfolio check-in": "Point sur le portfolio",
+"Open mic reading": "Lecture à micro ouvert",
+"Personal narrative": "Récit de vie",
+"Start of class routine": "Routine de début de cours",
+"1. Bell work on the board\n2. Phones in the caddy\n3. Silent reading 10 min\n4. Attendance while they read": "1. Activité d'entrée au tableau\n2. Téléphones dans le bac\n3. Lecture silencieuse 10 min\n4. Présences pendant la lecture",
+"Before a field trip": "Avant une sortie",
+"Book the bus": "Réserver l'autobus",
+"Permission slips out": "Distribuer les autorisations",
+"Medical forms copied": "Photocopier les fiches médicales",
+"Chaperones confirmed": "Confirmer les accompagnateurs",
+"Email the office the list": "Envoyer la liste au secrétariat",
+"Book ideas for next year": "Idées de livres pour l'an prochain",
+"The Crossover (Kwame Alexander)\nPiecing Me Together\nA Long Walk to Water": "Le Petit Prince (Saint-Exupéry)\nNo et moi (Delphine de Vigan)\nL'Ami retrouvé (Fred Uhlman)",
+"End of term": "Fin de période",
+"Enter final grades": "Saisir les notes finales",
+"Write report card comments": "Écrire les commentaires des bulletins",
+"Return all textbooks": "Récupérer tous les manuels",
+"Sound devices: rhyme, rhythm and repetition": "Les sonorités : rime, rythme et répétition",
+"Students will be able to explain how a poet's choice of words creates meaning.": "Les élèves seront capables d'expliquer comment le choix des mots d'un poète crée du sens.",
+"Poetry packet, highlighters, slides": "Dossier de poésie, surligneurs, diaporama",
+"Quiet reading (10 minutes), then a quick-write on the board prompt.": "Lecture silencieuse (10 minutes), puis écriture rapide sur la consigne au tableau.",
+"Model with one example on the board, thinking aloud. Students try a second example in pairs.": "Modeler un exemple au tableau en pensant à voix haute. Les élèves essaient un deuxième exemple en paires.",
+"Small groups work through the handout; I check in with each group.": "Les petits groupes font la fiche ; je passe voir chaque groupe.",
+"Exit ticket: one thing learned, one question.": "Billet de sortie : une chose apprise, une question.",
+"Sentence starters for students who need them; extension question for early finishers. Audio version for Isla.": "Débuts de phrases pour les élèves qui en ont besoin ; question d'approfondissement pour ceux qui finissent tôt. Version audio pour Isla.",
+"Cold-call three students during modelling; read exit tickets before next class.": "Interroger trois élèves au hasard pendant le modelage ; lire les billets de sortie avant le prochain cours.",
+"Finish the handout.": "Terminer la fiche.",
+"Went well. The pair work ran long; give 5 minutes less next time.": "Ça s'est bien passé. Le travail en paires a débordé ; prévoir 5 minutes de moins la prochaine fois.",
+"Imagery: painting with words": "Les images : peindre avec les mots",
+"Metaphor and simile": "Métaphore et comparaison",
+"Reading \"The Road Not Taken\" closely": "Lecture approfondie de « Demain, dès l'aube »",
+"Poetry quiz review game": "Jeu de révision du quiz de poésie",
+"Found poem workshop": "Atelier de poème trouvé",
+"Found poem gallery walk": "Galerie des poèmes trouvés",
+"Sonnets: form and turn": "Le sonnet : forme et chute",
+"Free verse": "Le vers libre",
+"Poetry café prep": "Préparation du café poésie",
+"Poetry unit test review": "Révision du contrôle de poésie",
+"Chapters 4 to 6 discussion": "Discussion des chapitres 4 à 6",
+"Students will be able to support a claim about the novel with quoted evidence.": "Les élèves seront capables d'appuyer une affirmation sur le roman par des citations.",
+"Novel, sticky notes, discussion question sheet": "Roman, papillons adhésifs, fiche de questions de discussion",
+"Read the next chapter and note two quotes.": "Lire le chapitre suivant et relever deux citations.",
+"Crooks and loneliness": "Crooks et la solitude",
+"Foreshadowing: Candy's dog": "L'annonce : le chien de Candy",
+"Socratic seminar: the American Dream": "Cercle socratique : le rêve américain",
+"Chapter 6 close reading": "Lecture approfondie du chapitre 6",
+"Argument writing: claims and evidence": "Écrire pour argumenter : thèse et preuves",
+"Novel test review": "Révision du contrôle sur le roman",
+"Drafting the argument paragraph": "Rédiger le paragraphe argumentatif",
+"Peer review": "Relecture entre pairs",
+"Memory mapping": "Carte des souvenirs",
+"Students will be able to draft and share a scene from memory.": "Les élèves seront capables d'écrire et de partager une scène tirée d'un souvenir.",
+"Writer's notebook, timer": "Carnet d'écriture, minuteur",
+"Write 300 words in your notebook.": "Écrire 300 mots dans votre carnet.",
+"Opening lines that hook": "Des premières phrases qui accrochent",
+"Showing, not telling": "Montrer plutôt que dire",
+"Workshop circles: first drafts": "Cercles d'atelier : premiers jets",
+"Revision stations": "Ateliers de révision",
+"Socratic seminar": "Cercle socratique",
+"Students will discuss an open question using evidence from the text.": "Les élèves discuteront d'une question ouverte en s'appuyant sur le texte.",
+"Question sheet, text, talking chips": "Fiche de questions, texte, jetons de parole",
+"Students mark three passages to bring up.": "Les élèves repèrent trois passages à proposer.",
+"Review the norms: build on others, cite the text, invite quiet voices in.": "Revoir les règles : rebondir sur les autres, citer le texte, inviter les plus discrets à parler.",
+"Inner circle discusses (15 minutes), outer circle tracks; then swap.": "Le cercle intérieur discute (15 minutes), le cercle extérieur observe ; puis on échange.",
+"Each student writes how their thinking changed.": "Chaque élève écrit comment sa réflexion a évolué.",
+"Question stems on the desk cards.": "Débuts de questions sur les cartes des pupitres.",
+"Tracking sheet of who spoke and what they cited.": "Grille de suivi : qui a parlé et ce qui a été cité.",
+"Writing workshop": "Atelier d'écriture",
+"Students will give and use specific feedback on a draft.": "Les élèves donneront et utiliseront des commentaires précis sur un brouillon.",
+"Drafts (two copies), feedback forms": "Brouillons (deux copies), fiches de commentaires",
+"Read your draft aloud to yourself and mark one place you are unsure of.": "Lisez votre brouillon à voix basse et marquez un endroit dont vous n'êtes pas sûr.",
+"Model warm and cool feedback on a sample paragraph.": "Modeler des commentaires positifs et constructifs sur un paragraphe exemple.",
+"Circles of four: each writer reads, listens, takes notes without replying.": "Cercles de quatre : chaque auteur lit, écoute et prend des notes sans répondre.",
+"Write your revision plan in three bullet points.": "Écrivez votre plan de révision en trois points.",
+"Collect revision plans.": "Ramasser les plans de révision.",
+"Revise using your plan.": "Réviser en suivant votre plan.",
+"Short stories": "Les nouvelles",
+"Writers make choices about plot and character to reveal a theme.": "Les auteurs font des choix d'intrigue et de personnages pour révéler un thème.",
+"How does conflict shape a character?\nWhat makes a story stay with us?": "Comment un conflit façonne-t-il un personnage ?\nQu'est-ce qui fait qu'une histoire nous reste ?",
+"Identify plot structure, analyse character development, state a theme in a sentence.": "Repérer la structure de l'intrigue, analyser l'évolution d'un personnage, énoncer un thème en une phrase.",
+"Short stories unit test; plot diagram.": "Contrôle de l'unité sur les nouvelles ; schéma narratif.",
+"Poetry": "La poésie",
+"Poets use sound, image and form to make meaning in very few words.": "Les poètes utilisent le son, l'image et la forme pour créer du sens en très peu de mots.",
+"Why do poets break the rules of language?\nHow can an image carry a feeling?": "Pourquoi les poètes enfreignent-ils les règles de la langue ?\nComment une image peut-elle porter un sentiment ?",
+"Name and explain figurative language, read a poem aloud with expression, write a found poem.": "Nommer et expliquer les figures de style, lire un poème à voix haute avec expression, écrire un poème trouvé.",
+"Poetry quiz, found poem (rubric), poetry unit test.": "Quiz de poésie, poème trouvé (grille), contrôle de l'unité de poésie.",
+"Book the library for the poetry café on the last Friday.": "Réserver la bibliothèque pour le café poésie le dernier vendredi.",
+"Romeo and Juliet": "Roméo et Juliette",
+"Our own stories are worth telling well.": "Nos propres histoires méritent d'être bien racontées.",
+"Draft, revise and polish a 600-word personal essay.": "Rédiger, réviser et peaufiner un récit personnel de 600 mots.",
+"Personal essay (essay rubric).": "Récit personnel (grille de rédaction).",
+"Of Mice and Men": "Des souris et des hommes",
+"Dreams, loneliness and friendship in hard times.": "Rêves, solitude et amitié dans les temps difficiles.",
+"Is the American Dream possible for everyone?\nWhat do we owe our friends?": "Le rêve américain est-il possible pour tous ?\nQue devons-nous à nos amis ?",
+"Track characters and themes, write an argument using evidence from the novel.": "Suivre les personnages et les thèmes, écrire un texte argumentatif appuyé sur le roman.",
+"Chapter quizzes, character map, novel test.": "Quiz par chapitre, carte des personnages, contrôle sur le roman.",
+"Short fiction workshop": "Atelier de fiction courte",
+"Memory is a story we shape.": "La mémoire est une histoire que l'on façonne.",
+"Write and workshop a personal narrative of 1,000 to 1,500 words.": "Écrire et retravailler en atelier un récit de vie de 1 000 à 1 500 mots.",
+"Essay writing": "Rédaction",
+"For personal essays and argument writing.": "Pour les récits personnels et les textes argumentatifs.",
+"Excellent": "Excellent",
+"Good": "Bien",
+"Developing": "En progrès",
+"Beginning": "Débutant",
+"Ideas and focus": "Idées et angle",
+"A clear, insightful focus held all the way through.": "Un angle clair et pertinent, tenu du début à la fin.",
+"A clear focus with small drifts.": "Un angle clair avec de petits écarts.",
+"The focus is there but wanders.": "L'angle est là mais se perd.",
+"No clear focus yet.": "Pas encore d'angle clair.",
+"Organisation": "Organisation",
+"Logical order, smooth transitions, strong ending.": "Ordre logique, transitions fluides, fin marquante.",
+"Mostly logical with some transitions.": "Plutôt logique, avec quelques transitions.",
+"Order is hard to follow in places.": "L'ordre est difficile à suivre par endroits.",
+"No clear order.": "Pas d'ordre clair.",
+"Detail and evidence": "Détails et preuves",
+"Vivid, well-chosen detail or evidence that supports every point.": "Des détails ou des preuves vivants et bien choisis à l'appui de chaque idée.",
+"Good detail for most points.": "De bons détails pour la plupart des idées.",
+"Some detail, often general.": "Quelques détails, souvent généraux.",
+"Little detail.": "Peu de détails.",
+"Conventions": "Langue",
+"Almost no errors.": "Presque aucune erreur.",
+"A few errors that do not get in the way.": "Quelques erreurs qui ne gênent pas la lecture.",
+"Errors sometimes get in the way.": "Les erreurs gênent parfois la lecture.",
+"Errors make it hard to read.": "Les erreurs rendent la lecture difficile.",
+"Poetry unit project.": "Projet de l'unité de poésie.",
+"Strong": "Solide",
+"Getting there": "Presque",
+"Not yet": "Pas encore",
+"Word choice": "Choix des mots",
+"Words chosen for sound and image.": "Des mots choisis pour leur son et leur image.",
+"Some strong word choices.": "Quelques mots bien choisis.",
+"Words seem picked at random.": "Les mots semblent pris au hasard.",
+"Line breaks and form": "Retours à la ligne et forme",
+"Line breaks add meaning.": "Les retours à la ligne ajoutent du sens.",
+"Some purposeful line breaks.": "Quelques retours à la ligne voulus.",
+"Reads like prose.": "Se lit comme de la prose.",
+"Theme": "Thème",
+"A clear new meaning from the source text.": "Un sens nouveau et clair tiré du texte source.",
+"A meaning is starting to show.": "Un sens commence à apparaître.",
+"No clear meaning yet.": "Pas encore de sens clair.",
+"Presentation": "Présentation",
+"Neat, creative and readable.": "Soignée, créative et lisible.",
+"Readable.": "Lisible.",
+"Hard to read.": "Difficile à lire.",
+"Reflection": "Réflexion",
+"Explains choices thoughtfully.": "Explique ses choix avec finesse.",
+"Explains some choices.": "Explique certains choix.",
+"Missing or very short.": "Absente ou très courte.",
+"Email Mrs. Okafor about the missing essays": "Écrire à Mme Okafor au sujet des rédactions manquantes",
+"Copy the found poem packets": "Photocopier les dossiers de poèmes trouvés",
+"Finish grading the found poems": "Finir de corriger les poèmes trouvés",
+"Update the gradebook": "Mettre à jour le carnet de notes",
+"Department meeting agenda items": "Points pour la réunion de département",
+"Book the library for the poetry café": "Réserver la bibliothèque pour le café poésie",
+"Write the novel test": "Écrire le contrôle sur le roman",
+"Order more composition notebooks": "Commander d'autres cahiers",
+"Plan the anthology launch": "Organiser le lancement de l'anthologie",
+"Return the permission slips": "Rendre les autorisations",
+"Call Jayden's family": "Appeler la famille de Jayden",
+"Staff meeting": "Réunion du personnel",
+"Room 101": "Salle 101",
+"Report card timeline\nConference week schedule\nPD day sign-ups": "Calendrier des bulletins\nHoraire de la semaine des rencontres\nInscriptions à la journée pédagogique",
+"Parent-teacher conferences": "Rencontres parents-enseignants",
+"PD day: literacy across subjects": "Journée pédagogique : la lecture dans toutes les matières",
+"Report card comments due": "Remise des commentaires de bulletin",
+"District reading assessment": "Évaluation de lecture du conseil scolaire",
+"Poetry café (English 9)": "Café poésie (Français 9)",
+"Book the library\nInvite families\nSnacks sign-up": "Réserver la bibliothèque\nInviter les familles\nInscriptions pour les collations",
+"Picture day": "Journée photo",
+"Winter break": "Vacances d'hiver",
+"Spring break": "Vacances de printemps",
+"Final exams": "Examens finaux",
+"Plan English 10 for tomorrow": "Préparer Français 10 pour demain",
+"Call about the library booking": "Appeler pour la réservation de la bibliothèque",
+"Copy 30 found poem packets\nSet up the projector for English 9": "Photocopier 30 dossiers de poèmes trouvés\nInstaller le projecteur pour Français 9",
+"Isla is back from her trip; check in about the reading log.": "Isla revient de voyage ; faire le point sur son journal de lecture.",
+"The found poems were a hit. English 10 was chatty after lunch; try the seating change.": "Les poèmes trouvés ont eu un grand succès. Français 10 était bavard après le dîner ; essayer le nouveau plan de classe.",
+"Best discussion of the year in English 10.": "Meilleure discussion de l'année en Français 10.",
+"Fire drill ate half of English 9. Short on patience by 3pm.": "L'exercice d'incendie a mangé la moitié de Français 9. Plus beaucoup de patience à 15 h.",
+"Too much talking from me in the lecture part.": "J'ai trop parlé pendant la partie magistrale.",
+"Wrap up the poetry unit and get the novel test written.": "Terminer l'unité de poésie et écrire le contrôle sur le roman.",
+"Library visit for poetry books": "Visite à la bibliothèque pour les recueils de poésie",
+"Helped a new student find the reading log and explained the routine.": "A aidé un nouvel élève à trouver le journal de lecture et lui a expliqué la routine.",
+"On his phone during independent reading again.": "Encore sur son téléphone pendant la lecture personnelle.",
+"Quiet word after class; phone in the caddy for a week.": "Petit mot après le cours ; téléphone dans le bac pendant une semaine.",
+"Check phone caddy routine is working": "Vérifier que la routine du bac à téléphones fonctionne",
+"Turned in a full draft for the first time this term.": "A rendu un brouillon complet pour la première fois de la période.",
+"No book or binder three days in a row.": "Ni livre ni classeur trois jours de suite.",
+"Lent a book; talked about what is going on.": "Prêt d'un livre ; discussion sur ce qui se passe.",
+"Ask counselor about attendance": "Parler des absences avec le conseiller",
+"Argument with a peer during workshop circles got loud.": "Dispute bruyante avec un camarade pendant les cercles d'atelier.",
+"Separated circles; restorative chat at lunch.": "Cercles séparés ; discussion réparatrice au dîner.",
+"Check in with both students": "Faire le point avec les deux élèves",
+"Ran her workshop circle when I was called out.": "A animé son cercle d'atelier quand j'ai dû sortir.",
+"Great questions in the Of Mice and Men discussion.": "Excellentes questions pendant la discussion sur Des souris et des hommes.",
+"Talking over others during the poetry read-aloud.": "Coupe la parole pendant la lecture de poèmes à voix haute.",
+"Moved seat.": "Changé de place.",
+"Attendance and organisation check-in": "Suivi des présences et de l'organisation",
+"Bring book and binder every day.\nCatch up on 2 missing assignments by the end of the month.": "Apporter livre et classeur tous les jours.\nRattraper 2 travaux manquants d'ici la fin du mois.",
+"Daily 2-minute check-in at the door.\nSpare book kept in class.\nWeekly email home on Fridays.": "Point de 2 minutes à la porte chaque jour.\nUn livre de rechange gardé en classe.\nCourriel à la famille chaque vendredi.",
+"Reading support": "Soutien en lecture",
+"Read 20 minutes a day; finish one novel this term.": "Lire 20 minutes par jour ; finir un roman cette période.",
+"Audiobook alongside the text, chunked reading questions, extra time on reading quizzes.": "Livre audio en parallèle du texte, questions de lecture découpées, temps supplémentaire aux quiz de lecture.",
+"Good news": "Bonne nouvelle",
+"Shared that Caleb handed in his full essay draft. Mom was thrilled.": "Annoncé que Caleb a rendu son brouillon complet. Sa mère était ravie.",
+"Missing work and absences": "Travaux manquants et absences",
+"Mom says mornings are hard right now. Agreed on a daily check-in and a Friday email.": "Sa mère dit que les matins sont difficiles en ce moment. Accord sur un point quotidien et un courriel le vendredi.",
+"Send Friday update email": "Envoyer le courriel du vendredi",
+"Workshop conflict": "Conflit en atelier",
+"Explained what happened; Dad will talk with Mason tonight.": "Expliqué ce qui s'est passé ; son père parlera avec Mason ce soir.",
+"Reading support plan": "Plan de soutien en lecture",
+"Met to set up the reading support plan. Audiobook access set up at home.": "Rencontre pour mettre en place le plan de soutien en lecture. Accès aux livres audio installé à la maison.",
+"Missing work reminder": "Rappel de travail manquant",
+"{first} has missing work in {class}": "Travail manquant de {first} en {class}",
+"Dear {guardian},\n\nI wanted to let you know that {first} has some missing work in {class}. The list is in the online gradebook, and {first} can hand it in any day this week.\n\nPlease reach out if there is anything I can do to help.\n\nKind regards,\n{teacher}\n{school}": "Bonjour {guardian},\n\nJe voulais vous informer que {first} a des travaux manquants en {class}. La liste se trouve dans le carnet de notes en ligne, et {first} peut les rendre n'importe quel jour cette semaine.\n\nN'hésitez pas à me contacter si je peux aider de quelque façon que ce soit.\n\nCordialement,\n{teacher}\n{school}",
+"Good news!": "Bonne nouvelle !",
+"Good news about {first}": "Bonne nouvelle au sujet de {first}",
+"Dear {guardian},\n\nI wanted to share some good news: {first} has been doing great work in {class} lately. Please pass on my congratulations!\n\nBest,\n{teacher}": "Bonjour {guardian},\n\nJe voulais partager une bonne nouvelle : {first} fait de l'excellent travail en {class} ces derniers temps. Transmettez-lui mes félicitations !\n\nBien à vous,\n{teacher}",
+"Conference invitation": "Invitation à une rencontre",
+"Parent-teacher conference for {first}": "Rencontre parents-enseignant pour {first}",
+"Dear {guardian},\n\nI would love to meet with you to talk about how {first} is doing in {class}. Please let me know a time that suits you during conference week.\n\nThank you,\n{teacher}": "Bonjour {guardian},\n\nJ'aimerais vous rencontrer pour parler de la façon dont {first} progresse en {class}. Merci de m'indiquer un moment qui vous convient pendant la semaine des rencontres.\n\nMerci,\n{teacher}",
+"Attendance, missing work, how the check-in plan is going.": "Présences, travaux manquants, avancement du suivi quotidien.",
+"Review of the reading support plan.": "Révision du plan de soutien en lecture.",
+"Celebrate the progress on essays.": "Souligner les progrès en rédaction.",
+"Start-of-year check-in.": "Point de début d'année.",
+"Creative, funny, writes vivid dialogue.": "Créatif, drôle, écrit des dialogues vivants.",
+"Gets frustrated with peer feedback.": "Se décourage face aux commentaires des pairs.",
+"Try written feedback first, then talk.": "Essayer d'abord des commentaires écrits, puis en parler.",
+"The Outsiders": "The Outsiders",
+"Realistic fiction": "Roman réaliste",
+"Long Way Down": "Long Way Down",
+"Novel in verse": "Roman en vers",
+"Classic": "Classique",
+"Class set for English 10": "Jeu de classe pour Français 10",
+"The Hunger Games": "Hunger Games",
+"Dystopian": "Dystopie",
+"Brown Girl Dreaming": "Brown Girl Dreaming",
+"Memoir in verse": "Mémoires en vers",
+"Holes": "Le Passage",
+"Adventure": "Aventure",
+"Loved Ponyboy.": "A adoré Ponyboy.",
+"Wants something shorter.": "Veut quelque chose de plus court.",
+"With audiobook": "Avec le livre audio",
+"Students start with 10 minutes of silent reading as soon as they come in. Take attendance on the seating chart during reading.\nThe day's plan is on the whiteboard.": "Les élèves commencent par 10 minutes de lecture silencieuse dès leur arrivée. Prenez les présences sur le plan de classe pendant la lecture.\nLe programme du jour est au tableau.",
+"One student out at a time with the hall pass by the door.\nPhones go in the caddy at the start of class.\nEarly finishers read their independent book.": "Un seul élève sort à la fois, avec le laissez-passer près de la porte.\nLes téléphones vont dans le bac au début du cours.\nCeux qui finissent tôt lisent leur livre personnel.",
+"English 9: Ava and Amara know the routines.\nMr. Okoye next door (room 206) can help with anything.": "Français 9 : Ava et Amara connaissent les routines.\nM. Okoye, la porte à côté (salle 206), peut aider pour tout.",
+"Fire exit: turn left, down the east stairs, line up on the soccer field by class.\nLockdown: lock the door, lights off, students in the back corner away from the window.\nThe red emergency folder with class lists hangs by the door.": "Évacuation incendie : à gauche, escalier est, rangs par classe sur le terrain de soccer.\nConfinement : verrouiller la porte, éteindre, élèves dans le coin du fond loin de la fenêtre.\nLa pochette d'urgence rouge avec les listes d'élèves est accrochée près de la porte.",
+"Please leave a short note on how each class went. Thank you!": "Merci de laisser un petit mot sur le déroulement de chaque cours !",
+"Dr. Angela Brooks": "Mme Angela Brooks",
+"Principal": "Directrice",
+"Administration": "Direction",
+"Mr. Tom Fischer": "M. Tom Fischer",
+"Vice principal": "Directeur adjoint",
+"Mrs. Linda Park": "Mme Linda Park",
+"Front office": "Secrétariat",
+"Main office": "Bureau principal",
+"Ms. Jordan Lee": "Mme Jordan Lee",
+"School counselor": "Conseillère d'orientation",
+"Student services": "Services aux élèves",
+"Nurse Patricia Gomez": "Mme Patricia Gomez",
+"School nurse": "Infirmière scolaire",
+"Mr. David Okoye": "M. David Okoye",
+"English teacher, next door": "Enseignant de français, la porte à côté",
+"Ms. Hannah Weiss": "Mme Hannah Weiss",
+"English department head": "Cheffe du département de français",
+"Mr. Ray Castillo": "M. Ray Castillo",
+"Tech support": "Soutien informatique",
+"IT": "Informatique",
+"Mrs. Sun Hee Cho": "Mme Sun Hee Cho",
+"Librarian": "Bibliothécaire",
+"Use exit tickets in every English 9 lesson": "Utiliser des billets de sortie à chaque cours de Français 9",
+"Know who needs help before the next class, not after the test.": "Savoir qui a besoin d'aide avant le prochain cours, pas après le contrôle.",
+"Make 10 exit ticket templates": "Créer 10 modèles de billets de sortie",
+"Use them for two weeks": "Les utiliser pendant deux semaines",
+"Sort tickets into got it / almost / not yet": "Trier les billets : compris / presque / pas encore",
+"Plan reteach groups from the tickets": "Former des groupes de reprise à partir des billets",
+"Call every family with good news once this term": "Appeler chaque famille une fois cette période avec une bonne nouvelle",
+"Families should hear from me before there is a problem.": "Les familles devraient avoir de mes nouvelles avant qu'il y ait un problème.",
+"Leave school by 4:30 three days a week": "Quitter l'école avant 16 h 30 trois jours par semaine",
+"Energy for the long haul.": "De l'énergie pour tenir sur la durée.",
+"Batch grading on Tuesdays and Thursdays": "Corriger par lots les mardis et jeudis",
+"Plan the week on Sunday in 45 minutes": "Préparer la semaine le dimanche en 45 minutes",
+"Finish the Google Certified Educator course": "Terminer la formation Google Certified Educator",
+"Drink water at lunch": "Boire de l'eau au dîner",
+"Leave by 4:30": "Partir avant 16 h 30",
+"One positive note home": "Un mot positif aux familles",
+"Read 20 minutes": "Lire 20 minutes",
+"Department meeting": "Réunion de département",
+"Parent emails": "Courriels aux parents",
+"Universal Design for Learning": "Conception universelle de l'apprentissage",
+"School district": "Conseil scolaire",
+"Offer choice in how students show what they know: write, record or draw.": "Laisser le choix de la façon de montrer ce qu'on sait : écrire, enregistrer ou dessiner.",
+"Google Certified Educator Level 1": "Google Certified Educator, niveau 1",
+"Google for Education": "Google for Education",
+"Use Forms quizzes for exit tickets.": "Utiliser des quiz Forms comme billets de sortie.",
+"Teaching poetry to reluctant writers": "Enseigner la poésie aux élèves qui n'aiment pas écrire",
+"NCTE": "Association des professeurs de lettres",
+"Start with found poems and blackout poetry.": "Commencer par les poèmes trouvés et la poésie caviardée.",
+"Provincial English teachers conference": "Congrès des enseignants de français",
+"Teachers association": "Association des enseignants",
+"Poetry Foundation": "Poetry Foundation",
+"poetry, mentor texts": "poésie, textes modèles",
+"Search by theme": "Recherche par thème",
+"Found poem slides": "Diaporama des poèmes trouvés",
+"poetry, grade 9": "poésie, 9e année",
+"In Drive > English 9 > Poetry": "Dans Drive > Français 9 > Poésie",
+"Steinbeck biography (video)": "Biographie de Steinbeck (vidéo)",
+"of mice and men, context": "des souris et des hommes, contexte",
+"8 minutes": "8 minutes",
+"Socratic seminar question stems": "Débuts de questions pour le cercle socratique",
+"discussion, speaking": "discussion, oral",
+"Purdue OWL: MLA citation": "Purdue OWL : citer ses sources (MLA)",
+"research, citation": "recherche, citation",
+"Story dice game": "Jeu des dés à histoires",
+"creative writing, warm-up": "écriture créative, mise en route",
+"In the red box": "Dans la boîte rouge",
+"School email": "Courriel de l'école",
+"School": "École",
+"Google Classroom": "Google Classroom",
+"Teaching": "Enseignement",
+"Google Drive": "Google Drive",
+"Student information system": "Logiciel de vie scolaire",
+"District calendar": "Calendrier du conseil scolaire",
+"District": "Conseil scolaire",
+"Sub booking": "Réservation de remplaçants",
+"Library catalogue": "Catalogue de la bibliothèque",
+"Kahoot": "Kahoot",
+"Glue sticks": "Bâtons de colle",
+"Back cupboard": "Armoire du fond",
+"Staples": "Bureau en Gros",
+"Lined paper": "Feuilles lignées",
+"packs": "paquets",
+"Dry-erase markers": "Marqueurs effaçables",
+"Desk drawer": "Tiroir du bureau",
+"Sticky notes": "Papillons adhésifs",
+"pads": "blocs",
+"Dollar store": "Magasin à un dollar",
+"Tissues": "Mouchoirs",
+"Window shelf": "Étagère près de la fenêtre",
+"boxes": "boîtes",
+"Grocery store": "Épicerie",
+"Highlighters": "Surligneurs",
+"Pencil caddies": "Pots à crayons",
+"Chart paper": "Papier à affiche",
+"Behind the door": "Derrière la porte",
+"pad": "bloc",
+"Ask the office first": "Demander d'abord au secrétariat",
+"Document camera": "Caméra document",
+"Reading corner beanbags": "Poufs pour le coin lecture",
+"Class set of whiteboards": "Ardoises blanches pour toute la classe",
+"Prize stickers": "Autocollants de récompense",
+"Batteries AA": "Piles AA",
+"Book bins": "Bacs à livres",
+"Poetry café snacks": "Collations du café poésie",
+"Independent reading books": "Livres de lecture personnelle",
+"Bookstore": "Librairie",
+"Sticky notes and markers": "Papillons adhésifs et feutres",
+"Bulletin board borders": "Bordures de babillard",
+"Classroom rewards": "Récompenses de classe",
+"Laminating pouches": "Pochettes de plastification",
+"Google certification exam": "Examen de certification Google",
+"Google": "Google",
+"{first} shares thoughtful ideas in class discussions and listens closely to others.": "{first} partage des idées réfléchies lors des discussions en classe et écoute attentivement les autres.",
+"{first} writes with a clear, personal voice and takes risks with word choice.": "{first} écrit avec une voix claire et personnelle et ose dans le choix des mots.",
+"{first} is a kind and helpful member of our class.": "{first} est un membre bienveillant et serviable de notre classe.",
+"Next, {first} will work on supporting ideas with evidence from the text.": "Prochaine étape : {first} travaillera à appuyer ses idées sur des passages du texte.",
+"{first} is encouraged to revise drafts using feedback before handing them in.": "{first} est encouragé à réviser ses brouillons à l'aide des commentaires avant de les rendre.",
+"{first} works steadily in class and asks for help when needed.": "{first} travaille avec constance en classe et demande de l'aide au besoin.",
+"Handing in all work on time will help {first} show everything they know.": "Rendre tous les travaux à temps aidera {first} à montrer tout ce qu'il sait.",
+"{first} comes to class ready to learn and respects classroom routines.": "{first} arrive en classe disposé à apprendre et respecte les routines de la classe.",
+"It has been a pleasure to teach {first} this term.": "Ce fut un plaisir d'enseigner à {first} cette période.",
+"Team Ink": "Équipe Encre",
+"Team Quill": "Équipe Plume",
+"Team Verse": "Équipe Vers",
+};
+const EXAMPLE_FR_PARTS = [['(aunt/uncle)', '(tante/oncle)']];
 function seeded(seed) {
 let a = seed >>> 0;
 return () => {
@@ -5157,7 +7517,7 @@ const FIRST = ['Maya', 'Liam', 'Ava', 'Noah', 'Zoe', 'Ethan', 'Chloe', 'Lucas', 
 const LAST = ['Thompson', 'Nguyen', 'Patel', 'Garcia', 'Okafor', 'Chen', 'Martin', 'Silva', 'Brown', 'Kowalski', 'Haddad', 'Rossi', 'Dubois', 'Kim', 'Murphy', 'Singh', 'Lopez', 'Walker', 'Ali', 'Fraser', 'Moreau', 'Bianchi', 'Cohen', 'Adeyemi', 'Larsen', 'Tremblay', 'Yamamoto', 'Reyes'];
 const GUARDIAN_FIRST = ['Laura', 'David', 'Mei', 'Carlos', 'Ngozi', 'Wei', 'Julie', 'Rafael', 'Karen', 'Piotr', 'Rania', 'Marco', 'Claire', 'Min-jun'];
 const padE = (n) => String(n).padStart(2, '0');
-function exampleState({ buildId = 'dev', today = todayFrom() } = {}) {
+function exampleState({ buildId = 'dev', today = todayFrom(), lang = 'en' } = {}) {
 const rnd = seeded(20261110);
 const pick = (list) => list[Math.floor(rnd() * list.length)];
 const s = createState({ buildId, today });
@@ -5287,7 +7647,27 @@ day = addDays(day, -1);
 addPlannerExample(s, today);
 addSchoolExample(s, today);
 addMyWorkExample(s, today);
+if (lang === 'fr') frenchExample(s);
+else s.settings.lang = 'en';
 return normalise(s);
+}
+const EXAMPLE_CODES = new Set(['id', 'type', 'status', 'kind', 'category', 'area', 'plant', 'priority', 'method', 'layout', 'repeat', 'per', 'email', 'url', 'first', 'last', 'standards', 'author', 'f']);
+function frenchExample(s) {
+const swap = (value) => {
+if (typeof value === 'string') {
+if (Object.prototype.hasOwnProperty.call(EXAMPLE_FR, value)) return EXAMPLE_FR[value];
+return EXAMPLE_FR_PARTS.reduce((text, [en, fr]) => text.split(en).join(fr), value);
+}
+if (Array.isArray(value)) return value.map(swap);
+if (value && typeof value === 'object') {
+for (const key of Object.keys(value)) if (!EXAMPLE_CODES.has(key) && !/Id$|Ids$/.test(key)) value[key] = swap(value[key]);
+}
+return value;
+};
+for (const key of Object.keys(s)) if (!['meta', 'settings', 'attendance', 'scores'].includes(key)) s[key] = swap(s[key]);
+s.settings.name = EXAMPLE_FR['Ms. Rivera'] || s.settings.name;
+s.settings.school = EXAMPLE_FR['Maple Grove High School'] || s.settings.school;
+Object.assign(s.settings, { lang: 'fr', dateStyle: 'dmy', clock: '24', currency: '€', currencyCode: 'EUR' });
 }
 function addPlannerExample(s, today) {
 const weekdayFrom = (offset) => { let d = addDays(today, offset); while (!isSchoolDay(d)) d = addDays(d, 1); return d; };
@@ -5320,7 +7700,7 @@ const title = titles[k];
 k += 1;
 s.lessons.push({
 id: `l_${c.id}_${k}`, classId: c.id, date: d, title, unitId: unitFor[c.id], status: off < 0 ? 'taught' : 'planned', favorite: title.startsWith('Socratic') || title.startsWith('Found poem workshop'), template: false,
-objectives: c.id === 'c_eng9' ? `Students will be able to explain how ${title.toLowerCase().split(':')[0]} creates meaning in a poem.` : c.id === 'c_eng10' ? 'Students will be able to support a claim about the novel with quoted evidence.' : 'Students will be able to draft and share a scene from memory.',
+objectives: c.id === 'c_eng9' ? 'Students will be able to explain how a poet\'s choice of words creates meaning.' : c.id === 'c_eng10' ? 'Students will be able to support a claim about the novel with quoted evidence.' : 'Students will be able to draft and share a scene from memory.',
 standards: c.id === 'c_eng9' ? 'RL.9.4, L.9.5' : c.id === 'c_eng10' ? 'RL.10.1, RL.10.2' : 'W.11.3',
 materials: c.id === 'c_eng9' ? 'Poetry packet, highlighters, slides' : c.id === 'c_eng10' ? 'Novel, sticky notes, discussion question sheet' : 'Writer\'s notebook, timer',
 warmup: 'Quiet reading (10 minutes), then a quick-write on the board prompt.',
@@ -5773,7 +8153,7 @@ if (title) title.focus({ preventScroll: false });
 function renderOnboarding(ctx) {
 const st = ctx.state;
 const year = defaultSchoolYear(todayFrom());
-const draft = { name: st.settings.name, school: st.settings.school, theme: st.settings.theme, palette: st.settings.palette || 'rainbow', terms: 2, display: st.year.gradeDisplay, start: year.start, end: year.end };
+const draft = { lang: getLang(), name: st.settings.name, school: st.settings.school, theme: st.settings.theme, palette: st.settings.palette || 'rainbow', terms: 2, display: st.year.gradeDisplay, start: year.start, end: year.end };
 let step = 1;
 const restoreFile = el('input', {
 type: 'file', accept: '.json,application/json', id: 'onb-restore-file', class: 'visually-hidden',
@@ -5792,8 +8172,19 @@ if (h) h.focus();
 const stepName = () => {
 const name = el('input', { class: 'field', id: 'onb-name', type: 'text', maxlength: '40', value: draft.name, placeholder: t('onb.namePh') });
 const school = el('input', { class: 'field', id: 'onb-school', type: 'text', maxlength: '80', value: draft.school });
+const langPick = el('fieldset', { class: 'choices', id: 'onb-lang' }, [
+el('legend', { class: 'choices__legend', text: 'Language · Langue' }),
+el('div', { class: 'choices__row' }, [['en', 'English'], ['fr', 'Français']].map(([v, label]) => el('label', { class: 'choice' }, [
+el('input', {
+type: 'radio', name: 'onb-lang', value: v, lang: v, checked: draft.lang === v,
+onChange: () => { draft.name = name.value.trim(); draft.school = school.value.trim(); draft.lang = v; setLang(v); setCalLang(v); paint(); const pick = $(`#onb-lang input[value="${v}"]`); if (pick) pick.focus(); },
+}),
+el('span', { lang: v, text: label }),
+]))),
+]);
 return [
 el('h1', { class: 'onb__title', tabindex: '-1', text: t('onb.welcome') }),
+langPick,
 el('p', { class: 'quiet', text: t('onb.lede') }),
 el('form', { class: 'stack', onSubmit: (e) => { e.preventDefault(); draft.name = name.value.trim(); draft.school = school.value.trim(); step = 2; paint(); } }, [
 el('label', { class: 'label', for: 'onb-name', text: t('onb.name') }), name,
@@ -5870,7 +8261,7 @@ return termFor(state.year.terms, day) || state.year.terms[0] || null;
 function gradeText(state, pct) {
 if (pct === null || pct === undefined) return '–';
 const letter = letterFor(pct, state.year.scale);
-const p = `${Number.isInteger(pct) ? pct : pct.toFixed(1)}%`;
+const p = pctText(pct);
 if (state.year.gradeDisplay === 'letter') return letter;
 if (state.year.gradeDisplay === 'both') return `${p} (${letter})`;
 return p;
@@ -5891,11 +8282,11 @@ return el('a', { class: `classchip hue-${c.hue || 4}`, href: routeHash('classes'
 function studentLink(s) {
 return el('a', { class: 'plainlink', href: routeHash('students', s.id), text: fullName(s) });
 }
-const DAY_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const dayShort = (d) => t(`dow.${d}`);
 function daysText(days) {
 const list = [...(days || [])].sort((a, b) => ((a + 6) % 7) - ((b + 6) % 7));
-if (list.length === 5 && [1, 2, 3, 4, 5].every((d) => list.includes(d))) return 'Mon–Fri';
-return list.map((d) => DAY_SHORT[d]).join(', ');
+if (list.length === 5 && [1, 2, 3, 4, 5].every((d) => list.includes(d))) return t('dow.weekdays');
+return list.map((d) => dayShort(d)).join(', ');
 }
 function meter(pct, cls = '') {
 const v = Math.max(0, Math.min(100, pct || 0));
@@ -5924,7 +8315,7 @@ const order = (m) => (type === 'cycle' ? Number(m.cycle) || 0 : ((Number(m.day) 
 for (const m of [...cls.meetings].sort((a, b) => order(a) - order(b))) {
 const time = m.start ? `${formatTime(m.start)}${m.end ? ` – ${formatTime(m.end)}` : ''}` : '';
 const key = `${time}|${m.room || ''}`;
-const label = type === 'cycle' ? t('rot.dayN', { n: m.cycle || '?' }) : `${DAY_SHORT[m.day]}${type === 'ab' && m.week ? ` ${m.week}` : ''}`;
+const label = type === 'cycle' ? t('rot.dayN', { n: m.cycle || '?' }) : `${dayShort(m.day)}${type === 'ab' && m.week ? ` ${m.week}` : ''}`;
 if (!groups.has(key)) groups.set(key, { time, room: m.room, labels: [] });
 groups.get(key).labels.push(label);
 }
@@ -5956,7 +8347,7 @@ area.remove();
 return ok;
 }
 const HUES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const WEEKDAYS = [1, 2, 3, 4, 5, 6, 0].map((d) => [d, DAY_SHORT[d]]);
+const weekdayChoices = () => [1, 2, 3, 4, 5, 6, 0].map((d) => [d, dayShort(d)]);
 function huePicker(value) {
 return el('fieldset', { class: 'choices' }, [
 el('legend', { class: 'choices__legend label', text: t('class.colour') }),
@@ -5973,7 +8364,7 @@ const rows = meetings.map((m) => ({ ...m }));
 const box = el('div', { class: 'stack stack--tight', id: 'cls-meetings' });
 const dayOptions = type === 'cycle'
 ? Array.from({ length: len }, (_, i) => [String(i + 1), t('rot.dayN', { n: i + 1 })])
-: WEEKDAYS.map(([d, name]) => [String(d), name]);
+: weekdayChoices().map(([d, name]) => [String(d), name]);
 const blank = () => {
 const last = rows[rows.length - 1];
 return { id: newId('m'), day: last ? (Number(last.day) % 6) + 1 : 1, week: '', cycle: last && last.cycle ? (last.cycle % len) + 1 : 1, start: last ? last.start : '', end: last ? last.end : '', room: '' };
@@ -6093,7 +8484,7 @@ close();
 },
 }, [
 textField(t('block.name'), { id: 'blk-name', value: b.name, placeholder: t('block.namePh'), max: 60 }),
-checkGroup(t('class.days'), { name: 'blk-days', options: WEEKDAYS, values: b.days }),
+checkGroup(t('class.days'), { name: 'blk-days', options: weekdayChoices(), values: b.days }),
 el('div', { class: 'grid2' }, [
 textField(t('class.start'), { id: 'blk-start', value: b.start, type: 'time', optional: true }),
 textField(t('class.end'), { id: 'blk-end', value: b.end, type: 'time', optional: true }),
@@ -6197,7 +8588,7 @@ const match = word && ctx.state.categories.find((c) => c.classId === a.classId &
 if (match) a.categoryId = match.id;
 }
 const rubrics = ctx.state.rubrics || [];
-const catOptions = (cid) => [['', t('assign.noCategory')], ...ctx.state.categories.filter((c) => c.classId === cid).map((c) => [c.id, c.weight ? `${c.name} (${c.weight}%)` : c.name])];
+const catOptions = (cid) => [['', t('assign.noCategory')], ...ctx.state.categories.filter((c) => c.classId === cid).map((c) => [c.id, c.weight ? `${c.name} (${pctText(c.weight)})` : c.name])];
 const form = el('form', {
 class: 'stack sheet__form', id: 'assign-form',
 onSubmit: (e) => {
@@ -7615,7 +10006,7 @@ function renderNotes(ctx) {
     ]),
     filterChips(ctx, ui, 'kind', [['', t('task.all')], ['note', t('note.kind.note')], ['list', t('note.kind.list')]], t('note.kind')),
     el('p', { class: 'quiet small', text: tn('note.count', list.length) }),
-    list.length ? el('ul', { class: 'notegrid', id: 'note-list' }, list.map((n) => noteCard(ctx, n))) : emptyNote(q ? t('staff.noMatch') : t('note.none')),
+    list.length ? pinboard(el('ul', { class: 'notegrid', id: 'note-list' }, list.map((n) => noteCard(ctx, n)))) : emptyNote(q ? t('staff.noMatch') : t('note.none')),
   ]);
 }
 // src/app/pages/xlsx.js
@@ -7681,7 +10072,9 @@ const EXPENSE_CATS = ['supplies', 'books', 'tech', 'decor', 'snacks', 'rewards',
 const CAT_HUE_B = { supplies: 4, books: 6, tech: 9, decor: 11, snacks: 5, rewards: 1, printing: 3, pd: 7, other: 12 };
 const money = (state, n) => {
 const v = Math.round((Number(n) || 0) * 100) / 100;
-return `${state.settings.currency || '$'}${v.toLocaleString(undefined, { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 })}`;
+const cur = state.settings.currency || '$';
+if (getLang() === 'fr') return `${v.toLocaleString('fr-FR', { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 })}\u00a0${cur}`;
+return `${cur}${v.toLocaleString('en-US', { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 })}`;
 };
 function openExpenseEditor(ctx, x0 = null) {
 const x = x0 || { date: todayFrom(), item: '', store: '', amount: 0, category: 'supplies', reimbursable: false, reimbursed: false, receipt: false, notes: '' };
@@ -7927,8 +10320,11 @@ function renderToday(ctx, route) {
   });
   return el('div', { class: 'stack', id: 'today' }, [
     dayNav(ctx, day, 'today'), head,
-    el('div', { class: 'todaygrid' }, [schedule, el('div', { class: 'stack' }, [priorities, tasksBox])]),
-    el('div', { class: 'dashgrid' }, [dueBox, eventsBox, notes, reflect]),
+    // Two stacked columns, so a short schedule never leaves a hole under it.
+    el('div', { class: 'todaygrid' }, [
+      el('div', { class: 'stack tdcol' }, [schedule, dueBox, eventsBox, reflect]),
+      el('div', { class: 'stack tdcol' }, [priorities, tasksBox, notes]),
+    ]),
     el('p', { class: 'quiet small', text: tn('today.summary', rows.filter((r) => r.kind === 'class').length) }),
   ]);
 }
@@ -8104,7 +10500,8 @@ function renderTime(ctx, route) {
       el('strong', { class: 'grow', text: dateRange(monday, addDays(monday, 6), false) }),
       el('button', { class: 'btn btn--primary', type: 'button', id: 'time-add', text: `+ ${t('time.add')}`, onClick: () => openTimeEditor(ctx, null, { date: monday <= today && today <= addDays(monday, 6) ? today : monday }) }),
     ]),
-    el('div', { class: 'dashgrid' }, [summary, timerBox(ctx)]),
+    // The timer sits under the week's summary, so no hole opens under it.
+    el('div', { class: 'dashgrid' }, [el('div', { class: 'stack' }, [summary, timerBox(ctx)]),
     days.length ? box({
       id: 'time-entries', title: tn('time.entries', entries.length), icon: '🗂️', hue: 8,
       body: days.map((d) => el('div', { class: 'stack stack--tight' }, [
@@ -8116,7 +10513,7 @@ function renderTime(ctx, route) {
           el('button', { class: 'iconbtn iconbtn--tiny editbtn', type: 'button', title: t('form.edit'), 'aria-label': t('form.editName', { name: t(`tcat.${x.category}`) }), onClick: () => openTimeEditor(ctx, x) }, [icon('pencil')]),
         ]))),
       ])),
-    }) : emptyNote(t('time.none')),
+    }) : emptyNote(t('time.none'))]),
     el('p', { class: 'quiet small' }, [t('time.contractHint'), ' ', el('a', { class: 'plainlink', href: routeHash('settings'), text: t('page.settings') })]),
   ]);
 }
@@ -8384,7 +10781,7 @@ function renderDashboard(ctx) {
     statTile({ id: 'tile-students', hue: 1, icon: '🎓', label: t('dash.tile.students'), href: routeHash('students'), value: String(state.students.length), sub: tn('dash.tile.studentsSub', classes.length) }),
     statTile({ id: 'tile-classes', hue: 3, icon: '🏫', label: t('dash.tile.classes'), href: routeHash('classes'), value: String(classes.length), sub: t('dash.tile.classesSub', { n: daySchedule(state, today).filter((r) => r.kind === 'class').length }) }),
     statTile({ id: 'tile-average', hue: 5, icon: '📊', label: t('dash.tile.average'), href: routeHash('gradebook'), value: gradeText(state, avg), sub: term ? term.name : '', pct: avg }),
-    statTile({ id: 'tile-attendance', hue: 7, icon: '🚪', label: t('dash.tile.attendance'), href: routeHash('attendance'), value: att.rate === null ? '–' : `${att.rate}%`, sub: t('dash.tile.attendanceSub'), pct: att.rate }),
+    statTile({ id: 'tile-attendance', hue: 7, icon: '🚪', label: t('dash.tile.attendance'), href: routeHash('attendance'), value: att.rate === null ? '–' : pctText(att.rate), sub: t('dash.tile.attendanceSub'), pct: att.rate }),
     statTile({ id: 'tile-missing', hue: 9, icon: '📭', label: t('dash.tile.missing'), href: routeHash('gradebook'), value: String(missing.length), sub: missing.length ? t('dash.tile.missingSub') : t('dash.tile.missingNone'), warn: missing.length > 0 }),
     statTile({ id: 'tile-birthdays', hue: 11, icon: '🎂', label: t('dash.tile.birthdays'), value: String(bdays.length), sub: t('dash.tile.birthdaysSub') }),
   ]);
@@ -8455,7 +10852,7 @@ function renderDashboard(ctx) {
         el('span', { class: 'quiet small', text: tn('class.studentsN', rosterOf(state, c.id).length) }),
         el('span', { class: 'classsum__nums' }, [
           el('span', {}, [el('strong', { text: gradeText(state, a) }), el('span', { class: 'quiet small', text: ` ${t('dash.avg')}` })]),
-          el('span', {}, [el('strong', { text: r === null ? '–' : `${r}%` }), el('span', { class: 'quiet small', text: ` ${t('dash.present')}` })]),
+          el('span', {}, [el('strong', { text: r === null ? '–' : pctText(r) }), el('span', { class: 'quiet small', text: ` ${t('dash.present')}` })]),
         ]),
       ]);
     }))] : [emptyNote(t('dash.noClasses'), el('a', { class: 'btn', href: routeHash('classes'), text: t('class.add') }))],
@@ -8476,7 +10873,7 @@ function renderDashboard(ctx) {
   }) : null;
   return el('div', { class: 'stack', id: 'dashboard' }, [
     exampleBar, installCard(ctx), nudge, hero, tiles, linksBox,
-    el('div', { class: 'dashgrid' }, [schedBox, tasksBox, attentionBox, gradeBox, upBox, bdayBox]),
+    el('div', { class: 'dashgrid', id: 'dash-boxes' }, [schedBox, tasksBox, attentionBox, gradeBox, upBox, bdayBox]),
     classBox,
   ]);
 }
@@ -8752,7 +11149,7 @@ function renderClasses(ctx, route) {
       el('span', { class: 'classcard__nums' }, [
         el('span', {}, [el('strong', { text: String(rosterOf(state, c.id).length) }), ` ${t('class.students')}`]),
         el('span', {}, [el('strong', { text: gradeText(state, avg) }), ` ${t('dash.avg')}`]),
-        el('span', {}, [el('strong', { text: rate === null ? '–' : `${rate}%` }), ` ${t('dash.present')}`]),
+        el('span', {}, [el('strong', { text: rate === null ? '–' : pctText(rate) }), ` ${t('dash.present')}`]),
       ]),
     ]);
   });
@@ -8861,7 +11258,7 @@ function renderClassPage(ctx, cls, tab) {
         el('thead', {}, [el('tr', {}, [el('th', { text: t('grade.student') }), ...['P', 'L', 'A', 'E'].map((m) => el('th', { class: 'num', text: t(`mark.${m}`) })), el('th', { class: 'num', text: t('att.rate') })])]),
         el('tbody', {}, roster.map((s) => {
           const st = attendanceStats(state.attendance, { classId: cls.id, studentId: s.id, from: addDays(today, -30), to: today });
-          return el('tr', {}, [el('td', {}, [studentLink(s)]), ...['P', 'L', 'A', 'E'].map((m) => el('td', { class: 'num', text: String(st[m]) })), el('td', { class: `num${st.rate !== null && st.rate < 90 ? ' is-low' : ''}`, text: st.rate === null ? '–' : `${st.rate}%` })]);
+          return el('tr', {}, [el('td', {}, [studentLink(s)]), ...['P', 'L', 'A', 'E'].map((m) => el('td', { class: 'num', text: String(st[m]) })), el('td', { class: `num${st.rate !== null && st.rate < 90 ? ' is-low' : ''}`, text: st.rate === null ? '–' : pctText(st.rate) })]);
         })),
       ])])] : [emptyNote(t('roster.none'))],
     });
@@ -8871,7 +11268,7 @@ function renderClassPage(ctx, cls, tab) {
       el('div', { class: 'summary' }, [
         statTile({ hue: 1, icon: '👥', label: t('dash.tile.students'), value: String(roster.length), href: routeHash('classes', cls.id, 'roster') }),
         statTile({ hue: 5, icon: '📊', label: t('grade.average'), value: gradeText(state, avg), sub: term ? term.name : '', pct: avg, href: routeHash('gradebook', cls.id) }),
-        statTile({ hue: 7, icon: '🚪', label: t('dash.tile.attendance'), value: att.rate === null ? '–' : `${att.rate}%`, sub: t('dash.tile.attendanceSub'), pct: att.rate }),
+        statTile({ hue: 7, icon: '🚪', label: t('dash.tile.attendance'), value: att.rate === null ? '–' : pctText(att.rate), sub: t('dash.tile.attendanceSub'), pct: att.rate }),
         statTile({ hue: 9, icon: '📭', label: t('dash.tile.missing'), value: String(missing.length), warn: missing.length > 0, sub: missing.length ? t('dash.tile.missingSub') : t('dash.tile.missingNone') }),
       ]),
       el('div', { class: 'dashgrid' }, [
@@ -8896,14 +11293,14 @@ function renderClassPage(ctx, cls, tab) {
 // Gradebook: one class at a time, students down the side and assignments
 // across. Type a score, or a letter for a mark: M missing, X excused,
 // E exempt, and a score followed by L for late work (18L).
-const fmt = (n) => (Number.isInteger(n) ? String(n) : n.toFixed(1));
+const fmt = (n) => num(n);
 // What the cell shows for a score.
 function cellText(sc) {
   if (sc.f === 'missing') return typeof sc.s === 'number' ? `${fmt(sc.s)}M` : 'M';
   if (sc.f === 'excused') return 'X';
   if (sc.f === 'exempt') return 'E';
   if (typeof sc.s !== 'number') return '';
-  return `${fmt(sc.s)}${sc.f === 'late' ? 'L' : ''}`;
+  return `${fmt(sc.s)}${sc.f === 'late' ? t('mark.short.L') : ''}`;
 }
 // What a typed cell means. Returns null when it cannot be read.
 function readCell(text) {
@@ -8912,9 +11309,10 @@ function readCell(text) {
   if (v === 'M') return { s: null, f: 'missing' };
   if (v === 'X') return { s: null, f: 'excused' };
   if (v === 'E') return { s: null, f: 'exempt' };
-  const m = /^(\d+(?:\.\d+)?)\s*([LM]?)$/.exec(v);
+  // L (late) in English, R (en retard) in French: both work in either language.
+  const m = /^(\d+(?:\.\d+)?)\s*([LRM]?)$/.exec(v);
   if (!m) return null;
-  return { s: Number(m[1]), f: m[2] === 'L' ? 'late' : m[2] === 'M' ? 'missing' : '' };
+  return { s: Number(m[1]), f: m[2] === 'L' || m[2] === 'R' ? 'late' : m[2] === 'M' ? 'missing' : '' };
 }
 function explainAverage(ctx, cls, student) {
   const { state } = ctx;
@@ -8929,14 +11327,14 @@ function explainAverage(ctx, cls, student) {
         el('tbody', {}, r.parts.map((p) => el('tr', { class: p.pct === null ? 'is-unused' : '' }, [
           el('td', { text: p.name }),
           el('td', { class: 'num', text: p.possible ? `${fmt(p.earned)} / ${fmt(p.possible)}` : '–' }),
-          el('td', { class: 'num', text: p.pct === null ? t('explain.nothing') : `${fmt(Math.round(p.pct * 10) / 10)}%` }),
-          el('td', { class: 'num', text: `${p.weight}%` }),
+          el('td', { class: 'num', text: p.pct === null ? t('explain.nothing') : pctText(Math.round(p.pct * 10) / 10) }),
+          el('td', { class: 'num', text: pctText(p.weight) }),
           el('td', { class: 'num', text: p.pct === null ? '–' : fmt(Math.round(((p.pct * p.weight) / (r.weightSum || 1)) * 10) / 10) }),
         ]))),
       ])]));
       const used = r.parts.filter((p) => p.pct !== null);
       if (used.length) {
-        body.push(el('p', { class: 'formula', id: 'explain-formula', text: `(${used.map((p) => `${fmt(Math.round(p.pct * 10) / 10)}% × ${p.weight}`).join(' + ')}) ÷ ${r.weightSum} = ${gradeText(state, r.pct)}` }));
+        body.push(el('p', { class: 'formula', id: 'explain-formula', text: `(${used.map((p) => `${pctText(Math.round(p.pct * 10) / 10)} × ${num(p.weight)}`).join(' + ')}) ÷ ${r.weightSum} = ${gradeText(state, r.pct)}` }));
         if (r.weightSum !== 100) body.push(el('p', { class: 'quiet small', text: t('explain.rescaled', { n: r.weightSum }) }));
       }
     } else {
@@ -9077,7 +11475,7 @@ function renderGradebook(ctx, route) {
   const ids = roster.map((s) => s.id);
   const foot = el('tr', { class: 'gb__foot' }, [
     el('th', { scope: 'row', text: t('grade.classAvg') }),
-    ...list.map((a) => { const r = assignmentAverage(state, a, ids); return el('td', {}, [el('span', { class: 'gb__footavg', text: r.pct === null ? '–' : `${fmt(r.pct)}%` }), el('span', { class: 'gb__footn', text: t('grade.gradedShort', { n: r.graded, of: r.of }) })]); }),
+    ...list.map((a) => { const r = assignmentAverage(state, a, ids); return el('td', {}, [el('span', { class: 'gb__footavg', text: r.pct === null ? '–' : pctText(r.pct) }), el('span', { class: 'gb__footn', text: t('grade.gradedShort', { n: r.graded, of: r.of }) })]); }),
     el('td', { class: 'gb__avg', text: gradeText(state, classAverage(state, cls.id, term)) }),
   ]);
   const grid = roster.length && list.length ? el('div', { class: 'gb', id: 'gradebook-grid' }, [el('table', { class: 'gb__table' }, [el('thead', {}, [header]), el('tbody', {}, rows), el('tfoot', {}, [foot])])])
@@ -9109,7 +11507,7 @@ function renderGradebook(ctx, route) {
       const r = assignmentAverage(state, a, ids);
       body = el('div', { class: 'stack stack--tight' }, [
         el('div', { class: 'row gbphone__meta' }, [
-          el('span', { class: 'quiet small grow', text: [a.due ? dayMonth(a.due, true) : '', `/${fmt(a.points)}`, catName(a.categoryId), r.pct === null ? '' : `${t('grade.classAvg')} ${fmt(r.pct)}%`].filter(Boolean).join(' · ') }),
+          el('span', { class: 'quiet small grow', text: [a.due ? dayMonth(a.due, true) : '', `/${fmt(a.points)}`, catName(a.categoryId), r.pct === null ? '' : `${t('grade.classAvg')} ${pctText(r.pct)}`].filter(Boolean).join(' · ') }),
           el('button', { class: 'iconbtn iconbtn--tiny editbtn', type: 'button', title: t('assign.edit'), 'aria-label': t('assign.edit'), onClick: () => openAssignmentEditor(ctx, a) }, [icon('pencil')]),
         ]),
         el('ul', { class: 'gbphone__list' }, roster.map((s, ri) => {
@@ -9307,7 +11705,7 @@ function timeline(state, s) {
     const sc = scoreOf(state.scores, a.id, s.id);
     if (typeof sc.s !== 'number' && !sc.f) continue;
     const cls = classById(state, a.classId);
-    const what = sc.f === 'missing' ? t('timeline.missing') : sc.f === 'excused' || sc.f === 'exempt' ? t(`flag.${sc.f}`) : `${sc.s}/${a.points} (${Math.round((sc.s / a.points) * 100)}%)${sc.f === 'late' ? ` · ${t('flag.late')}` : ''}`;
+    const what = sc.f === 'missing' ? t('timeline.missing') : sc.f === 'excused' || sc.f === 'exempt' ? t(`flag.${sc.f}`) : `${sc.s}/${a.points} (${pctText(Math.round((sc.s / a.points) * 100))})${sc.f === 'late' ? ` · ${t('flag.late')}` : ''}`;
     items.push({ day: a.due, icon: sc.f === 'missing' ? '📭' : '📝', text: `${a.title}: ${what}`, sub: cls ? cls.name : '', warn: sc.f === 'missing' });
   }
   for (const [day, byClass] of Object.entries(state.attendance)) {
@@ -9393,7 +11791,7 @@ head,
 tabs,
 el('div', { class: 'summary' }, [
 statTile({ hue: 5, icon: '📊', label: t('grade.average'), value: (() => { const v = s.classIds.map((cid) => studentAverage(state, cid, s.id, term).pct).filter((x) => x !== null); return gradeText(state, v.length ? Math.round((v.reduce((a, b) => a + b, 0) / v.length) * 10) / 10 : null); })(), sub: term ? term.name : '' }),
-statTile({ hue: 7, icon: '🚪', label: t('dash.tile.attendance'), value: att.rate === null ? '–' : `${att.rate}%`, sub: t('student.attSub', { a: att.A, l: att.L }), pct: att.rate }),
+statTile({ hue: 7, icon: '🚪', label: t('dash.tile.attendance'), value: att.rate === null ? '–' : pctText(att.rate), sub: t('student.attSub', { a: att.A, l: att.L }), pct: att.rate }),
 statTile({ hue: 9, icon: '📭', label: t('dash.tile.missing'), value: String(s.classIds.reduce((n, cid) => n + studentAverage(state, cid, s.id, null).missing, 0)) }),
 ]),
 el('div', { class: 'dashgrid' }, [
@@ -9509,7 +11907,7 @@ const st = attendanceStats(state.attendance, { classId: cls.id, studentId: s.id,
 const odd = days.map((d) => [d, markOf(state.attendance, d, cls.id, s.id)]).filter(([, m]) => m && m !== 'P');
 return el('li', { class: 'attphone__row' }, [
 el('div', { class: 'row attphone__head' }, [el('span', { class: 'grow' }, [studentLink(s)]), el('span', { class: 'quiet small', text: ['P', 'L', 'A', 'E'].filter((m) => m === 'P' || st[m]).map((m) => `${st[m]} ${t(`mark.${m}`).toLowerCase()}`).join(' · ') })]),
-odd.length ? el('div', { class: 'chiprow' }, odd.map(([d, m]) => el('span', { class: `monthgrid__cell is-${m} attphone__mark`, title: `${t(`mark.${m}`)} · ${dayMonth(d, true)}`, text: `${t(`mark.short.${m}`)} ${dayMonth(d, true)}` }))) : el('span', { class: 'quiet small', text: t('att.allPresent') }),
+odd.length ? el('div', { class: 'chiprow' }, odd.map(([d, m]) => el('span', { class: `monthgrid__cell is-${m} attphone__mark`, title: `${t(`mark.${m}`)} · ${dayMonth(d, true)}`, text: `${t(`mark.short.${m}`)} ${dayMonth(d, true)}` }))) : el('span', { class: 'quiet small', text: t('att.presentEveryDay') }),
 ]);
 }));
 return box({ id: 'att-monthbox', title: t('att.monthTitle', { cls: cls.name }), icon: '🗓️', hue: cls.hue, body: [nav, days.length ? table : emptyNote(t('att.noDays')), days.length ? phone : null] });
@@ -9530,13 +11928,13 @@ el('ul', { class: 'bullets' }, alerts.map((r) => el('li', { text: t('att.pattern
 box({
 id: 'att-summary', title: t('att.summaryTitle', { term: term ? term.name : t('grade.wholeYear') }), icon: '📈', hue: cls.hue,
 body: [
-el('p', { class: 'quiet', text: t('att.classRate', { rate: all.rate === null ? '–' : `${all.rate}%`, n: all.total }) }),
+el('p', { class: 'quiet', text: t('att.classRate', { rate: all.rate === null ? '–' : pctText(all.rate), n: all.total }) }),
 el('div', { class: 'tablewrap' }, [el('table', { class: 'datatable' }, [
 el('thead', {}, [el('tr', {}, [el('th', { text: t('grade.student') }), ...['P', 'L', 'A', 'E'].map((m) => el('th', { class: 'num', text: t(`mark.${m}`) })), el('th', { class: 'num', text: t('att.rate') })])]),
-el('tbody', {}, rows.map(({ s, st }) => el('tr', {}, [el('td', {}, [studentLink(s)]), ...['P', 'L', 'A', 'E'].map((m) => el('td', { class: 'num', text: String(st[m]) })), el('td', { class: `num${st.rate !== null && st.rate < 90 ? ' is-low' : ''}`, text: st.rate === null ? '–' : `${st.rate}%` })]))),
+el('tbody', {}, rows.map(({ s, st }) => el('tr', {}, [el('td', {}, [studentLink(s)]), ...['P', 'L', 'A', 'E'].map((m) => el('td', { class: 'num', text: String(st[m]) })), el('td', { class: `num${st.rate !== null && st.rate < 90 ? ' is-low' : ''}`, text: st.rate === null ? '–' : pctText(st.rate) })]))),
 ])]),
 el('ul', { class: 'attphone', id: 'att-rates-phone' }, rows.map(({ s, st }) => el('li', { class: 'attphone__row' }, [
-el('div', { class: 'row attphone__head' }, [el('span', { class: 'grow' }, [studentLink(s)]), el('strong', { class: `attphone__rate${st.rate !== null && st.rate < 90 ? ' is-low' : ''}`, text: st.rate === null ? '–' : `${st.rate}%` })]),
+el('div', { class: 'row attphone__head' }, [el('span', { class: 'grow' }, [studentLink(s)]), el('strong', { class: `attphone__rate${st.rate !== null && st.rate < 90 ? ' is-low' : ''}`, text: st.rate === null ? '–' : pctText(st.rate) })]),
 el('span', { class: 'quiet small', text: ['P', 'L', 'A', 'E'].map((m) => `${st[m]} ${t(`mark.${m}`).toLowerCase()}`).join(' · ') }),
 ]))),
 ],
@@ -9552,7 +11950,7 @@ function currencyPicker(settings) {
 const code = settings.currencyCode;
 const own = textField(t('settings.currencyOwn'), { id: 'set-currency-own', value: code === 'custom' ? settings.currency : '', max: 5, placeholder: '¤' });
 own.hidden = code !== 'custom';
-const names = (c) => { try { return new Intl.DisplayNames(['en'], { type: 'currency' }).of(c); } catch (err) { return c; } };
+const names = (c) => { try { return new Intl.DisplayNames([getLang()], { type: 'currency' }).of(c); } catch (err) { return c; } };
 const pick = selectField(t('settings.currency'), { id: 'set-currency', value: code, options: [...CURRENCIES.map(([c, sym]) => [c, `${names(c)} (${sym})`]), ['custom', t('settings.currencyCustom')]] });
 pick.querySelector('select').addEventListener('change', (e) => { own.hidden = e.target.value !== 'custom'; if (!own.hidden) own.querySelector('input').focus(); });
 return el('div', { class: 'stack stack--tight' }, [pick, own]);
@@ -9675,12 +12073,13 @@ ctx.commit((s) => { s.settings[key] = e.target.value; });
 },
 onSubmit: (e) => e.preventDefault(),
 }, [
+radio('lang', t('look.lang'), [['en', 'English'], ['fr', 'Français']]),
 radio('theme', t('look.theme'), [['dark', t('look.theme.dark')], ['light', t('look.theme.light')], ['auto', t('look.theme.auto')], ['contrast', t('look.theme.contrast')]]),
 palettePicker('palette', settings.palette || 'rainbow', (v) => ctx.commit((s) => { s.settings.palette = v; })),
 radio('size', t('look.size'), [['default', t('look.size.default')], ['large', t('look.size.large')], ['larger', t('look.size.larger')]]),
 radio('font', t('look.font'), [['standard', t('look.font.standard')], ['dyslexic', t('look.font.dyslexic')]]),
-radio('dateStyle', t('look.date'), [['mdy', t('look.date.mdy')], ['dmy', t('look.date.dmy')]]),
-radio('clock', t('look.clock'), [['12', t('look.clock.12')], ['24', t('look.clock.24')]]),
+settings.lang === 'fr' ? null : radio('dateStyle', t('look.date'), [['mdy', t('look.date.mdy')], ['dmy', t('look.date.dmy')]]),
+settings.lang === 'fr' ? null : radio('clock', t('look.clock'), [['12', t('look.clock.12')], ['24', t('look.clock.24')]]),
 ]);
 return box({ id: 'set-look', title: t('settings.tab.look'), icon: '🎨', hue: 3, body: [form] });
 }
@@ -10056,7 +12455,7 @@ l.status === 'taught' ? el('span', { class: 'quiet small', text: t('lesson.taugh
 }
 const blankRubric = () => ({
 title: '', description: '',
-levels: [['Excellent', 4], ['Good', 3], ['Developing', 2], ['Beginning', 1]].map(([label, points]) => ({ id: newId('v'), label, points })),
+levels: [4, 3, 2, 1].map((points) => ({ id: newId('v'), label: t(`rubric.lvl.${points}`), points })),
 criteria: [{ id: newId('r'), name: '', descs: {} }],
 });
 function openRubricEditor(ctx, rubric = null) {
@@ -10370,7 +12769,7 @@ box({ id: 'conf-grades', title: term ? t('conf.gradesTerm', { term: term.name })
 box({
 id: 'conf-att', title: t('conf.attendance'), icon: '🚪', hue: 4,
 body: [att.total ? el('ul', { class: 'simplelist' }, [
-el('li', { class: 'simplerow' }, [el('span', { class: 'grow', text: t('conf.rate') }), el('strong', { text: `${att.rate}%` })]),
+el('li', { class: 'simplerow' }, [el('span', { class: 'grow', text: t('conf.rate') }), el('strong', { text: pctText(att.rate) })]),
 el('li', { class: 'simplerow' }, [el('span', { class: 'grow', text: t('conf.absences') }), el('strong', { text: String(att.A + att.E) })]),
 el('li', { class: 'simplerow' }, [el('span', { class: 'grow', text: t('conf.lates') }), el('strong', { text: String(att.L) })]),
 ]) : emptyNote(t('conf.noAtt'))],
@@ -10872,7 +13271,7 @@ el('div', { class: 'grow stack stack--tight' }, [
 el('strong', { text: g.title }),
 el('span', { class: 'quiet small', text: [t(`garea.${g.area}`), g.due ? (g.due < today && g.status === 'active' ? t('task.overdueBy', { when: dayMonth(g.due, true) }) : t('goal.dueOn', { when: dayMonth(g.due, true) })) : '', g.status !== 'active' ? t(`gstat.${g.status}`) : ''].filter(Boolean).join(' · ') }),
 ]),
-el('strong', { class: 'goalcard__pct', text: `${pct}%` }),
+el('strong', { class: 'goalcard__pct', text: pctText(pct) }),
 el('button', { class: 'iconbtn iconbtn--tiny editbtn', type: 'button', title: t('form.edit'), 'aria-label': t('form.editName', { name: g.title }), onClick: () => openGoalEditor(ctx, g) }, [icon('pencil')]),
 ]),
 meter(pct),
@@ -11129,7 +13528,7 @@ el('p', { class: 'quiet small', text: t('today.savedOnLeave') }),
 const past = Object.entries(state.days).filter(([d, v]) => d !== day && (v.reflection || v.rating)).sort((a, b) => b[0].localeCompare(a[0])).slice(0, 40);
 return el('div', { class: 'stack', id: 'reflections' }, [
 tabs,
-el('div', { class: 'dashgrid' }, [editor, box({ id: 'refl-trend', title: t('refl.trend'), icon: '📈', hue: 2, body: [trendChart(ratingTrend(state, today))] })]),
+el('div', { class: 'dashgrid' }, [el('div', { class: 'stack' }, [editor, box({ id: 'refl-trend', title: t('refl.trend'), icon: '📈', hue: 2, body: [trendChart(ratingTrend(state, today))] })]),
 past.length ? box({
 id: 'refl-past', title: tn('refl.pastCount', past.length), icon: '🗂️', hue: 12,
 body: [el('ul', { class: 'simplelist' }, past.map(([d, v]) => el('li', { class: 'simplerow' }, [
@@ -11137,7 +13536,7 @@ el('a', { class: 'datebadge plainlink', href: routeHash('reflections', 'daily', 
 el('span', { class: 'refl__face', 'aria-label': v.rating ? `${v.rating}/5` : '', text: RATING_FACES[Number(v.rating) || 0] || '' }),
 el('span', { class: 'grow small prewrap', text: v.reflection || '' }),
 ])))],
-}) : null,
+}) : null]),
 ]);
 }
 const PD_TYPES = ['workshop', 'course', 'conference', 'coaching', 'webinar', 'reading', 'other'];
@@ -11226,6 +13625,7 @@ const isLow = (x) => x.reorder > 0 && x.qty <= x.reorder;
 const UNIT_SAME = ['dozen', 'each', 'set of', 'pair of'];
 function supplyUnit(qty, unit) {
   const u = String(unit || '');
+  if (getLang() === 'fr') return supplyUnitFr(qty, u);
   if (!/^[a-z]{3,}$/i.test(u) || UNIT_SAME.includes(u.toLowerCase())) return u;
   const plural = /s$/i.test(u) && !/ss$/i.test(u);
   if (Number(qty) === 1) {
@@ -11238,6 +13638,19 @@ function supplyUnit(qty, unit) {
   if (/(x|ch|sh|ss)$/i.test(u)) return u + 'es';
   if (/[^aeiou]y$/i.test(u)) return u.slice(0, -1) + 'ies';
   return u + 's';
+}
+// French: 0 and 1 take the singular (1 bloc, 3 blocs, 2 rouleaux, 1 boîte).
+const UNIT_SAME_FR = ['douzaine de', 'paire de', 'lot de', 'kg', 'ml'];
+function supplyUnitFr(qty, u) {
+  if (!/^[a-zà-ÿ]{3,}$/i.test(u) || UNIT_SAME_FR.includes(u.toLowerCase())) return u;
+  const one = Math.abs(Number(qty)) < 2;
+  if (one) {
+    if (/eaux$/i.test(u)) return u.slice(0, -1);
+    return /[^s]s$/i.test(u) ? u.slice(0, -1) : u;
+  }
+  if (/[sxz]$/i.test(u)) return u;
+  if (/eau$/i.test(u)) return `${u}x`;
+  return `${u}s`;
 }
 function addLowToShopping(s) {
   let n = 0;
@@ -11898,7 +14311,7 @@ function classReport(ctx, ui) {
     el('div', { class: 'statrow' }, [
       el('div', { class: 'card stat' }, [el('span', { class: 'quiet small', text: term ? t('rep.avgTerm', { term: term.name }) : t('rep.avg') }), el('strong', { class: 'stat__value', id: 'rep-avg', text: gradeText(state, classAverage(state, cls.id, term)) })]),
       el('div', { class: 'card stat' }, [el('span', { class: 'quiet small', text: t('page.students') }), el('strong', { class: 'stat__value', text: String(roster.length) })]),
-      el('div', { class: 'card stat' }, [el('span', { class: 'quiet small', text: t('conf.rate') }), el('strong', { class: 'stat__value', text: att.rate === null ? '–' : `${att.rate}%` })]),
+      el('div', { class: 'card stat' }, [el('span', { class: 'quiet small', text: t('conf.rate') }), el('strong', { class: 'stat__value', text: att.rate === null ? '–' : pctText(att.rate) })]),
       el('div', { class: 'card stat' }, [el('span', { class: 'quiet small', text: t('conf.missing') }), el('strong', { class: 'stat__value', text: String(missingWork(state, { classId: cls.id }).length) })]),
     ]),
     el('div', { class: 'dashgrid' }, [
@@ -11911,8 +14324,8 @@ function classReport(ctx, ui) {
         const r = assignmentAverage(state, a, roster.map((s) => s.id));
         return el('li', { class: 'simplerow' }, [
           el('span', { class: 'datebadge', text: a.due ? dayMonth(a.due, true) : '–' }),
-          el('span', { class: 'grow', text: a.title }),
-          el('span', { class: 'quiet small', text: t('rep.graded', { n: r.graded, total: r.of }) }),
+          // The graded count sits under the title, so a long title keeps its width on a phone.
+          el('span', { class: 'grow stack stack--tight' }, [el('span', { text: a.title }), el('span', { class: 'quiet small', text: t('rep.graded', { n: r.graded, total: r.of }) })]),
           el('strong', { class: belowPass(state, r.pct) ? 'is-low' : '', text: gradeText(state, r.pct) }),
         ]);
       })) : emptyNote(t('rep.noAssign'))],
@@ -11936,8 +14349,8 @@ function attendanceReport(ctx, ui) {
   const roster = rosterOf(state, cls.id);
   const low = roster.map((s) => ({ s, a: attendanceStats(state.attendance, { classId: cls.id, studentId: s.id }) })).filter((x) => x.a.total && x.a.rate < 90).sort((a, b) => a.a.rate - b.a.rate);
   return [
-    box({ id: 'rep-weeks', title: t('rep.byWeek'), icon: '🚪', hue: 4, body: [bars(rows.filter((r) => r.s.total).map((r) => ({ label: t('rep.weekOf', { day: dayMonth(r.w, true) }), value: r.s.rate, hue: r.s.rate < 90 ? 1 : 4 })), (v) => `${v}%`), rows.some((r) => r.s.total) ? null : emptyNote(t('conf.noAtt'))] }),
-    box({ id: 'rep-lowatt', title: t('rep.lowAtt'), icon: '👀', hue: 1, body: [low.length ? el('ul', { class: 'simplelist' }, low.map((x) => el('li', { class: 'simplerow' }, [el('a', { class: 'plainlink grow', href: routeHash('students', x.s.id), text: fullName(x.s) }), el('span', { class: 'quiet small', text: t('rep.absLate', { a: x.a.A + x.a.E, l: x.a.L }) }), el('strong', { class: 'is-low', text: `${x.a.rate}%` })]))) : el('p', { class: 'quiet', text: t('rep.noLowAtt') })] }),
+    box({ id: 'rep-weeks', title: t('rep.byWeek'), icon: '🚪', hue: 4, body: [bars(rows.filter((r) => r.s.total).map((r) => ({ label: t('rep.weekOf', { day: dayMonth(r.w, true) }), value: r.s.rate, hue: r.s.rate < 90 ? 1 : 4 })), (v) => pctText(v)), rows.some((r) => r.s.total) ? null : emptyNote(t('conf.noAtt'))] }),
+    box({ id: 'rep-lowatt', title: t('rep.lowAtt'), icon: '👀', hue: 1, body: [low.length ? el('ul', { class: 'simplelist' }, low.map((x) => el('li', { class: 'simplerow' }, [el('a', { class: 'plainlink grow', href: routeHash('students', x.s.id), text: fullName(x.s) }), el('span', { class: 'quiet small', text: t('rep.absLate', { a: x.a.A + x.a.E, l: x.a.L }) }), el('strong', { class: 'is-low', text: pctText(x.a.rate) })]))) : el('p', { class: 'quiet', text: t('rep.noLowAtt') })] }),
   ];
 }
 function missingReport(ctx) {
@@ -12076,7 +14489,7 @@ function start(config) {
   // The free demo always opens on the example classroom (2026-11-12, as in
   // the Life Planner); after that it keeps what the visitor did.
   let state = config.target === 'demo' && !storage.get(STORAGE_KEY)
-    ? exampleState({ buildId: config.buildId })
+    ? exampleState({ buildId: config.buildId, lang: browserLang() })
     : loadState(storage, { buildId: config.buildId });
   let lastRoute = null;
   let lastHash = null;
@@ -12113,11 +14526,25 @@ function start(config) {
       if (message) toast(message, { undo: () => { state = before; persist(); render(true); } });
     },
     loadExample() {
-      const keepLook = state.onboarded ? { theme: state.settings.theme, size: state.settings.size, font: state.settings.font } : null;
-      const next = exampleState({ buildId: config.buildId });
+      const keepLook = state.onboarded ? { theme: state.settings.theme, size: state.settings.size, font: state.settings.font, palette: state.settings.palette } : null;
+      const next = exampleState({ buildId: config.buildId, lang: getLang() });
       if (keepLook) Object.assign(next.settings, keepLook);
       if (state.onboarded) ctx.replaceState(next, t('example.loaded'));
       else { state = next; persist(); window.location.hash = '#/dashboard'; render(true); }
+    },
+    // The demo's English / Français switch. While the visitor has not added
+    // anything yet, the example classroom changes language too.
+    switchLang(lang) {
+      if (lang === state.settings.lang) return;
+      if (config.target === 'demo' && state.example && !(state.meta.demoAdds || 0)) {
+        const keep = { theme: state.settings.theme, palette: state.settings.palette, size: state.settings.size, font: state.settings.font };
+        state = exampleState({ buildId: config.buildId, lang });
+        Object.assign(state.settings, keep);
+        persist();
+        render(true);
+        return;
+      }
+      ctx.commit((s) => { s.settings.lang = lang; });
     },
     clearSample() {
       confirmSheet({
@@ -12154,6 +14581,8 @@ function start(config) {
         s.settings.name = draft.name;
         s.settings.school = draft.school;
         s.settings.theme = draft.theme;
+        if (draft.lang) s.settings.lang = draft.lang;
+        if (draft.lang === 'fr') { s.settings.dateStyle = 'dmy'; s.settings.clock = '24'; }
         if (draft.palette) s.settings.palette = draft.palette;
         s.year.start = draft.start;
         s.year.end = draft.end;
@@ -12174,6 +14603,8 @@ function start(config) {
   }
   function render(forceFocus) {
     applyLook(state.settings);
+    setLang(state.settings.lang);
+    setCalLang(state.settings.lang);
     setDateStyle(state.settings.dateStyle);
     setClockStyle(state.settings.clock);
     if (!state.onboarded) { renderOnboarding(ctx); return; }
@@ -12236,7 +14667,7 @@ function start(config) {
   }, 60000);
   window.__atp = ctx;
 }
-start({"target":"demo","channel":"release","buildId":"202611122129","version":"1.0.0","supportEmail":"info@theorganizedclub.com","demoLimit":40,"buyUrl":""});
+start({"target":"demo","channel":"release","buildId":"202611130135","version":"1.0.0","supportEmail":"info@theorganizedclub.com","demoLimit":40,"buyUrl":""});
 })();</script>
 </body>
 </html>
